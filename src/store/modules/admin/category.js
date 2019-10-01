@@ -1,4 +1,3 @@
-import axios from 'axios'
 import * as firebase from 'firebase'
 import {categoryUrl,addParent,imagenNoDisponibleUrl} from '../../../packages/config'
 
@@ -42,9 +41,7 @@ const mutations = {
   },
 
   checkedCategory(state,idCategory){
-    state.checkedCategories.push(
-       idCategory
-    )
+    state.checkedCategories.push(idCategory)
     state.firstParentId = idCategory.parent_id
   },
 
@@ -110,8 +107,7 @@ uploadImageFirebase(state,objImageForFirebase){
 
 const actions = {
     retrieveCategory (context){
-    // axios.defaults.headers.common['Authorization'] = 'Bearer ' + context.state.token
-      axios.get(categoryUrl)
+      this.$myApi.get(categoryUrl)
         .then(response => {
           console.log(response.data)
           context.commit('retrieveCategory', response.data)
@@ -123,7 +119,7 @@ const actions = {
 
     checkedCategory(context,id){
       return new Promise((resolve, reject) => {
-        axios.get(categoryUrl +'/'+id)
+        this.$myApi.get(categoryUrl +'/'+id)
         .then(response=>{
           if (state.checkedCategories.length <1){
             context.commit('checkedCategory', response.data)
@@ -154,7 +150,7 @@ const actions = {
     },
 
     addCategorySubmit(context,data){
-      axios.post(categoryUrl, {
+      this.$myApi.post(categoryUrl, {
         name: data.name,
         parent_id: data.parent_id,
         path:imagenNoDisponibleUrl
@@ -171,7 +167,7 @@ const actions = {
       const checkedCategories = context.state.checkedCategories
       const parent_id = state.firstParentId
       // console.log(checkedCategories)
-      axios.post(addParent,
+      this.$myApi.post(addParent,
       {
           checkedCategories: checkedCategories,
           name: data.name,
@@ -189,7 +185,7 @@ const actions = {
     addChildrenSubmit(context, data){
       const checkedCategories = context.state.checkedCategories
       // console.log(checkedCategories)
-      axios.post(categoryUrl,
+      this.$myApi.post(categoryUrl,
       {
           name: data.name,
           parent_id:checkedCategories[0].id,
@@ -205,7 +201,7 @@ const actions = {
 
     deleteCategory(context){
       const checkedCategories = context.state.checkedCategories
-      axios.delete(categoryUrl +'/'+ checkedCategories[0].id)
+      this.$myApi.delete(categoryUrl +'/'+ checkedCategories[0].id)
         .then(response => {
           context.commit('deleteCategory', response.data)
         })
@@ -215,7 +211,7 @@ const actions = {
     },
     getImageCategory(context){
       const checkedCategories = context.state.checkedCategories
-      axios.get(categoryUrl+'/'+checkedCategories[0].id)
+      this.$myApi.get(categoryUrl+'/'+checkedCategories[0].id)
       .then(response =>{
         var element = response.data
         var path =element.path
@@ -262,7 +258,7 @@ const actions = {
         context.dispatch('uploadImageCategoryFirebase').then((response) => {
           if(response){
             
-            axios.post(categoryUrl +'/'+state.image.categoryId,{
+            this.$myApi.post(categoryUrl +'/'+state.image.categoryId,{
               name: state.image.name,
               path:state.image.path,
               pathName:state.image.pathName

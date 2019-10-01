@@ -4,7 +4,7 @@
       <v-layout row wrap>
         <v-flex xs12 sm6 md3 v-for="(category,index) in childCategory" :key="index">
           <v-card>
-            <router-link :to="{ name: 'perCategory',query: { id: category.id } }">
+            <router-link :to="{ name: 'search',query: { id: category.id } }">
             <v-img
               class="white--text"
               :aspect-ratio="1.6"
@@ -24,7 +24,7 @@
                 <!-- <strong><span class="grey--text">deporte</span><br></strong> -->
               <ul>
                   <li v-for="(children,index) in category.children" :key="index">
-                    <router-link :to="{ name: 'perCategory',query: { id: children.id } }">
+                    <router-link :to="{ name: 'search',query: { id: children.id } }">
                       {{children.name}}
                     </router-link>
                     </li>
@@ -42,25 +42,24 @@
 </template>
 
 <script>
-import axios from 'axios'
 import {childCategoryUrl} from '@/packages/config'
 export default {
-   data () {
-      return {
-         childCategory:'' 
-      }
+  data () {
+    return {
+      childCategory:'' 
+    }
+  },
+  created(){
+    this.fillchildCategory()
+  },
+  methods:{
+    fillchildCategory(){
+      this.$myApi.get(childCategoryUrl)
+      .then(response => {
+        this.childCategory = response.data
+      })
     },
-    created(){
-      this.fillchildCategory()
-    },
-     methods:{
-      fillchildCategory(){
-        axios.get(childCategoryUrl)
-        .then(response => {
-          this.childCategory = response.data
-        })
-      },
-     }
+  }
 }
 </script>
 

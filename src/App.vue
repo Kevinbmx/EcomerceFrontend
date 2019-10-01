@@ -10,7 +10,7 @@
           <div class="page-wrapper">
             <router-view></router-view>
           </div>   
-           <!-- App Footer -->
+          <!-- App Footer -->
           <footers></footers>
         </v-content>
         <!-- Go to top -->
@@ -27,15 +27,15 @@
           hide-overlay
           fixed
           >
-          <!-- <theme-settings></theme-settings> -->
+          <theme-settings></theme-settings>
         </v-navigation-drawer>        
       </v-app>
     </template>
     <template v-else>
-       <v-app class="app" >
-         <toolbar></toolbar>
-          <router-view :key="$route.fullpath"></router-view>
-       </v-app>
+      <v-app class="app" >
+        <toolbar></toolbar>
+        <router-view :key="$route.fullpath"></router-view>
+      </v-app>
     </template>
     <v-snackbar
       :timeout="3000"

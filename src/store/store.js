@@ -6,6 +6,7 @@ import Vuex from "vuex";
 import auth from './modules/auth'
 import category from './modules/admin/category'
 import product from './modules/admin/product'
+import carrito from './modules/main/carrito'
 
 Vue.use(Vuex) 
 // Vue.config.productionTip = false;
@@ -16,7 +17,8 @@ export default new Vuex.Store({
     // userStore,
     category,
     auth,
-    product
+    product,
+    carrito
   },
   strict:debug
   // strict:false

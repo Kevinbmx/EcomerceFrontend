@@ -1,4 +1,3 @@
-import axios from 'axios'
 import * as firebase from 'firebase'
 import { getField, updateField } from 'vuex-map-fields';
 import {productUrl,characteristicUrl,fileUrl,categoryUrl,statusProductUrl} from '../../../packages/config'
@@ -29,12 +28,13 @@ const state = {
     },
     categories:[],
     status:[],
-    characteristics:[{
-        id:'',
-        characteristicName:'',
-        state:'new'
-    },
-   ],
+    characteristics:[
+        {
+            id:'',
+            characteristicName:'',
+            state:'new'
+        },
+    ],
     files:[
         {
             id:'',
@@ -49,14 +49,13 @@ const state = {
     maxUploadImage:4,
     userFirebase:'kevi3195@gmail.com',
     passFirebase:'secret!123'
- 
 }
 
 const getters={
     getField,
     fileGetter: (state) => {
         return state.files
-      },
+    },
     ProductGetter:(state)  =>{
         return state.products
     },
@@ -108,7 +107,7 @@ const mutations = {
     },
     fillCharacteristicByProductId(state,response){
         let arrayOfCharacteristic = []
-       for (let index = 0; index < response.length; index++) {
+        for (let index = 0; index < response.length; index++) {
             const element = response[index]
             arrayOfCharacteristic.push({
                 id:element.id,
@@ -161,7 +160,6 @@ const mutations = {
             state.characteristics.splice(index,1);
         }
     },
- 
 
     //------------llenado de producto------------
     generateUuid(state,AddProductObj){
@@ -208,7 +206,6 @@ const mutations = {
     },
     //---------------------------------------------------
     //---------------adicionando imagen------------------
-  
     deleteFileImage(state,index){
         var element = state.files[index]
         if(element.state == 'old'){
@@ -221,8 +218,6 @@ const mutations = {
         }
             state.files.splice(index,1)
     },
-
- 
     CreateAndUpdateProductSubmit(state,productId){
         state.productObj.id = productId
     },
@@ -309,20 +304,19 @@ const mutations = {
 
 const actions = {
     fillcategories(context){
-        axios.get(categoryUrl)
+        this.$myApi.get(categoryUrl)
         .then(response=>{
             context.commit('fillcategories',response.data)
         })
     },
     fillStatus(context){
-      axios.get(statusProductUrl)
-      .then(response=>{
-          context.commit('fillStatus',response.data)
-      })
+        this.$myApi.get(statusProductUrl)
+        .then(response=>{
+            context.commit('fillStatus',response.data)
+    })
     },
     fillProducts(context,auth){
-        axios.defaults.headers.common['Authorization'] = 'Bearer ' + auth
-        axios.get(productUrl)
+        this.$myApi.get(productUrl)
         .then(response=>{
             context.commit('fillProducts',response.data)
         })
@@ -331,8 +325,7 @@ const actions = {
         // console.log('estoy en llenado de producto', object)
         var auth = object.auth
         var id  = object.id
-        axios.defaults.headers.common['Authorization'] = 'Bearer ' + auth
-        axios.get(productUrl+'/'+id)
+        this.$myApi.get(productUrl+'/'+id)
         .then(response=>{
             context.commit('fillProductById',response.data)
         })
@@ -343,8 +336,7 @@ const actions = {
     fillCharacteristicByProductId(context, object){
         var auth = object.auth
         var id =  object.id
-        axios.defaults.headers.common['Authorization'] = 'Bearer ' + auth
-        axios.get(characteristicUrl+'/'+id)
+        this.$myApi.get(characteristicUrl+'/'+id)
         .then(response=>{
             context.commit('fillCharacteristicByProductId',response.data)
         })
@@ -355,8 +347,7 @@ const actions = {
     fillFileByProductId(context, object){
         var auth = object.auth
         var id =  object.id
-        axios.defaults.headers.common['Authorization'] = 'Bearer ' + auth
-        axios.get(fileUrl+'/'+id)
+        this.$myApi.get(fileUrl+'/'+id)
         .then(response=>{
             context.commit('fillFileByProductId',response.data)
         })
@@ -393,21 +384,20 @@ const actions = {
         // console.log(auth)
         try{
             const data = state.productObj
-            axios.defaults.headers.common['Authorization'] = 'Bearer ' + auth
-            let response = await axios.post(url, {
-              name:             data.name,
-              modelo:           data.modelo,
-              quantity:         data.quantity,
-              brand:            data.brand,
-              price:            data.price,
-              category_id:      data.category_id,
-              peso:             data.peso,
-              alto:             data.alto,
-              ancho:            data.ancho,
-              fondo:            data.fondo,
-              parent_id:        0,
-              description:      data.description,
-              statusProduct_id: data.statusProduct_id,
+            let response = await this.$myApi.post(url, {
+                name:             data.name,
+                modelo:           data.modelo,
+                quantity:         data.quantity,
+                brand:            data.brand,
+                price:            data.price,
+                category_id:      data.category_id,
+                peso:             data.peso,
+                alto:             data.alto,
+                ancho:            data.ancho,
+                fondo:            data.fondo,
+                parent_id:        0,
+                description:      data.description,
+                statusProduct_id: data.statusProduct_id,
             })
             if(response.data.create){
                 console.log('producto registrado con exito',response.data.create)
@@ -418,9 +408,9 @@ const actions = {
             context.commit('CreateAndUpdateProductSubmit', response.data.product_id)
             
         }catch(ex){
-          console.log(ex)
+            console.log(ex)
         }
-      },
+    },
           //add image in farebase
 
     uploadImageFirebase(context,fileForInsert){
@@ -528,14 +518,12 @@ const actions = {
                 //     })
                 // }
             // }
-      
     },
     CreateAndUpdateCharacteristic(context,object){
         try{
         var auth = object.auth
         var id  = object.productId
         var url = ''
-        axios.defaults.headers.common['Authorization'] = 'Bearer ' + auth
             for (let index = 0; index < state.characteristics.length; index++) {
                 const element = state.characteristics[index];
                 if(element.state =='edit'||element.state=='new'){
@@ -544,7 +532,7 @@ const actions = {
                     }else if(element.state =='new'){
                         url = characteristicUrl
                     }
-                    axios.post(url, {
+                    this.$myApi.post(url, {
                         product_id:             state.productObj.id,
                         characteristic:         element.characteristicName
                     }).then(response=>{
@@ -557,33 +545,32 @@ const actions = {
                     })
                 }else {
                     url = characteristicUrl+'/'+element.id
-                    axios.delete(url).then(response=>{
+                    this.$myApi.delete(url).then(response=>{
                         console.log('se elimino correctamente', response)
                         let obj = {
                             index : index,
                             state :'delete'
-                          }
+                        }
                         // context.commit('deleteCharacteristic',obj)
                         console.log('caracteristica '+response.data.type+' con exito', response.data )
                     })
                 }
             }
         }catch(ex){
-          console.log(ex)
+            console.log(ex)
         }
-      },
-      createAndUpdateFileProduct(context,object){
-          try{
+    },
+    createAndUpdateFileProduct(context,object){
+        try{
             var auth = object.auth
             var url = fileUrl
-            axios.defaults.headers.common['Authorization'] = 'Bearer ' + auth
             for (let index = 0; index < state.files.length; index++) {
                 const element = state.files[index];
                 if(element.state == 'update' || element.state == 'new'){
                     if(element.state == 'update'){
                         url = url+'/'+element.id
                     }
-                    axios.post(url, {
+                    this.$myApi.post(url, {
                         product_id:     state.productObj.id,
                         name:           element.name,
                         path:           element.url
@@ -598,14 +585,13 @@ const actions = {
                     })
                 }
             }
-          }catch(ex){
+        }catch(ex){
             console.log(ex)
-          }
-      },
-      deleteImageFirebaseAndDataBase(context, object){
+        }
+    },
+    deleteImageFirebaseAndDataBase(context, object){
         var auth = object.auth
         if(state.fileForDelete.length > 0){
-            axios.defaults.headers.common['Authorization'] = 'Bearer ' + auth
             firebase.auth().signInWithEmailAndPassword(state.userFirebase,state.passFirebase)
             .then(user => {
             for (let index = 0; index < state.fileForDelete.length; index++) {
@@ -618,24 +604,24 @@ const actions = {
                     }).catch(function(error) {
                     // Uh-oh, an error occurred!
                     });
-                    axios.delete(fileUrl+'/'+element.id).then(response =>{
+                    this.$myApi.delete(fileUrl+'/'+element.id).then(response =>{
                         console.log('imagen eliminada correctamente de la base de datos')
                     })
             }
             context.commit('deleteImageFirebaseAndDataBase')
             })
         }
-      },
-      putImage(context,object){
+    },
+    putImage(context,object){
         context.commit('putImage',object)  
-      },
-      clearFields(context){
+    },
+    clearFields(context){
         context.commit('clearFields')
-      },
-    
-      addCharacteristic(context){
+    },
+
+    addCharacteristic(context){
         context.commit('addCharacteristic')
-      }
+    }
 }
 
 

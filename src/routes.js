@@ -15,8 +15,8 @@ import ProductDetail from "./views/main/productDetail/productDetail"
 //--------------------------------------------------------------------
 import MainPage from "./views/main/mainPage/mainPage"
 import Categories from "./views/main/categories/categories"
-import perCategory from "./views/main/categories/perCategory"
-
+import Search from "./views/main/search/search"
+import Carrito from "./views/main/cart/cart"
 
 
 const routes = [
@@ -44,7 +44,7 @@ const routes = [
   // {path: "/category", component:Category, name: "category"},
   //-------------------------------------------------------------------------------------
   //-----------------------------------Main Page-----------------------------------------
-  {path: "/", component:MainPage, name:"MainPage", meta:{requiresAuth:true,public: true}},
+  {path: "/", component:MainPage, name:"mainPage", meta:{requiresAuth:true,public: true}},
 
 
 
@@ -52,11 +52,12 @@ const routes = [
   //-----------------------------------Category-----------------------------------------
   {path: "/categories/", component:Categories, name:"categories", meta:{requiresAuth:true,public: true}},
 
-
-  {path: "/search", component:perCategory, name:"perCategory", meta:{requiresAuth:true,public: true},
-  props: (route) => ({ query:[route.query.id , route.query.page] })},
+// --------------------------------------search------------------------------------------
+  {path: "/search", component:Search, name:"search", meta:{requiresAuth:true,public: true},
+  props: (route) => ({ query:[route.query.id , route.query.page , route.query.q] })},
   
   //----------------------------------------------------------------------------
-
+  //----------------------------------------cart-----------------------------------------
+  {path: "/carrito/", component:Carrito, name:"carrito", meta:{requiresAuth:true,public: true}},
 ]
 export default routes;

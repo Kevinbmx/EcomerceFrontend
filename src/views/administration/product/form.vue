@@ -43,7 +43,7 @@ import stepFour from './stepFour'
 export default {
 data () {
       return {
-          method:'post',
+        method:'post',
         stepper: 0,
         steps: [
             {
@@ -82,7 +82,7 @@ data () {
                 this.stepper = step
                 console.log('next')
         },
-         finish(){
+        finish(){
             console.log('termino')
             let object ={
                 auth:this.$store.state.auth.token,

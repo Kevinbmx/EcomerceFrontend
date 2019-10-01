@@ -7,9 +7,13 @@ import store from './store/store'
 import VeeValidate from 'vee-validate'
 import * as firebase from 'firebase'
 import VueAwesomeSwiper from 'vue-awesome-swiper'
+import api from '@/services/custom_axios'
+import moneda from '@/filters/moneda'
+import * as VueGoogleMaps from 'vue2-google-maps'
 
 
 Vue.use(VeeValidate)
+Vue.use(moneda)
 // import '@mdi/font/css/materialdesignicons.css'
 
 Vue.use(VueRouter)
@@ -18,6 +22,15 @@ const router = new VueRouter({
   routes
 })
 Vue.use(VueAwesomeSwiper, /* { default global options } */)
+
+Vue.use(VueGoogleMaps, {
+  load: {
+    key: 'AIzaSyDB9CAhwJgENiQ0TKuGAz-kidGx3UMZiKY',
+    // libraries: 'places', 
+    libraries: 'places,drawing'
+  },
+  installComponents: true
+})
 
 router.beforeEach((to, from, next) => {
   let isDelegated = false;
@@ -43,7 +56,7 @@ router.beforeEach((to, from, next) => {
   } else if (to.matched.some(record => record.meta.visitor)) {
     if (store.getters.loggedIn) {
       next({
-        name: 'mainpage',
+        name: 'mainPage',
       })
     } else {
       next()
@@ -61,6 +74,8 @@ router.beforeEach((to, from, next) => {
 Vue.config.productionTip = false;
 
 new Vue({
+  render: h => h(App),
+  api,
   router,
   store,
   created () {
@@ -78,6 +93,5 @@ new Vue({
     //   }
     // })
     // this.$store.dispatch('loadMeetups')
-},
-  render: h => h(App)
+}
 }).$mount("#app");

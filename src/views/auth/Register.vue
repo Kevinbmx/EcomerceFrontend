@@ -92,33 +92,33 @@
                 alertName: this.alertName ,
                 alertType:this.alertType ,
                 alert:true} })
-        // this.$validator.validateAll().then(response =>{
-        //   if(response){
-        //     this.loading = true
-        //     this.$store.dispatch('register', {
-        //       name: this.name,
-        //       email: this.email,
-        //       password: this.password,
-        //     })
-        //     .then(response => {
-        //       this.loading = false
-        //       this.alertName = 'Registered Successfully!'
-        //       this.alertType='success'
-        //       this.$router.push({ name: 'login', params: {
-        //         alertName: this.alertName , alertType:this.alertType , alert:true} })
-        //       // this.$router.push({ name: 'login' })
-        //     })
-        //     .catch(error => {
-        //         this.loading = false
-        //     })
-        //   }
-        // })
+        this.$validator.validateAll().then(response =>{
+          if(response){
+            this.loading = true
+            this.$store.dispatch('register', {
+              name: this.name,
+              email: this.email,
+              password: this.password,
+            })
+            .then(response => {
+              this.loading = false
+              this.alertName = 'Registered Successfully!'
+              this.alertType='success'
+              this.$router.push({ name: 'login', params: {
+                alertName: this.alertName , alertType:this.alertType , alert:true} })
+              // this.$router.push({ name: 'login' })
+            })
+            .catch(error => {
+                this.loading = false
+            })
+          }
+        })
       },
-       comparePasswords () {
+      comparePasswords () {
         return this.password !== this.confirmPassword ? 'Passwords do not match' : 'correcto'
       },
     }
- }
+}
 </script>
 <style scoped lang="css">
   #login {

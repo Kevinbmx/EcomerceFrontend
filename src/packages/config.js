@@ -1,4 +1,5 @@
-export const apiDomain = 'http://webtrovare.test/'
+// export const apiDomain = 'http://webtrovare.test/'
+export const apiDomain = ''
 //---------------------AUTH--------------------------
 export const loginUrl =  apiDomain + 'oauth/token'
 export const userUrl = apiDomain + 'api/user'
@@ -49,10 +50,11 @@ export const ProductDetailUrl = apiDomain + 'api/productDetail'
 export const childCategoryUrl = apiDomain + 'api/getchildCategory'
 
 /**
- * page per category 
+ * page SEARCH
  */
 export const childPerCategoryUrl = apiDomain + 'api/getchildCategoryById'
 export const relatedProductbyCategoryUrl = apiDomain + 'api/getRelatedProductbyCategoryId'
+export const relatedProductAndCategorybySearch = apiDomain + 'api/getRelatedProductAndCategorybySearch'
 
 
 /**
@@ -60,6 +62,16 @@ export const relatedProductbyCategoryUrl = apiDomain + 'api/getRelatedProductbyC
  */
 export const  imagenNoDisponibleUrl = 'https://firebasestorage.googleapis.com/v0/b/trovare-f9aac.appspot.com/o/imagen-no-disponible.png?alt=media&token=8dc7ab39-b9a0-44e7-9981-76e7d994479a'
 
+
+/**
+ * carrito main page
+ */
+export const pedidoUrl = apiDomain + 'api/pedido'
+export const pedidoByUserIdUrl = apiDomain + 'api/pedidoByUserId'
+export const carritoUrl = apiDomain + 'api/carrito'
+
+//-----------------direction--------------------
+export const directionUrl = apiDomain + 'api/direction'
 
 //----------------------------------------------------
 export const getHeader = function (){

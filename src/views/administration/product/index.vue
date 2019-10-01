@@ -59,23 +59,22 @@
                 <v-card-text style="position: relative">
                     <v-fab-transition>
                         <v-tooltip top>
-                        <v-btn  dark
-                                :to="{ name: 'createProduct' }"
-                                right
-                                fixed
-                                bottom
-                                fab slot="activator" color="primary">
-                            <v-icon dark>add</v-icon>
-                        </v-btn>
-                        <span>new Product</span>
+                            <v-btn  dark
+                                    :to="{ name: 'createProduct' }"
+                                    right
+                                    fixed
+                                    bottom
+                                    fab slot="activator" color="primary">
+                                <v-icon dark>add</v-icon>
+                            </v-btn>
+                            <span>new Product</span>
                         </v-tooltip>
                     </v-fab-transition>
                 </v-card-text>
             </v-card>
-      
         </v-app>
     </v-container>
-          <!-- <div style=" position: relative">
+        <!-- <div style=" position: relative">
             <v-fab-transition>
                         <v-tooltip bottom>
                         <v-btn  dark
@@ -114,7 +113,7 @@ import { mapGetters } from 'vuex'
                 { text: 'Alto', value: 'alto' },
                 { text: 'Ancho', value: 'ancho' },
                 { text: 'Fondo', value: 'fondo' },
-                 { text: 'Actions', value: 'name', sortable: false }
+                { text: 'Actions', value: 'name', sortable: false }
             ],
             
             }
@@ -133,12 +132,9 @@ import { mapGetters } from 'vuex'
             // this.removeCollapse();
         },
         methods: {
-           fillProducts(){
-               this.$store.dispatch('fillProducts',this.$store.state.auth.token)
-           }
-     
-         
-
-      }
+            fillProducts(){
+                    this.$store.dispatch('fillProducts',this.$store.state.auth.token)
+            }
+        }
     }
 </script>

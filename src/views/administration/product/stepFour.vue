@@ -140,10 +140,10 @@ export default {
             this.$store.dispatch('putImage',object)
             })
             fileReader.readAsDataURL(files[0])
-             var sizeFile = this.fileGetter.length
-             if(sizeFile == this.$store.state.product.maxUploadImage){
+            var sizeFile = this.fileGetter.length
+            if(sizeFile == this.$store.state.product.maxUploadImage){
                 this.disableButtonAddFile = true
-                   this.dialogButton = false
+                  this.dialogButton = false
             }else{
             this.image = files[0]
             this.disableButtonAddFile = false
@@ -152,13 +152,12 @@ export default {
             this.dialogButton = false
             }
         },
-         onPickFile (index) {
+        onPickFile (index) {
             this.index = index
             this.$refs.fileInput[index].click()
         },
         deleteFileImage(index){
           var sizeFile = this.fileGetter.length
-     
           if((sizeFile-1) > 0){
             this.$store.dispatch('deleteFileImage',index)
             this.disableButtonAddFile = false

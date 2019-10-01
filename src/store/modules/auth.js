@@ -1,5 +1,5 @@
 // import Vue from 'vue'
-import axios from 'axios'
+// import axios from 'axios'
 // import Auth from '../packages/Auth.js'
 import {loginUrlCustom,logoutUrl,registertUrl} from '../../packages/config'
 
@@ -29,7 +29,7 @@ const actions = {
 
   retrieveToken (context, credentials){
     return new Promise((resolve, reject) => {
-      axios.post(loginUrlCustom,{
+      this.$myApi.post(loginUrlCustom,{
         username: credentials.username,
         password: credentials.password,
       })
@@ -49,13 +49,14 @@ const actions = {
   },
 
   destroyToken(context) {
-    axios.defaults.headers.common['Authorization'] = 'Bearer ' + context.state.token
+    // axios.defaults.headers.common['Authorization'] = 'Bearer ' + context.state.token
 
     if (context.getters.loggedIn) {
       return new Promise((resolve, reject) => {
-        axios.post(logoutUrl)
+        this.$myApi.post(logoutUrl)
           .then(response => {
             localStorage.removeItem('access_token')
+            localStorage.removeItem('pedido_id')
             context.commit('destroyToken')
             resolve(response)
             // console.log(response);
@@ -71,7 +72,7 @@ const actions = {
   },
   register(context, data) {
     return new Promise((resolve, reject) => {
-      axios.post(registertUrl, {
+      this.$myApi.post(registertUrl, {
         name: data.name,
         email: data.email,
         password: data.password,
