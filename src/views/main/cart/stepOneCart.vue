@@ -123,16 +123,16 @@ export default {
     },
     methods:{
       
-        fillComboBoxCantidad(cantidad){
-            console.log('entra a llenar combo')
-            var cantidadVar = []
-            if(cantidad > 0 ){
-                for (var x=0 ; x < cantidad ; x++){
-                    cantidadVar.push(x+1) 
-                }
-                return cantidadVar
-            }
-        },
+        // fillComboBoxCantidad(cantidad){
+        //     console.log('entra a llenar combo')
+        //     var cantidadVar = []
+        //     if(cantidad > 0 ){
+        //         for (var x=0 ; x < cantidad ; x++){
+        //             cantidadVar.push(x+1) 
+        //         }
+        //         return cantidadVar
+        //     }
+        // },
         eliminarItem(cart){
             this.$store.dispatch('eliminarItem',cart)
             .then(response=>{

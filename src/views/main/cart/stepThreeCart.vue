@@ -4,9 +4,9 @@
             <v-layout wrap justify-space-between>
                 <v-flex xs12 md12 sm12>
                     <h3>Seleccione una fecha y hora de entrega</h3>
-                    <p>(entrega minima 2 dias)</p>
+                    <p>(tienes hasta una semana para la entrega del pedido)</p>
                 </v-flex>
-                <v-flex>
+                <v-flex xs6 sm6 md6>
                     <v-date-picker
                         v-model="date"
                         :scrollable = true
@@ -18,6 +18,21 @@
                         :max= maxDate
                     ></v-date-picker>
                 </v-flex>
+                <v-flex xs6 sm6 md6>
+                    <v-time-picker v-model="picker" min="08:00" max="18:00" @click:minute="fechaEntrega" scrollable></v-time-picker>
+                </v-flex>
+        </v-layout>
+        <div v-if="showMarkDate" class="v-messages theme--light error--text"> <span>marque fecha y hora de su entrega por favor</span></div>
+
+        <v-layout>
+            <v-flex xs12 sm12 md12   class="align-rigth">
+                <v-btn
+                color="primary"
+                @click="validate()"
+                >
+                Confirmar pedido
+                </v-btn>
+            </v-flex>
         </v-layout>
     </div>
 </template>
@@ -30,8 +45,10 @@ export default {
     data () {
         return {
                 minDate: '',
-                maxDate: '2019-12-31',
-                date: '2019-10-04',
+                maxDate: '',
+                date: '',
+                picker: null,
+                showMarkDate: false
                 // disabledDates: { weekdays: [1, 7] },
         }
     },
@@ -44,14 +61,38 @@ export default {
     },
     methods: {
         getdate(){
-            var auxminDate = moment().format('YYYY-MM-DD')
-            auxminDate=  moment(auxminDate).days()
-            // this.date = moment().format('YYYY-MM-DD')
-            this.minDate = moment("2019-10-04").add(2, 'days').format('YYYY-MM-DD')
-            // var auxminDate = moment("2019-10-04").add(1, 'days').days()
-            console.log(auxminDate)
+            // var auxminDate = moment().format('YYYY-MM-DD')
+            // auxminDate=  moment(auxminDate).days()
+            this.date = moment().format('YYYY-MM-DD')
+            this.maxDate = moment().add(1, 'week').format('YYYY-MM-DD')
+            this.minDate = moment().add(1, 'days').format('YYYY-MM-DD')
+            // console.log(auxminDate)
         },
-        allowedDates: val => ![5,6].includes(new Date(val).getDay())
+        allowedDates: val => ![5,6].includes(new Date(val).getDay()),
+        
+        fechaEntrega(){
+            var date = this.date+' '+this.picker
+            this.$store.dispatch('fecha_entrega', date)
+        },
+        chageEstadoPedido(){
+            this.$store.dispatch('change_estado_pedido', 'confirmado')
+        },
+        updateTotalPedido(){
+             this.$store.dispatch('updateTotalPedido')
+        },
+        validate(){
+            var dateMark = moment(this.date).days()
+            var dateNow = moment().days()
+            if (dateMark != dateNow && this.picker != null) {
+                this.showMarkDate = false
+                this.fechaEntrega()
+                this.chageEstadoPedido()
+                this.updateTotalPedido()
+                this.$emit('next-step')
+            }else{
+                this.showMarkDate = true
+            }
+        },
     }
 }
 

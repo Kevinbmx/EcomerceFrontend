@@ -1,7 +1,7 @@
 <template>
     <div>
         <!-- {{dir}} -->
-            <v-layout wrap justify-space-between v-if="directions.length >0">
+            <v-layout wrap justify-space-between v-if="hasDirection">
                 <v-flex xs12 md12 sm12>
                     <h3>Seleccione una direccion o añada una nueva</h3> 
                 </v-flex>
@@ -51,18 +51,23 @@
                     </v-flex>
             <v-divider ></v-divider>
         </v-layout>
-        <v-layout v-else>
-            <v-alert
-                :value="true"
-                dismissible
-                color="warning"
-                icon="priority_high"
-                outline
-                >
-                no tienes direcciones guardada, create una
-            </v-alert>
-        </v-layout>
-        <v-layout wrap justify-space-between v-if="showDirection">
+        <v-layout  wrap justify-space-between v-else>
+             <v-flex  xs12 sm12 md12 >
+                <v-alert
+                    :value="true"
+                    dismissible
+                    color="warning"
+                    icon="priority_high"
+                    outline
+                    >
+                    no tienes direcciones guardada, create una
+                </v-alert>
+             </v-flex>
+        <!-- </v-layout>
+        <v-layout wrap justify-space-between v-if="showDirection"> -->
+            <v-flex xs12 sm12 md12 >
+            <v-layout  wrap justify-space-between>
+
             <v-flex xs6 >
                 <v-text-field
                     v-validate="{ required: true}"
@@ -113,8 +118,10 @@
                     <!-- <div class="v-messages theme--light error--text"> <span>{{ errors.first('longitud') }}</span></div> -->
                     <div v-if="showMark" class="v-messages theme--light error--text"> <span>marque su direccion en el mapa</span></div>
             </v-flex>
-            
         </v-layout>
+
+            </v-flex>
+            </v-layout>
         <v-layout>
             <v-flex xs12 sm12 md12   class="align-rigth">
                 <v-btn
@@ -136,7 +143,7 @@ export default {
     data () {
         return {
             selectedDirection:'',
-            showDirection:false,
+            // showDirection:true,
             showMark:false,
             showErrorSelection:false,
             center: {
@@ -151,7 +158,8 @@ export default {
     computed: {
         ...mapState({
             directions: state => state.carrito.directions,
-            new_direction: state => state.carrito.new_direction
+            new_direction: state => state.carrito.new_direction,
+            hasDirection: state => state.carrito.hasDirection
         }),
         name: {
             get () {
@@ -201,13 +209,11 @@ export default {
             return objPosition
         },
         setSelectedDirection(id){
-            this.showDirection = false
             this.showErrorSelection = false
             this.selectedDirection = id
             this.$store.dispatch('selectDirection',id)
         },
         showFormDirection(){
-            this.showDirection = true
             this.selectedDirection = ''
             this.$store.dispatch('selectDirection',null)
             // Swal.fire('Hello world!')
@@ -220,7 +226,7 @@ export default {
             });
         },
         continuar(){
-            if(this.showDirection){
+            if(!this.hasDirection){
                 if(this.new_direction.latitud == 0 && this.new_direction.longitud == 0){
                     console.log('no marco')
                     this.showMark = true

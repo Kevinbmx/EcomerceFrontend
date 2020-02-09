@@ -69,6 +69,7 @@ export const  imagenNoDisponibleUrl = 'https://firebasestorage.googleapis.com/v0
 export const pedidoUrl = apiDomain + 'api/pedido'
 export const pedidoByUserIdUrl = apiDomain + 'api/pedidoByUserId'
 export const carritoUrl = apiDomain + 'api/carrito'
+export const updateProductAccordingPedido = apiDomain + 'api/productAccordingPedido'
 
 //-----------------direction--------------------
 export const directionUrl = apiDomain + 'api/direction'

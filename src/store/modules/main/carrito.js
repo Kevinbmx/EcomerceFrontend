@@ -1,17 +1,18 @@
-import Vue from 'vue'
-import {pedidoUrl, carritoUrl,pedidoByUserIdUrl,directionUrl} from '../../../packages/config'
+// import Vue from 'vue'
+import {pedidoUrl, carritoUrl,pedidoByUserIdUrl,directionUrl,updateProductUrl,updateProductAccordingPedido} from '../../../packages/config'
 
 const state = {
     pedido : null,
     carrito :[],
     new_direction:{
-        name:'',
-        direction:'',
-        latitud:'',
-        longitud:'',
-        phone_number:''
+        name:'kevin delgadillo salazar',
+        direction:'calle 24 de septiembre al frente de la policia 110',
+        latitud:-17.343550576389543,
+        longitud:-63.25430584547132,
+        phone_number:'75057204'
     },
-    directions : []
+    directions : [],
+    hasDirection:false
 }
 
 const getters = {
@@ -72,6 +73,9 @@ const mutations = {
 
     getDirectionsByUserId(state,response){
         state.directions = response
+        if(state.directions.length>0){
+            state.hasDirection = true
+        }
     },
     name (state, changeDirection) {
         state.new_direction.name = changeDirection
@@ -92,8 +96,20 @@ const mutations = {
     insertDirection(state, objDirection){
         state.new_direction = objDirection
     },
+    updateProductAccoodingPedido(state, objProduct){
+        state.carrito.product = objProduct
+    },
     updatePedido(state, objPedido){
         state.pedido = objPedido
+    },
+    fecha_entrega(state, date){
+        state.pedido.fecha_entrega = date
+    },
+    updateTotalPedido(state, total){
+        state.pedido.total = total
+    },
+    change_estado_pedido(state, estado){
+        state.pedido.estado = estado
     }
 }
 
@@ -219,18 +235,74 @@ const actions = {
                     commit('insertDirection',response.data.direction)
                     resolve(response.data.direction)
                 }
+            }).catch(error =>{
+                reject(error)
             })
         })
-        .catch(error =>{
-            reject(error)
+    },
+    updateProductAccoodingPedido(){
+        this.$myApi.post(productUrl+'/'+produc_id,state.carrito)
+            .then(response =>{
+                console.log(response.data)
+                // if(response.data.product != null){
+                //     commit('updateProductAccoodingPedido',response.data.product)
+                //     resolve(response.data.product)
+                // }
+            })
+            
+        // return new Promise((resolve, reject) => {
+        // for (let index = 0; index < state.carrito.length; index++) {
+        //     state.carrito.product.quantity = state.carrito.quantity 
+        //     this.$myApi.post(productUrl+'/'+produc_id,state.carrito.product)
+        //     .then(response =>{
+        //         if(response.data.product != null){
+        //             commit('updateProductAccoodingPedido',response.data.product)
+        //             resolve(response.data.product)
+        //         }
+        //     }).catch(error =>{
+        //         reject(error)
+        //     })       
+        // };
+    },
+    updatePedido({ state, commit },pedido_id){
+        return new Promise((resolve, reject) => {
+           
+            this.$myApi.post(pedidoUrl+'/'+pedido_id,state.pedido)
+            .then(response =>{
+                if(response.data.pedido != null){
+                    commit('updatePedido',response.data.pedido)
+                    resolve(true)
+                }
+            })
+            .catch(error =>{
+                reject(error)
+            })
         })
     },
-    updatePedido({ state, commit }){
-        this.$myApi.post(pedidoUrl,state.pedido)
+    updateProductAccoodingPedido({ state, commit }){
+        return new Promise((resolve, reject) => {
+            this.$myApi.post(updateProductAccordingPedido, state.carrito)
+            .then(response =>{
+                resolve(response.data.update)
+            })
+            .catch(error =>{
+                reject(error)
+            })  
+        })
+    },
+    fecha_entrega(context,date){
+        context.commit('fecha_entrega',date)
+    },
+    updateTotalPedido({ getters, commit }){
+        commit('updateTotalPedido',getters.getSubtotalCarrito)
+    },
+    change_estado_pedido(context, estado){
+        context.commit('change_estado_pedido',estado)
+    },
+    updateProductForPedido({ state }){
+        this.$myApi.post(updateProductUrl,state.carrito)
         .then(response =>{
-            if(response.data.direction != null){
-                commit('updatePedido',response.data.direction)
-            }
+            console.log('actualizado con exito llos productos',response.data)
         })
     }
 }

@@ -39,7 +39,7 @@ import stepThreeCart from '@/views/main/cart/stepThreeCart'
 export default {
     data () {
         return {
-            stepper: 3,
+            stepper: 1,
             steps: [
                 {
                     label: 'Carrito',
@@ -74,13 +74,35 @@ export default {
                         this.$store.dispatch('selectDirection',response.id)
                         .then(response1 =>{
                             if(response1){
-                                this.$store.dispatch('insertPeido')
+                                this.$store.dispatch('updateProductAccoodingPedido')
+                                  .then(response2 =>{
+                                      console.log(response2)
+                                      if(response2 != false){
+                                        this.$store.dispatch('updatePedido',localStorage.pedido_id)
+                                        .then(response3=>{
+                                            if (response3 == true){
+                                                location.reload()
+                                            }
+                                        })
+                                      }
+                                  })
                             }
                         })
                     }
                 })
             }else{
-                this.$store.dispatch('insertPeido')
+                this.$store.dispatch('updateProductAccoodingPedido')
+                .then(response2 =>{
+                    console.log(response2)
+                    if(response2 != false){
+                        this.$store.dispatch('updatePedido',localStorage.pedido_id)
+                        .then(response3=>{
+                            if (response3 == true){
+                                location.reload()
+                            }
+                        })
+                    }
+                })
             }
             Swal.fire({
                 text: 'se ha confirmado tu pedido',
