@@ -70,6 +70,15 @@ export const pedidoUrl = apiDomain + 'api/pedido'
 export const pedidoByUserIdUrl = apiDomain + 'api/pedidoByUserId'
 export const carritoUrl = apiDomain + 'api/carrito'
 export const updateProductAccordingPedido = apiDomain + 'api/productAccordingPedido'
+export const MotivoAnularPedidoUrl = apiDomain + 'api/motivoAnularPedido'
+//---------------------------------------------------
+/**
+ * carrito main page
+ */
+
+export const tusPedidoConfirmadoUrl = apiDomain + 'api/tusPedidoConfirmado'
+
+//--------------------
 
 //-----------------direction--------------------
 export const directionUrl = apiDomain + 'api/direction'

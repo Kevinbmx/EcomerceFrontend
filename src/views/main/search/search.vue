@@ -84,59 +84,34 @@ export default {
   data () {
       return {
         allCategory:"" ,
-        //  allProduct:[ { "id": 5, "name": "Vans Lock-On Grips-130mm", "modelo": "lock on", "quantity": 1, "brand": "odi & vans", "price": 280, "category_id": 46, "peso": "0.150", "alto": "18", "ancho": "13", "fondo": "5", "parent_id": 0, "uniqueCode": "d0b5f5c0-532c-11e9-a7d5-0774fc5985e7", "user_id": 1, "statusProduct_id": 1, "created_at": "2019-03-30", "updated_at": "2019-03-30 21:23:13", "description": "ESTILO: superficie con textura, delgada y con trabas con diseño de plantillas VANS\nAJUSTE DE BARRA: 7/8 \"\nLONGITUD: 5.1 \"/ 130mm\nDIÁMETRO EXTERIOR: 1.16 \"/ 30mm\nCERRADURAS: 4 cerraduras de aleación con tornillos, incluidas.\nFINES DE BARRAS: tapas de plástico ODI" }, { "id": 2, "name": "Pedales para bicicleta de m-424", "modelo": "m-424", "quantity": 4, "brand": "SHIMANO", "price": 525, "category_id": 49, "peso": "1.04", "alto": "24", "ancho": "12", "fondo": "12", "parent_id": 0, "uniqueCode": "ad533960-5323-11e9-a427-adbbe56ba391", "user_id": 1, "statusProduct_id": 1, "created_at": "2019-03-30", "updated_at": "2019-03-30 21:26:48", "description": "El Shimano pd-m424 es un clip de dos cara con pedales diseñado para fácil en y estabilidad extra. El resorte cargado posiciones de forma automática la plataforma de pedal en el ángulo perfecto para montaje sin tornillos en – -todo el rider tiene que hacer es poner un pie en el pedal y presione hacia abajo. La facilidad de operación hace de este pedal particularmente bien adaptados a City Riders que necesitan Clip en y en el aviso de un momento y a agresivo para bicicleta de montaña Riders abordar terreno técnico. La plataforma también ofrece una mayor estabilidad y se puede Ridden sin zapatos especiales para impromptu jaunts a la tienda de comestibles. Incluye un par de calas SPD two-bolt." }, { "id": 6, "name": "pedal ODYSSEY Triple-Trap", "modelo": "triple-trap", "quantity": 1, "brand": "odyssey", "price": 420, "category_id": 50, "peso": "0.5", "alto": "18", "ancho": "13", "fondo": "5", "parent_id": 0, "uniqueCode": "7bdd15f0-534a-11e9-b3df-abb64d67b9de", "user_id": 1, "statusProduct_id": 1, "created_at": "2019-03-31", "updated_at": "2019-03-31 00:18:18", "description": "El Pedal de triple trampa Odyssey tiene un cuerpo y una jaula de aleación livianos para enfrentar cualquier aventura con excelente tracción. El diseño de la jaula es extremadamente agresivo cuando se necesita una tracción seria. El huso de chromoly está diseñado para resistir el abuso pesado. Disponible en tamaño 1/2 y 9/16." } ]
         allProduct:"",
         idQuery : "",
         pageQuery : "",
         qQuery : "",
-        haveQquery : false,
+        haveaQquery : false,
         haveProductAndCategory : true,
         imagenNoDisponible : imagenNoDisponibleUrl
-
-        // items: [
-        //   {
-        //     text: 'Dashboard',
-        //     disabled: false,
-        //     href: 'breadcrumbs_dashboard'
-        //   },
-        //   {
-        //     text: 'Link 1',
-        //     disabled: false,
-        //     href: 'breadcrumbs_link_1'
-        //   },
-        //   {
-        //     text: 'Link 2',
-        //     disabled: true,
-        //     href: 'breadcrumbs_link_2'
-        //   }
-        // ],
       }
     },
     watch: { 
       $route (to, from) {
-        // var idQuery = this.$route.query.id;
-        // var pageQuery = this.$route.query.page == null ? "" : this.$route.query.page;
-        // this.fillallCategory(idQuery)
-        // this.relatedProductbyCategory(idQuery,pageQuery)
         this.initializeData()
-        if(this.haveQquery){
-          this.FieldFillBySearch(this.qQuery)
-        }else{
-          this.fillallCategory(this.idQuery)
-          this.relatedProductbyCategory(this.idQuery,this.pageQuery)
-        }
+        this.haveQquery(this.haveaQquery,this.qQuery,this.idQuery)
       }
     },
     created(){
       this.initializeData()
-      if(this.haveQquery){
-        this.FieldFillBySearch(this.qQuery)
-      }else{
-        this.fillallCategory(this.idQuery)
-        this.relatedProductbyCategory(this.idQuery,this.pageQuery)
-      }
+     this.haveQquery(this.haveQquery,this.qQuery,this.idQuery)
     },
     methods:{
+      haveQquery($haveaQquery,$qQuery,$idQuery){
+        if($haveaQquery){
+          this.FieldFillBySearch($qQuery)
+        }else{
+          this.fillallCategory($idQuery)
+          this.relatedProductbyCategory($idQuery,$pageQuery)
+        }
+      },
       FieldFillBySearch($q){
         this.$myApi.get(relatedProductAndCategorybySearch+'/'+$q)
         .then(response => {
@@ -177,9 +152,9 @@ export default {
         this.pageQuery = this.$route.query.page == null ? null : this.$route.query.page;
         this.qQuery = this.$route.query.q == null ? null : this.$route.query.q;
         if(this.qQuery !== null){
-          this.haveQquery = true
+          this.haveaQquery = true
         }else{
-          this.haveQquery = false
+          this.haveaQquery = false
         }
         
       }

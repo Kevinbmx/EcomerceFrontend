@@ -62,6 +62,7 @@
               dark
             >
               Categorias
+              <v-icon>arrow_drop_down</v-icon> 
             </v-btn>
             <v-list>
               <v-list-tile
@@ -74,14 +75,14 @@
             </v-list>
           </v-menu>
         </v-tab>
-        <v-tab>
-          Ayuda
+        <v-tab :to="{name:'pedido'}">
+          Pedido
             <!-- <v-icon right dark>help_outline</v-icon> -->
         </v-tab>
-        <v-tab>
+        <!-- <v-tab :to="{name:'direccion'}">
           Direccion de invio
           <v-icon right dark>location_on</v-icon>
-        </v-tab>
+        </v-tab> -->
           <!-- <v-tab
             v-for="n in 3"
             :key="n"
@@ -124,7 +125,7 @@ export default {
         if(this.searchField == null || this.searchField == ""){
           this.$router.push({name:'mainPage'})
         }else{
-        this.$router.push({ name: 'search', query: { q: this.searchField } })
+          this.$router.push({ name: 'search', query: { q: this.searchField } })
         }
       },
       fillCarrito(){

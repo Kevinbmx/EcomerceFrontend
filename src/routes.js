@@ -17,6 +17,7 @@ import MainPage from "./views/main/mainPage/mainPage"
 import Categories from "./views/main/categories/categories"
 import Search from "./views/main/search/search"
 import Carrito from "./views/main/cart/cart"
+import Pedido from "./views/main/pedido/pedido"
 
 
 const routes = [
@@ -59,5 +60,9 @@ const routes = [
   //----------------------------------------------------------------------------
   //----------------------------------------cart-----------------------------------------
   {path: "/carrito/", component:Carrito, name:"carrito", meta:{requiresAuth:true,public: true}},
+  //------------------------------------------------------------------------------------
+  //--------------------------------------pedido----------------------------------------
+  {path: "/pedido", component:Pedido, name:"pedido", meta:{requiresAuth:true,public: true},
+  props: (route) => ({ query:[ route.query.page] })},
 ]
 export default routes;

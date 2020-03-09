@@ -17,6 +17,7 @@
             :error-messages="errors.collect('description')"
             data-vv-name="description"
             required
+            rows="8"
             v-model="description">
           </v-textarea>
         </v-flex>

@@ -266,7 +266,6 @@ const actions = {
     },
     updatePedido({ state, commit },pedido_id){
         return new Promise((resolve, reject) => {
-           
             this.$myApi.post(pedidoUrl+'/'+pedido_id,state.pedido)
             .then(response =>{
                 if(response.data.pedido != null){
