@@ -1,5 +1,5 @@
 // import Vue from 'vue'
-import {pedidoUrl, carritoUrl,pedidoByUserIdUrl,directionUrl,updateProductUrl,updateProductAccordingPedido} from '../../../packages/config'
+import {pedidoUrl, carritoUrl,pedidoByUserIdUrl,pedidoByIdUrl,directionUrl,updateProductAccordingPedidoUrl} from '../../../packages/config'
 
 const state = {
     pedido : null,
@@ -50,21 +50,8 @@ const mutations = {
             // state.carrito = []
             state.carrito = response
     },
-    addCarrito(state, response){
+    createAndUpdateCarrito(state, response){
         state.carrito = response
-        // var cambio = false
-        // if (state.carrito.length > 0){
-        //     // console.log('entra a verificar')
-        //     const index = state.carrito.findIndex(item => item.product_id === response.product_id);
-        //     if(index > 0){
-        //         Vue.set(state.carrito, index, response)
-        //         cambio = true
-        //     }
-        // }
-        // if(!cambio){
-        //     // console.log('entra a pushear')
-        //     state.carrito.push(response)
-        // }
     },
     createPedido(state, response){
         state.pedido = response
@@ -76,6 +63,9 @@ const mutations = {
         if(state.directions.length>0){
             state.hasDirection = true
         }
+    },
+    setHasDirection(state){
+        state.hasDirection = !state.hasDirection
     },
     name (state, changeDirection) {
         state.new_direction.name = changeDirection
@@ -96,7 +86,7 @@ const mutations = {
     insertDirection(state, objDirection){
         state.new_direction = objDirection
     },
-    updateProductAccoodingPedido(state, objProduct){
+    updateProductAccordingPedido(state, objProduct){
         state.carrito.product = objProduct
     },
     updatePedido(state, objPedido){
@@ -110,6 +100,9 @@ const mutations = {
     },
     change_estado_pedido(state, estado){
         state.pedido.estado = estado
+    },
+    change_user_id_pedido(state,estado){
+        state.pedido.user_id = estado
     }
 }
 
@@ -119,11 +112,22 @@ const actions = {
             this.$myApi.get(pedidoByUserIdUrl)
             .then(response=>{
                 resolve(response.data.pedido)
-                // console.log('pedido',response.data.pedido)
                 context.commit('selectPedidoByUserId',response.data.pedido)
             }) 
             .catch(error =>{
                 // console.log(error)
+                reject(error)
+            })
+        })
+    },
+    selectPedidoById(context,id){
+        return new Promise((resolve, reject) => {
+            this.$myApi.get(pedidoByIdUrl+'/'+id)
+            .then(response=>{
+                console.log('by id', response)
+                resolve(response.data.pedido)
+            }) 
+            .catch(error =>{
                 reject(error)
             })
         })
@@ -183,8 +187,19 @@ const actions = {
             price:          obj.price,
             })
             .then(response =>{
-                context.commit('addCarrito',response.data.carrito)
-                resolve(response)
+                context.commit('createAndUpdateCarrito',response.data.carrito)
+                resolve(response.data.create)
+            })
+            .catch(error =>{
+                reject(error)
+            })
+        })
+    },
+    deletePedidoAndCarritoByPedidoId(context, pedidoId){
+        return new Promise((resolve, reject) => {
+            this.$myApi.delete(pedidoUrl+'/'+pedidoId)
+            .then(response =>{
+                resolve(response.data.delete)
             })
             .catch(error =>{
                 reject(error)
@@ -193,7 +208,7 @@ const actions = {
     },
     eliminarItem({dispatch}, obj){
         return new Promise((resolve, reject) => {
-            this.$myApi.delete(carritoUrl+'/'+obj.product_id+'/'+obj.pedido_id)
+            this.$myApi.post(carritoUrl+'/'+obj.product_id+'/'+obj.pedido_id)
             .then(response =>{
                 if(response.data.deleted){
                     dispatch('selectCarritoByPedidoId',obj.pedido_id)
@@ -240,30 +255,6 @@ const actions = {
             })
         })
     },
-    updateProductAccoodingPedido(){
-        this.$myApi.post(productUrl+'/'+produc_id,state.carrito)
-            .then(response =>{
-                console.log(response.data)
-                // if(response.data.product != null){
-                //     commit('updateProductAccoodingPedido',response.data.product)
-                //     resolve(response.data.product)
-                // }
-            })
-            
-        // return new Promise((resolve, reject) => {
-        // for (let index = 0; index < state.carrito.length; index++) {
-        //     state.carrito.product.quantity = state.carrito.quantity 
-        //     this.$myApi.post(productUrl+'/'+produc_id,state.carrito.product)
-        //     .then(response =>{
-        //         if(response.data.product != null){
-        //             commit('updateProductAccoodingPedido',response.data.product)
-        //             resolve(response.data.product)
-        //         }
-        //     }).catch(error =>{
-        //         reject(error)
-        //     })       
-        // };
-    },
     updatePedido({ state, commit },pedido_id){
         return new Promise((resolve, reject) => {
             this.$myApi.post(pedidoUrl+'/'+pedido_id,state.pedido)
@@ -278,9 +269,9 @@ const actions = {
             })
         })
     },
-    updateProductAccoodingPedido({ state, commit }){
+    updateProductAccordingPedido({ state, commit }){
         return new Promise((resolve, reject) => {
-            this.$myApi.post(updateProductAccordingPedido, state.carrito)
+            this.$myApi.post(updateProductAccordingPedidoUrl, state.carrito)
             .then(response =>{
                 resolve(response.data.update)
             })
@@ -298,12 +289,15 @@ const actions = {
     change_estado_pedido(context, estado){
         context.commit('change_estado_pedido',estado)
     },
-    updateProductForPedido({ state }){
-        this.$myApi.post(updateProductUrl,state.carrito)
-        .then(response =>{
-            console.log('actualizado con exito llos productos',response.data)
-        })
+    change_user_id_pedido(context, estado){
+        context.commit('change_user_id_pedido',estado)
+    },
+    //----------------si esta sin loguear pero ingreso items al carrito------------
+    verifyIfUserHaveAPedido(context,estado){
+
     }
+    
+    
 }
 
 

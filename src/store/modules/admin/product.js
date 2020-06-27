@@ -306,7 +306,7 @@ const actions = {
     fillcategories(context){
         this.$myApi.get(categoryUrl)
         .then(response=>{
-            context.commit('fillcategories',response.data)
+            context.commit('fillcategories',response.data.CategoryTree)
         })
     },
     fillStatus(context){
@@ -315,23 +315,33 @@ const actions = {
             context.commit('fillStatus',response.data)
     })
     },
-    fillProducts(context,auth){
-        this.$myApi.get(productUrl)
-        .then(response=>{
-            context.commit('fillProducts',response.data)
+    fillProducts(context){
+        return new Promise((resolve, reject) => {
+            this.$myApi.get(productUrl)
+            .then(response=>{
+                resolve(response.data.hasPermission)
+                context.commit('fillProducts',response.data.productWithUser)
+            })
+            .catch(error => {
+              console.log(error)
+              reject(error)
+            })
         })
     },
     fillProductById(context,object){
+        return new Promise((resolve, reject) => {
         // console.log('estoy en llenado de producto', object)
-        var auth = object.auth
-        var id  = object.id
-        this.$myApi.get(productUrl+'/'+id)
-        .then(response=>{
-            context.commit('fillProductById',response.data)
-        })
-        .catch(error=>{
-            console.log(error)
-        })
+            var auth = object.auth
+            var id  = object.id
+            this.$myApi.get(productUrl+'/'+id)
+            .then(response=>{
+                resolve(response.data.hasPermission)
+                context.commit('fillProductById',response.data.ProductById)
+            })
+            .catch(error=>{
+                console.log(error)
+            })
+        })    
     },
     fillCharacteristicByProductId(context, object){
         var auth = object.auth
@@ -541,7 +551,7 @@ const actions = {
                             index : index
                         }
                         context.commit('CreateAndUpdateCharacteristic',objCharact)
-                        console.log('caracteristica '+response.data.type+' con exito', response.data )
+                        // console.log('caracteristica '+response.data.type+' con exito', response.data )
                     })
                 }else {
                     url = characteristicUrl+'/'+element.id

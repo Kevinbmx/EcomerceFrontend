@@ -93,13 +93,14 @@ export default {
             password:this.password,
           })
           .then(response =>{
-            // console.log('response',response)
-            this.loading = false
-            this.$router.push({name: 'mainpage'})
+            if(response){
+              this.loading = false
+              this.$router.push({name: 'mainPage'})
+              location.reload();
+            }
           })
           .catch(error =>{
-            this.$props.alert = true
-            
+           this.$props.alert = true
             this.loading = false
             console.log('errorssss',error)
           })

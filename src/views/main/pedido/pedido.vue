@@ -54,8 +54,10 @@
               <v-flex xs12 sm12 md12>
                 <v-textarea :maxlength="maxLengthTextArea"
                     v-validate="'required'"
+                     name="motivoAnulacion" 
                     :error-messages="errors.collect('motivoAnulacion '+(index+1))"
-                    v-model="motivoAnulacion" label="Motivo de anulacion de Pedido" required></v-textarea>
+                    v-model="motivoAnulacion" label="Motivo de anulacion de Pedido" required>
+                </v-textarea>
                 <label>{{maxLengthTextArea-motivoAnulacion.length}}</label>
               </v-flex>
              

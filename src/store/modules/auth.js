@@ -37,7 +37,7 @@ const actions = {
         const token = response.data.access_token
         localStorage.setItem('access_token', token)
         context.commit('retrieveToken', token)
-        resolve(response)
+        resolve(true)
         // console.log(response);
       })
       .catch(error =>{
@@ -50,13 +50,13 @@ const actions = {
 
   destroyToken(context) {
     // axios.defaults.headers.common['Authorization'] = 'Bearer ' + context.state.token
-
     if (context.getters.loggedIn) {
       return new Promise((resolve, reject) => {
         this.$myApi.post(logoutUrl)
           .then(response => {
             localStorage.removeItem('access_token')
             localStorage.removeItem('pedido_id')
+            localStorage.removeItem('role_id')
             context.commit('destroyToken')
             resolve(response)
             // console.log(response);
@@ -76,8 +76,10 @@ const actions = {
         name: data.name,
         email: data.email,
         password: data.password,
+        role_id: data.role_id
       })
         .then(response => {
+          console.log(response)
           resolve(response)
         })
         .catch(error => {

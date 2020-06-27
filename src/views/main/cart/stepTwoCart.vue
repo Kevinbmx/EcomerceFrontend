@@ -13,14 +13,7 @@
                             <v-flex xs8 sm9 md10 pb-0>
                                 <h3>{{dir.name}}</h3>
                             </v-flex>
-                            <v-flex xs4 sm3 md2 style="text-align: right;" pb-0>
-                                <v-tooltip color="red" left>
-                                    <v-btn flat small icon slot="activator" color="red">
-                                        <v-icon>clear</v-icon>
-                                    </v-btn>
-                                    <span>eliminar</span>
-                                </v-tooltip>
-                            </v-flex>
+                        
                             <!-- </v-layout> -->
                         <!-- </v-flex> -->
                         <v-flex xs12 sm12 md12 pt-0 style="margin-top:-9px;"> 
@@ -48,11 +41,9 @@
                     <v-btn outline color="secondary" @click="showFormDirection()">
                         añadir direccion<v-icon>add</v-icon>
                     </v-btn>
-                    </v-flex>
+                </v-flex>
             <v-divider ></v-divider>
-        </v-layout>
-        <v-layout  wrap justify-space-between v-else>
-             <v-flex  xs12 sm12 md12 >
+            <v-flex  xs12 sm12 md12 v-show="!hasDirection">
                 <v-alert
                     :value="true"
                     dismissible
@@ -62,66 +53,69 @@
                     >
                     no tienes direcciones guardada, create una
                 </v-alert>
-             </v-flex>
-        <!-- </v-layout>
-        <v-layout wrap justify-space-between v-if="showDirection"> -->
-            <v-flex xs12 sm12 md12 >
-            <v-layout  wrap justify-space-between>
-
-            <v-flex xs6 >
-                <v-text-field
-                    v-validate="{ required: true}"
-                    name="name" 
-                    label="Nombre completo" 
-                    :error-messages="errors.collect('name')"
-                    data-vv-name="name"
-                    v-model="name"
-                    required
-                    >
-                </v-text-field>
-                <div class="v-messages theme--light error--text"> <span>{{ errors.first('name') }}</span></div>
-                <v-textarea
-                    v-validate="{required: true, max: 100}"
-                    name="direction" 
-                    label="direccion del pedido" 
-                    type="text" 
-                    :error-messages="errors.collect('direction')"
-                    data-vv-name="direction"
-                    v-model="direction"
-                    required
-                    >
-                </v-textarea>
-                <div class="v-messages theme--light error--text"> <span>{{ errors.first('direction') }}</span></div>
-                <v-text-field
-                    v-validate="{ required: true, max: 12}"
-                    name="celular" 
-                    label="celular destinatario" 
-                    :error-messages="errors.collect('celular')"
-                    data-vv-name="celular"
-                    v-model="phone_number"
-                    required
-                    >
-                </v-text-field>
-                <div class="v-messages theme--light error--text"> <span>{{ errors.first('phone_number') }}</span></div>
-            </v-flex>
-            <v-flex xs6 >
-                <gmap-map style="height: 400px;"
-                        :zoom="14" :center="center"
-                        ref="map" @click="clicked">
-                    <gmap-marker
-                        :position="converToPosition(new_direction.latitud,new_direction.longitud)"
-                        :clickable="false" 
-                        :draggable="false"
-                        />
-                    </gmap-map>
-                    <!-- <div class="v-messages theme--light error--text"> <span>{{ errors.first('latitud') }}</span></div> -->
-                    <!-- <div class="v-messages theme--light error--text"> <span>{{ errors.first('longitud') }}</span></div> -->
-                    <div v-if="showMark" class="v-messages theme--light error--text"> <span>marque su direccion en el mapa</span></div>
             </v-flex>
         </v-layout>
-
+        <v-layout  wrap justify-space-between v-else>
+            <v-flex xs12 sm12 md12 >
+                <v-layout  wrap justify-space-between>
+                    <v-flex xs6 >
+                        <v-text-field
+                            v-validate="{ required: true}"
+                            name="name" 
+                            label="Nombre completo" 
+                            :error-messages="errors.collect('name')"
+                            data-vv-name="name"
+                            v-model="name"
+                            required
+                            >
+                        </v-text-field>
+                        <div class="v-messages theme--light error--text"> <span>{{ errors.first('name') }}</span></div>
+                        <v-textarea
+                            v-validate="{required: true, max: 100}"
+                            name="direction" 
+                            label="direccion del pedido" 
+                            type="text" 
+                            :error-messages="errors.collect('direction')"
+                            data-vv-name="direction"
+                            v-model="direction"
+                            required
+                            >
+                        </v-textarea>
+                        <div class="v-messages theme--light error--text"> <span>{{ errors.first('direction') }}</span></div>
+                        <v-text-field
+                            v-validate="{ required: true, max: 12}"
+                            name="celular" 
+                            label="celular destinatario" 
+                            :error-messages="errors.collect('celular')"
+                            data-vv-name="celular"
+                            v-model="phone_number"
+                            required
+                            >
+                        </v-text-field>
+                        <div class="v-messages theme--light error--text"> <span>{{ errors.first('phone_number') }}</span></div>
+                    </v-flex>
+                    <v-flex xs6 >
+                        <gmap-map style="height: 400px;"
+                                :zoom="14" :center="center"
+                                ref="map" @click="clicked">
+                            <gmap-marker
+                                :position="converToPosition(new_direction.latitud,new_direction.longitud)"
+                                :clickable="false" 
+                                :draggable="false"
+                            />
+                        </gmap-map>
+                            <!-- <div class="v-messages theme--light error--text"> <span>{{ errors.first('latitud') }}</span></div> -->
+                            <!-- <div class="v-messages theme--light error--text"> <span>{{ errors.first('longitud') }}</span></div> -->
+                            <div v-if="showMark" class="v-messages theme--light error--text"> <span>marque su direccion en el mapa</span></div>
+                    </v-flex>
+                </v-layout>
             </v-flex>
-            </v-layout>
+            <v-flex xs12 sm12 md12>
+                <v-btn outline color="secondary" @click="showFormDirection()">
+                    seleccionar direccion<v-icon>add</v-icon>
+                </v-btn>
+            </v-flex>
+        </v-layout>
         <v-layout>
             <v-flex xs12 sm12 md12   class="align-rigth">
                 <v-btn
@@ -216,6 +210,8 @@ export default {
         showFormDirection(){
             this.selectedDirection = ''
             this.$store.dispatch('selectDirection',null)
+            this.showErrorSelection = true
+            this.$store.commit('setHasDirection')
             // Swal.fire('Hello world!')
         },
         validate(){

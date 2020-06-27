@@ -88,7 +88,7 @@ export default {
         idQuery : "",
         pageQuery : "",
         qQuery : "",
-        haveaQquery : false,
+        haveQquerydata : false,
         haveProductAndCategory : true,
         imagenNoDisponible : imagenNoDisponibleUrl
       }
@@ -96,20 +96,22 @@ export default {
     watch: { 
       $route (to, from) {
         this.initializeData()
-        this.haveQquery(this.haveaQquery,this.qQuery,this.idQuery)
+        this.haveQquery(this.haveQquerydata,this.qQuery,this.idQuery)
       }
     },
     created(){
       this.initializeData()
-     this.haveQquery(this.haveQquery,this.qQuery,this.idQuery)
+      this.haveQquery(this.haveQquerydata,this.qQuery,this.idQuery)
     },
     methods:{
-      haveQquery($haveaQquery,$qQuery,$idQuery){
-        if($haveaQquery){
+      haveQquery($haveQquerydata,$qQuery,$idQuery){
+        if($haveQquerydata){
           this.FieldFillBySearch($qQuery)
+          console.log('hay query')
         }else{
+          console.log('no hay query')
           this.fillallCategory($idQuery)
-          this.relatedProductbyCategory($idQuery,$pageQuery)
+          this.relatedProductbyCategory($idQuery,this.pageQuery)
         }
       },
       FieldFillBySearch($q){
@@ -152,9 +154,9 @@ export default {
         this.pageQuery = this.$route.query.page == null ? null : this.$route.query.page;
         this.qQuery = this.$route.query.q == null ? null : this.$route.query.q;
         if(this.qQuery !== null){
-          this.haveaQquery = true
+          this.haveQquerydata = true
         }else{
-          this.haveaQquery = false
+          this.haveQquerydata = false
         }
         
       }

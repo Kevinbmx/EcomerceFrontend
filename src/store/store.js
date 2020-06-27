@@ -7,7 +7,7 @@ import auth from './modules/auth'
 import category from './modules/admin/category'
 import product from './modules/admin/product'
 import carrito from './modules/main/carrito'
-// import pedido from './modules/main/pedido'
+import acceso from './modules/admin/acceso'
 
 Vue.use(Vuex) 
 // Vue.config.productionTip = false;
@@ -20,7 +20,7 @@ export default new Vuex.Store({
     auth,
     product,
     carrito,
-    // pedido
+    acceso
   },
   strict:debug
   // strict:false
