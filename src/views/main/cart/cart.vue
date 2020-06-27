@@ -63,8 +63,8 @@ export default {
     },
     methods:{
         nextStep(step){
-                this.stepper = step
-                console.log('next')
+            this.stepper = step
+            console.log('next')
         },
         finish(){
             if(this.$store.state.carrito.pedido.direction_id == null){
@@ -74,7 +74,7 @@ export default {
                         this.$store.dispatch('selectDirection',response.id)
                         .then(response1 =>{
                             if(response1){
-                                this.$store.dispatch('updateProductAccoodingPedido')
+                                this.$store.dispatch('updateProductAccordingPedido')
                                   .then(response2 =>{
                                       console.log(response2)
                                       if(response2 != false){
@@ -91,7 +91,7 @@ export default {
                     }
                 })
             }else{
-                this.$store.dispatch('updateProductAccoodingPedido')
+                this.$store.dispatch('updateProductAccordingPedido')
                 .then(response2 =>{
                     console.log(response2)
                     if(response2 != false){

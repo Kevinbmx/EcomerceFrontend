@@ -40,9 +40,22 @@ import stepOne from './stepOne'
 import stepTwo from './stepTwo'
 // import stepThree from './stepThree'
 import stepFour from './stepFour'
+import { mapState,mapGetters } from 'vuex'
+import {crearProducto} from '@/packages/libreriaDeAccesos'
 export default {
+    computed:{ 
+    ...mapState({
+    // arrow functions can make the code very succinct!
+        fileForDelete: state => state.product.fileForDelete,
+    }),
+    ...mapGetters([
+        'hasPermission',
+    ]),
+
+  },
 data () {
       return {
+        crearProductoVar: crearProducto,
         method:'post',
         stepper: 0,
         steps: [
@@ -63,14 +76,23 @@ data () {
     },
     created(){
         this.$store.dispatch('clearFields')
-
-    },
-    beforeMount() {
+        // if(!this.hasPermission(this.crearProductoVar)){
+            //     this.$router.push({ name: 'withoutAccess' })
+        // }
         if(this.$route.meta.mode === 'edit') {
             this.method = 'put'
             this.fillProductForUpdate()
+        }else{
+          this.$store.dispatch('hasThisPermission',this.crearProductoVar)
+          .then(response=>{
+              if(!response){
+                  this.$router.push({ name: 'withoutAccess' })
+              }
+          })
         }
     },
+    beforeMount() {
+        },
     components:{
         stepOne,
         stepTwo,
@@ -96,7 +118,7 @@ data () {
                 console.log('puede seguir',response)
                     this.$store.dispatch('CreateAndUpdateCharacteristic',object)
                     this.$store.dispatch('createAndUpdateFileProduct',object)
-                    if(this.method == 'put' && this.$store.product.fileForDelete.length > 0){
+                    if(this.method == 'put' && this.fileForDelete.length > 0){
                         this.$store.dispatch('deleteImageFirebaseAndDataBase',object)
                     }
                     this.$router.push({ name: 'mainProduct' })
@@ -116,13 +138,20 @@ data () {
             return newGuid;
         },
         fillProductForUpdate(){
-             let object ={
-                auth:this.$store.state.auth.token,
-                id : this.$route.params.id
-            }
-            this.$store.dispatch('fillProductById',object)
-            this.$store.dispatch('fillCharacteristicByProductId',object)
-            this.$store.dispatch('fillFileByProductId',object)
+                let object ={
+                    auth:this.$store.state.auth.token,
+                    id : this.$route.params.id
+                }
+                this.$store.dispatch('fillProductById',object)
+                .then(response=>{
+                    if(response){
+                        this.$store.dispatch('fillCharacteristicByProductId',object)
+                        this.$store.dispatch('fillFileByProductId',object)
+                    }
+                    else{
+                        this.$router.push({ name: 'withoutAccess' })
+                    }
+                })
         }
     }
 

@@ -86,8 +86,10 @@ export default {
   computed: {
 
   },
-
+  mounted(){
+    },
   created () {
+    this.retrieveAcceso()
     AppEvents.forEach(item => {
       this.$on(item.name, item.callback);
     });
@@ -97,6 +99,10 @@ export default {
     openThemeSettings () {
       this.$vuetify.goTo(0);
       this.rightDrawer = (!this.rightDrawer);
+    },
+    retrieveAcceso(){
+      console.log('esta viendo los accesos')
+      this.$store.dispatch('retrieveAcceso')
     }
   },
 

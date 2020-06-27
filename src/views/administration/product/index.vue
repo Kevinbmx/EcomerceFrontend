@@ -25,6 +25,7 @@
                         :headers="headers"
                         :items="ProductGetter"
                         :search="search"
+                        :rows-per-page-items='[10,25,{"text":"$vuetify.dataIterator.rowsPerPageAll","value":-1}]'
                     >
                         <template slot="items" slot-scope="props">
                             <td>{{ props.item.name }}</td>
@@ -37,12 +38,18 @@
                             <td class="text-xs-right">{{ props.item.ancho }}</td>
                             <td class="text-xs-right">{{ props.item.fondo }}</td>
                             <td class="justify-center layout px-0">
-                                <v-btn flat  icon color="primary" :to="{name: 'editProduct',params: {id:props.item.id}}">
+                                <v-btn flat  icon 
+                                v-if="hasPermission(actualizarProductoVar)"
+                                    color="primary" 
+                                    :to="{name: 'editProduct',params: {id:props.item.id}}">
                                     <v-icon small>
                                         edit
                                     </v-icon>
                                 </v-btn>
-                                <v-btn flat  icon color="red" :to="{name: 'editProduct',params: {id:props.item.id}}">
+                                <v-btn flat  icon 
+                                    v-if="hasPermission(eliminarProductoVar)"
+                                    color="red" 
+                                    :to="{name: 'editProduct',params: {id:props.item.id}}">
                                     <v-icon
                                         small
                                     >
@@ -60,6 +67,7 @@
                     <v-fab-transition>
                         <v-tooltip top>
                             <v-btn  dark
+                            v-if="hasPermission(crearProductoVar)"
                                     :to="{ name: 'createProduct' }"
                                     right
                                     fixed
@@ -92,6 +100,7 @@
 </div>
 </template>
 <script>
+import {crearProducto,actualizarProducto,eliminarProducto} from '@/packages/libreriaDeAccesos'
 import { mapGetters } from 'vuex'
     export default {
         name: 'ProductIndex',
@@ -115,26 +124,31 @@ import { mapGetters } from 'vuex'
                 { text: 'Fondo', value: 'fondo' },
                 { text: 'Actions', value: 'name', sortable: false }
             ],
-            
+            crearProductoVar: crearProducto,
+            actualizarProductoVar:actualizarProducto,
+            eliminarProductoVar:eliminarProducto
             }
         },
         components: {
         },
         created(){
-            this.fillProducts();
+            this.$store.dispatch('fillProducts')
+            .then(response=>{
+                if(!response){
+                    this.$router.push({ name: 'withoutAccess' })
+                }
+            })
         },
         computed:{
             ...mapGetters([
                 'ProductGetter',
+                'hasPermission',
             ]),
         },
         mounted(){
             // this.removeCollapse();
         },
         methods: {
-            fillProducts(){
-                    this.$store.dispatch('fillProducts',this.$store.state.auth.token)
-            }
         }
     }
 </script>

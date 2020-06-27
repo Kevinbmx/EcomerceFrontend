@@ -86,12 +86,6 @@
     }),
     methods: {
       register() {
-         this.alertName = 'Registered Successfully!'
-              this.alertType='success'
-              this.$router.push({ name: 'login', params: {
-                alertName: this.alertName ,
-                alertType:this.alertType ,
-                alert:true} })
         this.$validator.validateAll().then(response =>{
           if(response){
             this.loading = true
@@ -99,6 +93,7 @@
               name: this.name,
               email: this.email,
               password: this.password,
+              role_id:2
             })
             .then(response => {
               this.loading = false
@@ -121,7 +116,7 @@
 }
 </script>
 <style scoped lang="css">
-  #login {
+  #register {
     height: 50%;
     width: 100%;
     position: absolute;

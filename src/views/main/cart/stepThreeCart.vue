@@ -39,6 +39,7 @@
 <script>
 import moment from 'moment'
 export default {
+  
     $_veeValidate: {
         validator: 'new'
     },
@@ -56,9 +57,7 @@ export default {
         // this.minDate = ;
         this.getdate()
     },
-    computed: {
-       
-    },
+
     methods: {
         getdate(){
             // var auxminDate = moment().format('YYYY-MM-DD')

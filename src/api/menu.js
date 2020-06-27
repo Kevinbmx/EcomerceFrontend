@@ -1,20 +1,51 @@
 const Menu =  [
   { header: 'Inventario' },
   {
-    title: 'categoria',
+    title: 'Seguridad',
+    group: 'inventario',
+    icon: 'chat_bubble',
+    
+    items:[
+      { title: 'Modulo',
+        to:{name:'mainModule'},
+      },
+      { title: 'Permiso',
+        to:{name:'mainPermission'},
+      },
+      { title: 'Rol',
+      to:{name:'mainRole'},
+      },
+      { title: 'Acceso',
+      to:{name:'mainRolePermission'},
+      }
+    ],
+    // active: true,
+    // target: '_blank',
+    name: 'Seguridad',
+  },
+  {
+    title: 'Categoria',
     group: 'inventario',
     icon: 'dashboard',
-    name: 'Dashboard',
+    name: 'Categoria',
     to:{name:'mainCategory'}
   },
   {
-    title: 'producto',
+    title: 'Producto',
     group: 'inventario',
     icon: 'chat_bubble',
     // target: '_blank',
-    name: 'Chat',
+    name: 'Producto',
     to:{name:'mainProduct'}
   },
+  {
+    title: 'Cerrar Sesion',
+    group: 'logout',
+    icon: 'exit_to_app',
+    name: 'logout',
+    to:{name:'logout'}
+  },
+  
   
 ];
 // reorder menu

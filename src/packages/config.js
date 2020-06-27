@@ -38,6 +38,32 @@ export const characteristicUrl = apiDomain + 'api/characteristic'
 export const fileUrl = apiDomain + 'api/file'
 export const fileByProductIdUrl = apiDomain + 'api/file/byProductId'
 
+//------------------------module-----------------------------
+export const moduleUrl = apiDomain + 'api/module'
+//------------------------------------------------------------
+//---------------------permission----------------------------
+export const permissionUrl = apiDomain + 'api/permission'
+export const permisosPorModuloUrl = apiDomain + 'api/permisosPorModulo'
+
+//tiene permiso por token y permiso
+export const hasThisPermissionUrl = apiDomain + 'api/hasThisPermission'
+
+
+//-------------------------------------------------------------
+//------------------------role-----------------------------
+export const roleUrl = apiDomain + 'api/role'
+//------------------------------------------------------------
+//------------------------role_permission-----------------------------
+export const rolePermissionUrl = apiDomain + 'api/rolepermission'
+export const permissionsWithoutAccesUrl = apiDomain + 'api/permissionsWithoutAcces'
+export const accesPermissionsUrl = apiDomain + 'api/accesPermissions'
+export const accesPermissionsByUserTokenUrl = apiDomain + 'api/accesPermissionsByUserToken'
+
+export const removeRolepermissionUrl = apiDomain + 'api/removeRolepermission'
+export const addRolepermissionUrl = apiDomain + 'api/addRolepermission'
+
+//------------------------------------------------------------
+
 
 //----------------------------Main page-------------------------------
 //-------------------------product detail-----------------------------
@@ -68,8 +94,9 @@ export const  imagenNoDisponibleUrl = 'https://firebasestorage.googleapis.com/v0
  */
 export const pedidoUrl = apiDomain + 'api/pedido'
 export const pedidoByUserIdUrl = apiDomain + 'api/pedidoByUserId'
+export const pedidoByIdUrl = apiDomain + 'api/pedidoById'
 export const carritoUrl = apiDomain + 'api/carrito'
-export const updateProductAccordingPedido = apiDomain + 'api/productAccordingPedido'
+export const updateProductAccordingPedidoUrl = apiDomain + 'api/productAccordingPedido'
 export const MotivoAnularPedidoUrl = apiDomain + 'api/motivoAnularPedido'
 //---------------------------------------------------
 /**

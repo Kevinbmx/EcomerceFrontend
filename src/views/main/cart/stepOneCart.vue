@@ -155,7 +155,7 @@ export default {
             if(objcarrito.quantity > 0 && objcarrito.quantity <=  quantityProduct){
                 this.$store.dispatch('createAndUpdateCarrito',objcarrito)
                 .then(response =>{
-                    if(response != null){
+                    if(response){
                         console.log('entro a actualizar')
                     }
                 })
@@ -166,7 +166,11 @@ export default {
         validate(){
         this.$validator.validate().then(result => {
             if (result) {
-            this.$emit('next-step')
+                if(this.$store.state.auth.token == null){
+                    this.$router.push({ name: 'login' })
+                }else{
+                    this.$emit('next-step')
+                }
             }
         });
         }
