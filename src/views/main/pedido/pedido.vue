@@ -21,7 +21,7 @@
                  <v-flex xs12 md5 sm5 >
                     ENVIAR
                     <br>
-                    {{order.direction[0].direction}}
+                    {{order.direction.direction}}
                     <!-- 1200.00 Bs. -->
                 </v-flex>
                 <v-flex xs6 md2 sm2 >
@@ -67,7 +67,7 @@
         <v-card-actions>
           <v-spacer></v-spacer>
           <v-btn color="blue darken-1" flat @click="closeDialog()">cerrar</v-btn>
-          <v-btn color="red" flat @click="motivoAnularPeido()">confirmar</v-btn>
+          <v-btn color="red" flat @click="motivoAnularPedido()">confirmar</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -101,21 +101,21 @@
                 <v-divider ></v-divider>
             </div>
         </div>
-            <div class="pagination">
-                <v-btn class="ma-2" 
-                    :to="{ name: 'pedido',query: { page: paginador.prev_page_url } }" 
-                    outline color="secondary"  exact
-                    :disabled="!paginador.prev_page_url">
-                      anterior
-                </v-btn> 
-                <span>Pagina {{paginador.current_page}} de {{paginador.last_page}}</span>
-                <v-btn class="ma-2" 
-                    :to="{ name: 'pedido',query: { page: paginador.next_page_url }}" 
-                    outline color="secondary"  exact
-                    :disabled="!paginador.next_page_url">
-                      siguiente
-               </v-btn>
-            </div>
+        <div class="pagination">
+            <v-btn class="ma-2" 
+                :to="{ name: 'pedido',query: { page: paginador.prev_page_url } }" 
+                outline color="secondary"  exact
+                :disabled="!paginador.prev_page_url">
+                    anterior
+            </v-btn> 
+            <span>Pagina {{paginador.current_page}} de {{paginador.last_page}}</span>
+            <v-btn class="ma-2" 
+                :to="{ name: 'pedido',query: { page: paginador.next_page_url }}" 
+                outline color="secondary"  exact
+                :disabled="!paginador.next_page_url">
+                    siguiente
+            </v-btn>
+        </div>
         </div>
         <div v-else>
             No tienes ningun pedido echo.
@@ -160,29 +160,28 @@ export default {
             }
             this.$myApi.get(urlFormada)
                 .then(response => {
-                    this.paginando(response.data)
-                    this.pedido = response.data.data;
+                    this.paginando(response.data.pedido)
+                    this.pedido = response.data.pedido.data;
                 });
             },
         initializeData(){
             this.pageQuery = this.$route.query.page == null ? null : this.$route.query.page;
         },
-        motivoAnularPeido(){
+        motivoAnularPedido(){
             this.$validator.validate().then(result => {
                 if (result) {
                     let objPedido = {
                         motivo_anulacion:this.motivoAnulacion,
-                        fecha_anulacion: moment().format('YYYY-MM-DD HH:MM:SS'),
+                        fecha_anulacion: moment().format('YYYY-MM-DD HH:MM'),
                         pedido_id: this.pedidoId
                     }
-                    console.log(objPedido)
                     this.$myApi.post(MotivoAnularPedidoUrl,objPedido)
-                        .then(response => {
-                            if(response.data.updated ==true){
-                                this.getTusPedidos()
-                                this.closeDialog()
-                            }
-                        });
+                    .then(response => {
+                          if(response.data.pedido == 1){
+                            this.getTusPedidos()
+                            this.closeDialog()
+                        }
+                    });
                 }
             });
         },

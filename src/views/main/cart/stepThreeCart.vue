@@ -4,7 +4,7 @@
             <v-layout wrap justify-space-between>
                 <v-flex xs12 md12 sm12>
                     <h3>Seleccione una fecha y hora de entrega</h3>
-                    <p>(tienes hasta una semana para la entrega del pedido)</p>
+                    <p>(puedes escoger la fecha de entrega de tu pedido no mayor a 5 dias)</p>
                 </v-flex>
                 <v-flex xs6 sm6 md6>
                     <v-date-picker
@@ -22,10 +22,10 @@
                     <v-time-picker v-model="picker" min="08:00" max="18:00" @click:minute="fechaEntrega" scrollable></v-time-picker>
                 </v-flex>
         </v-layout>
-        <div v-if="showMarkDate" class="v-messages theme--light error--text"> <span>marque fecha y hora de su entrega por favor</span></div>
+        <div v-if="showMarkDate" class="theme--light error--text"> <span>marque fecha y hora de su entrega por favor</span></div>
 
         <v-layout>
-            <v-flex xs12 sm12 md12   class="align-rigth">
+            <v-flex xs12 sm12 md12 class="align-rigth">
                 <v-btn
                 color="primary"
                 @click="validate()"
@@ -97,5 +97,7 @@ export default {
 
 </script>
 <style scoped>
-  
+    .align-rigth{
+        text-align: right;
+    }
 </style>

@@ -16,25 +16,21 @@
         <!-- Go to top -->
         <app-fab></app-fab>
         <!-- theme setting -->
-        <v-btn small fab dark falt fixed top="top" right="right" class="setting-fab" color="red" @click="openThemeSettings">
-          <v-icon>settings</v-icon>
-        </v-btn>
-        <v-navigation-drawer
-          class="setting-drawer"
-          temporary
-          right
-          v-model="rightDrawer"
-          hide-overlay
-          fixed
-          >
-          <theme-settings></theme-settings>
-        </v-navigation-drawer>        
       </v-app>
     </template>
     <template v-else>
       <v-app class="app" >
         <toolbar></toolbar>
         <router-view :key="$route.fullpath"></router-view>
+        <v-navigation-drawer
+          class="setting-drawer"
+          temporary
+          right
+          v-model="rightDrawer"
+          fixed
+          >
+          <menu-main></menu-main>
+        </v-navigation-drawer>       
       </v-app>
     </template>
     <v-snackbar
@@ -56,7 +52,7 @@ import AppDrawer from '@/components/admin_client/layout/AppDrawer';
 import AppToolbar from '@/components/admin_client/layout/AppToolbar';
 import AppFab from '@/components/admin_client/layout/AppFab';
 import PageHeader from '@/components/admin_client/layout/PageHeader';
-import ThemeSettings from '@/components/admin_client/layout/ThemeSettings';
+import MenuMain from '@/components/main/MenuMain';
 import Footers from '@/components/admin_client/layout/Footers';
 import AppEvents from  '@/event';
 import '@riophae/vue-treeselect/dist/vue-treeselect.css'
@@ -69,7 +65,7 @@ export default {
     AppToolbar,
     AppFab,
     PageHeader,
-    ThemeSettings,
+    MenuMain,
     Footers,
     toolbar,
   },
@@ -82,12 +78,6 @@ export default {
       color: '',
     }
   }),
-
-  computed: {
-
-  },
-  mounted(){
-    },
   created () {
     this.retrieveAcceso()
     AppEvents.forEach(item => {
@@ -96,12 +86,16 @@ export default {
     window.getApp = this;
   },
   methods: {
-    openThemeSettings () {
-      this.$vuetify.goTo(0);
-      this.rightDrawer = (!this.rightDrawer);
+    openMenuMain() {
+      if(!localStorage.getItem('access_token')){
+        this.$router.push({name: 'login'})
+      }else{
+        this.$vuetify.goTo(0);
+        this.rightDrawer = (!this.rightDrawer);
+      }
     },
     retrieveAcceso(){
-      console.log('esta viendo los accesos')
+      //console.log('esta viendo los accesos')
       this.$store.dispatch('retrieveAcceso')
     }
   },

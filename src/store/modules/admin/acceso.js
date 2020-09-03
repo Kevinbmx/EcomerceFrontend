@@ -1,7 +1,7 @@
 import {accesPermissionsByUserTokenUrl,hasThisPermissionUrl} from '../../../packages/config'
 
 const state = {
-  rolId:'',
+  userObj:{},
   acceso:[],
 
 }
@@ -9,14 +9,17 @@ const getters={
   hasPermission: state => permiso => {
     // console.log(state.acceso)
     return (state.acceso.find(a => a.name === permiso)) ? true : false ;
-},
+  },
+  getUser(state) {
+    return state.userObj
+  },
 }
 const mutations = {
   retrieveAcceso(state, allAcceso) {
     state.acceso = allAcceso
   },
-  retrieveRolForUser(state, rolId) {
-    state.rolId = rolId
+  retrieveUser(state, userObj) {
+    state.userObj = userObj
   },
 }
 const actions = {
@@ -25,14 +28,15 @@ const actions = {
     if(localStorage.getItem('access_token')){
       this.$myApi.get(accesPermissionsByUserTokenUrl)
         .then(response => {
-          dispatch('retrieveRolForUser',response.data.role_id)
+          // console.log('acceso by user token',response)
+          dispatch('retrieveUser',response.data.user)
           commit('retrieveAcceso', response.data.rolePermission)
         });
     }
   },
-  retrieveRolForUser(context,roleId){
-    localStorage.setItem('role_id', roleId)
-    context.commit('retrieveRolForUser', roleId)
+  retrieveUser(context,user){
+    localStorage.setItem('role_id', user.role_id)
+    context.commit('retrieveUser', user)
   },
   hasThisPermission(context, permission){
     return new Promise((resolve, reject) => {
@@ -44,7 +48,7 @@ const actions = {
           resolve(response.data.hasPermission)
         })
         .catch(error => {
-          console.log(error)
+         //console.log(error)
           reject(error)
         })
       }

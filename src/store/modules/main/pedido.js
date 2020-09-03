@@ -21,7 +21,7 @@ const actions = {
     getTusPedidos(context){
         this.$myApi.get(tusPedidoConfirmadoUrl)
         .then(response =>{
-            console.log('confirmado',response.data)
+          // console.log('confirmado',response.data)
             if(response.data != null){
                 context.commit('getTusPedidos',response.data)
             }

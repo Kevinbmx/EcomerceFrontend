@@ -323,7 +323,7 @@ const actions = {
                 context.commit('fillProducts',response.data.productWithUser)
             })
             .catch(error => {
-              console.log(error)
+            // console.log(error)
               reject(error)
             })
         })
@@ -339,7 +339,7 @@ const actions = {
                 context.commit('fillProductById',response.data.ProductById)
             })
             .catch(error=>{
-                console.log(error)
+              // console.log(error)
             })
         })    
     },
@@ -351,7 +351,7 @@ const actions = {
             context.commit('fillCharacteristicByProductId',response.data)
         })
         .catch(error=>{
-            console.log(error)
+          // console.log(error)
         })
     },
     fillFileByProductId(context, object){
@@ -362,7 +362,7 @@ const actions = {
             context.commit('fillFileByProductId',response.data)
         })
         .catch(error=>{
-            console.log(error)
+          // console.log(error)
         })
     },
     addFile(context,objFile){
@@ -410,15 +410,15 @@ const actions = {
                 statusProduct_id: data.statusProduct_id,
             })
             if(response.data.create){
-                console.log('producto registrado con exito',response.data.create)
+              // console.log('producto registrado con exito',response.data.create)
             }
             if(response.data.update){
-                console.log('producto actualizado con exito',response.data.update)
+              // console.log('producto actualizado con exito',response.data.update)
             }
             context.commit('CreateAndUpdateProductSubmit', response.data.product_id)
             
         }catch(ex){
-            console.log(ex)
+          // console.log(ex)
         }
     },
           //add image in farebase
@@ -445,13 +445,13 @@ const actions = {
                     uploadTask.on(firebase.storage.TaskEvent.STATE_CHANGED, 
                     function(snapshot) {
                         var progress =  (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-                        console.log('['+index+']'+'Upload is ' + progress + '% done');
+                      // console.log('['+index+']'+'Upload is ' + progress + '% done');
                         switch (snapshot.state) {
                         case firebase.storage.TaskState.PAUSED: 
-                            console.log('Upload is paused');
+                          // console.log('Upload is paused');
                             break;
                         case firebase.storage.TaskState.RUNNING: 
-                            console.log('Upload is running');
+                          // console.log('Upload is running');
                             break;
                         }
                     }, function(error) {
@@ -476,12 +476,12 @@ const actions = {
                                 name: uuid + ext,
                                 urlFirebase:downloadURL
                             }
-                            // //   console.log('tama;o Imagen', state.maxUploadImage-1)
+                            // // // console.log('tama;o Imagen', state.maxUploadImage-1)
                             
                             context.commit('addingImageFirebase',objectFile)
-                            console.log('File available at', downloadURL);
+                          // console.log('File available at', downloadURL);
                                 if(fileForInsert.length == index+1){
-                                    console.log('entro para que siga el procedimiento')
+                                  // console.log('entro para que siga el procedimiento')
                                     resolve(true)
                                 }
                         });
@@ -499,12 +499,12 @@ const actions = {
                 context.dispatch('uploadImageFirebase',resultadoNew).then((response) => {
                     if(response){
                         resolve(true)
-                        console.log('entro a insertar la imagen')
+                      // console.log('entro a insertar la imagen')
                     }
                 })
             }else{
                 resolve(true)
-                console.log('no hay que subir')
+              // console.log('no hay que subir')
             }
         })
 
@@ -556,18 +556,18 @@ const actions = {
                 }else {
                     url = characteristicUrl+'/'+element.id
                     this.$myApi.delete(url).then(response=>{
-                        console.log('se elimino correctamente', response)
+                      // console.log('se elimino correctamente', response)
                         let obj = {
                             index : index,
                             state :'delete'
                         }
                         // context.commit('deleteCharacteristic',obj)
-                        console.log('caracteristica '+response.data.type+' con exito', response.data )
+                      // console.log('caracteristica '+response.data.type+' con exito', response.data )
                     })
                 }
             }
         }catch(ex){
-            console.log(ex)
+          // console.log(ex)
         }
     },
     createAndUpdateFileProduct(context,object){
@@ -591,12 +591,12 @@ const actions = {
                             index : index
                         }
                         context.commit('createAndUpdateFileProduct',objCharact)
-                        console.log('imagenes registradas con exito',response.data.saved)
+                      // console.log('imagenes registradas con exito',response.data.saved)
                     })
                 }
             }
         }catch(ex){
-            console.log(ex)
+          // console.log(ex)
         }
     },
     deleteImageFirebaseAndDataBase(context, object){
@@ -610,12 +610,12 @@ const actions = {
                     var storageRef = storage.ref();
                     var desertRef = storageRef.child('/products/'+element.name);
                     desertRef.delete().then(function() {
-                        console.log('se elimino correctamente de firebase su imagen')
+                      // console.log('se elimino correctamente de firebase su imagen')
                     }).catch(function(error) {
                     // Uh-oh, an error occurred!
                     });
                     this.$myApi.delete(fileUrl+'/'+element.id).then(response =>{
-                        console.log('imagen eliminada correctamente de la base de datos')
+                      // console.log('imagen eliminada correctamente de la base de datos')
                     })
             }
             context.commit('deleteImageFirebaseAndDataBase')

@@ -7,6 +7,10 @@ export const loginUrlCustom = apiDomain + 'api/login'
 export const logoutUrl = apiDomain + 'api/logout'
 export const registertUrl = apiDomain + 'api/register'
 //----------------------------------------------------
+//-------------------usuario by token-------------------------
+export const getUserByTokenUrl = apiDomain + 'api/getUserByToken'
+
+//----------------------------------------------------
 //-------------------CATEGORY-------------------------
 export const categoryUrl = apiDomain + 'api/category'
 export const addParent = apiDomain + 'api/addParent'
@@ -63,6 +67,8 @@ export const removeRolepermissionUrl = apiDomain + 'api/removeRolepermission'
 export const addRolepermissionUrl = apiDomain + 'api/addRolepermission'
 
 //------------------------------------------------------------
+//--------------------------pedido---------------------------------
+export const pedidoSearchUrl = apiDomain + 'api/pedidoSearch'
 
 
 //----------------------------Main page-------------------------------
@@ -98,16 +104,11 @@ export const pedidoByIdUrl = apiDomain + 'api/pedidoById'
 export const carritoUrl = apiDomain + 'api/carrito'
 export const updateProductAccordingPedidoUrl = apiDomain + 'api/productAccordingPedido'
 export const MotivoAnularPedidoUrl = apiDomain + 'api/motivoAnularPedido'
-//---------------------------------------------------
-/**
- * carrito main page
- */
-
 export const tusPedidoConfirmadoUrl = apiDomain + 'api/tusPedidoConfirmado'
 
-//--------------------
+//------------------------------------------------------------------------------
 
-//-----------------direction--------------------
+//-------------------------------direction-------------------------------------
 export const directionUrl = apiDomain + 'api/direction'
 
 //----------------------------------------------------

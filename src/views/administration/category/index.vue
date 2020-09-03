@@ -198,7 +198,7 @@ export default {
             name: this.nameCategory,
             parent_id: 0,
           }).catch(error=>{
-            console.log(error)
+            // console.log(error)
           })
         }
         else if(this.nameMethod ==="addParentCategory" && this.hasPermission(this.crearCategoriaVar))
@@ -207,7 +207,7 @@ export default {
           {
             name: this.nameCategory,
           }).catch(error=>{
-            console.log(error)
+            // console.log(error)
           })
         }
         else if(this.nameMethod =="addChildrenCategory" && this.hasPermission(this.crearCategoriaVar))
@@ -216,11 +216,11 @@ export default {
           {
             name: this.nameCategory,
           }).catch(error=>{
-            console.log(error)
+            // console.log(error)
           })
         }
       else if(this.nameMethod =="deleteCategory" && this.hasPermission(this.eliminarCategoriaVar)){
-        console.log('entraaaaaaa')
+        // console.log('entraaaaaaa')
         this.$store.dispatch('deleteCategorySubmit')
           .catch(error=>{
             console.log(error)
@@ -229,7 +229,7 @@ export default {
       else if(this.nameMethod =="imageCategory"  && this.hasPermission(this.insertarImagenCategoriaVar)){
           this.$store.dispatch('createImageCategory')
           .catch(error=>{
-            console.log(error)
+            // console.log(error)
           })
         }
       else{
@@ -250,7 +250,7 @@ export default {
         if(!this.dialog_image){
           this.$store.dispatch('getImageCategory')
           .catch(error=>{
-            console.log(error)
+            // console.log(error)
           })
         }
         this.dialog_image = !this.dialog_image

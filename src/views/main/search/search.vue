@@ -107,9 +107,9 @@ export default {
       haveQquery($haveQquerydata,$qQuery,$idQuery){
         if($haveQquerydata){
           this.FieldFillBySearch($qQuery)
-          console.log('hay query')
+          // console.log('hay query')
         }else{
-          console.log('no hay query')
+          // console.log('no hay query')
           this.fillallCategory($idQuery)
           this.relatedProductbyCategory($idQuery,this.pageQuery)
         }

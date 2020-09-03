@@ -64,7 +64,21 @@ export default {
     methods:{
         nextStep(step){
             this.stepper = step
-            console.log('next')
+            // console.log('next')
+        },
+        updateProductAndPedido(){
+            this.$store.dispatch('updateProductAccordingPedido')
+            .then(response2 =>{
+                // console.log(response2)
+                if(response2 != false){
+                    this.$store.dispatch('updatePedido',localStorage.pedido_id)
+                    .then(response3=>{
+                        if (response3 == true){
+                            location.reload()
+                        }
+                    })
+                }
+            })
         },
         finish(){
             if(this.$store.state.carrito.pedido.direction_id == null){
@@ -74,41 +88,19 @@ export default {
                         this.$store.dispatch('selectDirection',response.id)
                         .then(response1 =>{
                             if(response1){
-                                this.$store.dispatch('updateProductAccordingPedido')
-                                  .then(response2 =>{
-                                      console.log(response2)
-                                      if(response2 != false){
-                                        this.$store.dispatch('updatePedido',localStorage.pedido_id)
-                                        .then(response3=>{
-                                            if (response3 == true){
-                                                location.reload()
-                                            }
-                                        })
-                                      }
-                                  })
+                                this.updateProductAndPedido()
                             }
                         })
                     }
                 })
             }else{
-                this.$store.dispatch('updateProductAccordingPedido')
-                .then(response2 =>{
-                    console.log(response2)
-                    if(response2 != false){
-                        this.$store.dispatch('updatePedido',localStorage.pedido_id)
-                        .then(response3=>{
-                            if (response3 == true){
-                                location.reload()
-                            }
-                        })
-                    }
-                })
+                this.updateProductAndPedido()
             }
             Swal.fire({
                 text: 'se ha confirmado tu pedido',
                 type: 'success',
             })
-            console.log('se realizo el pedido')
+            // console.log('se realizo tu pedido con exito')
         },
     }
 }

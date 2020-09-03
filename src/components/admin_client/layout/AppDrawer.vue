@@ -9,9 +9,8 @@
     width="260"
     >
     <v-toolbar color="primary darken-1" dark>
-      <img v-bind:src="computeLogo" height="36" alt="Vue Material Admin Template">
-      <v-toolbar-title class="ml-0 pl-3">
-        <span class="hidden-sm-and-down">Vue Material</span>
+      <v-toolbar-title class="ml-0">
+        <span class="hidden-sm-and-down">Niño Tienda</span>
       </v-toolbar-title>        
     </v-toolbar>
     <vue-perfect-scrollbar class="drawer-menu--scroll" :settings="scrollSettings">
@@ -69,7 +68,7 @@
   </v-navigation-drawer>
 </template>
 <script>
-import menu from '@/api/menu';
+import menu from '@/api/admin/menu';
 import VuePerfectScrollbar from 'vue-perfect-scrollbar';
 export default {
   name: 'app-drawer',
@@ -100,7 +99,8 @@ export default {
 
     sideToolbarColor () {
       return this.$vuetify.options.extra.sideNav;
-    }    
+    },
+
   },
   created () {
     window.getApp.$on('APP_DRAWER_TOGGLED', () => {

@@ -8,12 +8,13 @@ import VeeValidate from 'vee-validate'
 import * as firebase from 'firebase'
 import VueAwesomeSwiper from 'vue-awesome-swiper'
 import api from '@/services/custom_axios'
-import moneda from '@/filters/moneda'
+import "./filters/filters.js";
 import * as VueGoogleMaps from 'vue2-google-maps'
-
+// import firebase from 'firebase/app';
+// import 'firebase/storage';
 
 Vue.use(VeeValidate)
-Vue.use(moneda)
+// Vue.use(moneda)
 // import '@mdi/font/css/materialdesignicons.css'
 
 Vue.use(VueRouter)
@@ -25,7 +26,7 @@ Vue.use(VueAwesomeSwiper, /* { default global options } */)
 
 Vue.use(VueGoogleMaps, {
   load: {
-    key: 'AIzaSyDB9CAhwJgENiQ0TKuGAz-kidGx3UMZiKY',
+    key: process.env.VUE_APP_GM_KEY,
     // libraries: 'places', 
     libraries: 'places,drawing'
   },
@@ -64,34 +65,24 @@ router.beforeEach((to, from, next) => {
   } else {
     next()
   }
-},
-
-)
-
-
-
+})
 
 Vue.config.productionTip = false;
 
 new Vue({
+  delimiters: ['[[',']]'] ,
   render: h => h(App),
   api,
   router,
   store,
   created () {
     firebase.initializeApp({
-      apiKey: 'AIzaSyDpFix5gQVbbgdkgI5FLBIrZ0mMjEMDud8',
-      authDomain: 'trovare-f9aac.firebaseapp.com',
-      databaseURL: 'https://trovare-f9aac.firebaseio.com',
-      projectId: 'trovare-f9aac',
-      storageBucket:'gs://trovare-f9aac.appspot.com/',
-      messagingSenderId: '170619233712'
+      apiKey: process.env.VUE_APP_FI_API_KEY,
+      authDomain: process.env.VUE_APP_FI_AUTH_DOMAIN,
+      databaseURL: process.env.VUE_APP_FI_DATABASE_URL,
+      projectId: process.env.VUE_APP_FI_PROJECT_ID,
+      storageBucket:process.env.VUE_APP_FI_STORAGE_BUCKET,
+      messagingSenderId: process.env.VUE_APP_FI_MESSAGING_SENDER_ID
     })
-    // firebase.auth().onAuthStateChanged((user) => {
-    //   if (user) {
-    //     this.$store.dispatch('autoSignIn', user)
-    //   }
-    // })
-    // this.$store.dispatch('loadMeetups')
 }
 }).$mount("#app");

@@ -3,7 +3,7 @@ const Menu =  [
   {
     title: 'Seguridad',
     group: 'inventario',
-    icon: 'chat_bubble',
+    icon: 'security',
     
     items:[
       { title: 'Modulo',
@@ -33,10 +33,18 @@ const Menu =  [
   {
     title: 'Producto',
     group: 'inventario',
-    icon: 'chat_bubble',
+    icon: 'description',
     // target: '_blank',
     name: 'Producto',
     to:{name:'mainProduct'}
+  },
+  {
+    title: 'Pedido',
+    group: 'pedido',
+    icon: 'list_alt',
+    // target: '_blank',
+    name: 'pedido',
+    to:{name:'mainPedido'}
   },
   {
     title: 'Cerrar Sesion',
