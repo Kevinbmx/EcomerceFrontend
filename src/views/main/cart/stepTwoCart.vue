@@ -37,7 +37,7 @@
                     </v-layout>
                 </v-flex>
                 <v-flex xs12 sm12 md12>
-                    <div v-if="showErrorSelection" class="v-messages theme--light error--text"> <span>Seleccione una direccion antes de confirmar su pedido</span></div>
+                    <div v-if="showErrorSelection" class="theme--light error--text"> <span>Seleccione una direccion antes de confirmar su pedido</span></div>
                     <v-btn outline color="secondary" @click="showFormDirection()">
                         añadir direccion<v-icon>add</v-icon>
                     </v-btn>
@@ -117,12 +117,12 @@
             </v-flex>
         </v-layout>
         <v-layout>
-            <v-flex xs12 sm12 md12   class="align-rigth">
+            <v-flex xs12 sm12 md12 class="align-rigth">
                 <v-btn
                 color="primary"
                 @click="continuar()"
                 >
-                Confirmar pedido
+                Siguiente
                 </v-btn>
             </v-flex>
         </v-layout>
@@ -191,8 +191,8 @@ export default {
             // this.latitud =  e.latLng.lat()
             // this.longitud =  e.latLng.lng()
             // this.position ={lat:e.latLng.lat(), lng:e.latLng.lng()}
-            console.log('lat',e.latLng.lat())
-            console.log('lng',e.latLng.lng())
+            // console.log('lat',e.latLng.lat())
+            // console.log('lng',e.latLng.lng())
         },
         converToPosition(lat, lng){
             let objPosition = {
@@ -224,7 +224,7 @@ export default {
         continuar(){
             if(!this.hasDirection){
                 if(this.new_direction.latitud == 0 && this.new_direction.longitud == 0){
-                    console.log('no marco')
+                    // console.log('no marco')
                     this.showMark = true
                 }else{
                     this.showMark = false

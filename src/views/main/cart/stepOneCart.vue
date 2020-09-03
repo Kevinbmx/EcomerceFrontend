@@ -40,12 +40,6 @@
                         </v-flex>
                         <v-flex md12 xs12 pa-0  > 
                             <v-layout wrap class="align-center">
-                            <!-- <v-select
-                                :items='fillComboBoxCantidad(cart.product.quantity)'
-                                label="Cantidad"
-                                :v-model= cart.quantity
-                                outlined
-                            ></v-select> -->
                                 <v-flex md2 xs3 sm2>
                                     <v-tooltip color="red" bottom>
                                         <v-btn flat small icon slot="activator"  color="red" @click="changeQuantityCarrito(cart,'restar')">
@@ -90,7 +84,7 @@
         
         <div class="align-rigth">
             <v-btn  color="primary" @click="validate()">
-                Continuar con la compra
+                Siguiente
             </v-btn>
         </div>
     </div>
@@ -106,38 +100,15 @@
 <script>
 export default {
 
- data () {
-    return {
-        cantidad: [],
-        cantidadSelected:'',
-        carrito:''
-    }
-    },
-    created(){
-        
-    },
-
-    watch:{
-        // cantidadSelected(){
-            // }
+    data () {
+        return {
+            cantidad: [],
+            carrito:''
+        }
     },
     methods:{
-      
-        // fillComboBoxCantidad(cantidad){
-        //     console.log('entra a llenar combo')
-        //     var cantidadVar = []
-        //     if(cantidad > 0 ){
-        //         for (var x=0 ; x < cantidad ; x++){
-        //             cantidadVar.push(x+1) 
-        //         }
-        //         return cantidadVar
-        //     }
-        // },
         eliminarItem(cart){
             this.$store.dispatch('eliminarItem',cart)
-            .then(response=>{
-                console.log('se elimino correctamente')
-            })
         },
         changeQuantityCarrito(cart, action){
             let objcarrito = {
@@ -156,11 +127,11 @@ export default {
                 this.$store.dispatch('createAndUpdateCarrito',objcarrito)
                 .then(response =>{
                     if(response){
-                        console.log('entro a actualizar')
+                        // console.log('entro a actualizar')
                     }
                 })
             }else{
-                console.log('no se puede hacer nada')
+                // console.log('no se puede hacer nada')
             }
         },
         validate(){

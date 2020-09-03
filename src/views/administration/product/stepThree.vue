@@ -263,13 +263,12 @@ export default {
             if(this.imageUrl1 == ''&&this.imageUrl2==''&&this.imageUrl3==''&&this.imageUrl4==''&&this.imageUrl5==''){
                 contador++
             }
-           
-            console.log(contador)
+            // console.log(contador)
             if(contador==1){
-                console.log('mostrar')
+                // console.log('mostrar')
                 this.mostrar = true
             }else{
-                console.log('no mostrar')
+                // console.log('no mostrar')
                 this.mostrar = false
                 this.dialog = true
                 this.$emit('next-step')

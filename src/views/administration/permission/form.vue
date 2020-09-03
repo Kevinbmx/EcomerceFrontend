@@ -97,7 +97,7 @@ data () {
                         this.$router.push({name: 'withoutAccess'})
                     }
                 });
-                console.log('editado')
+                // console.log('editado')
             }else{
                 this.$myApi.post(permissionUrl,{
                     name: this.namePermission,
@@ -110,7 +110,7 @@ data () {
                         this.$router.push({name: 'withoutAccess'})
                     }
                 });
-                console.log('guardado')
+                // console.log('guardado')
             }
         },
 

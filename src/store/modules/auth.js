@@ -64,6 +64,8 @@ const actions = {
           })
           .catch(error => {
             localStorage.removeItem('access_token')
+            localStorage.removeItem('pedido_id')
+            localStorage.removeItem('role_id')
             context.commit('destroyToken')
             reject(error)
           })
@@ -79,7 +81,7 @@ const actions = {
         role_id: data.role_id
       })
         .then(response => {
-          console.log(response)
+        // console.log(response)
           resolve(response)
         })
         .catch(error => {
@@ -87,7 +89,6 @@ const actions = {
         })
     })
   },
-
 }
 
 

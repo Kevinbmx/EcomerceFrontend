@@ -101,11 +101,11 @@ data () {
     },
     methods:{
         nextStep(step){
-                this.stepper = step
-                console.log('next')
+            this.stepper = step
+            // console.log('next')
         },
         finish(){
-            console.log('termino')
+            // console.log('termino')
             let object ={
                 auth:this.$store.state.auth.token,
                 productId : this.$route.params.id,
@@ -115,7 +115,7 @@ data () {
             this.$store.dispatch('addingImageFirebase')
             .then((response) => {
                 if(response){
-                console.log('puede seguir',response)
+                // console.log('puede seguir',response)
                     this.$store.dispatch('CreateAndUpdateCharacteristic',object)
                     this.$store.dispatch('createAndUpdateFileProduct',object)
                     if(this.method == 'put' && this.fileForDelete.length > 0){

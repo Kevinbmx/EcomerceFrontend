@@ -114,7 +114,7 @@ const actions = {
         context.commit('retrieveCategory', response.data.CategoryTree)
       })
       .catch(error => {
-        console.log(error)
+      // console.log(error)
         reject(error)
       })
     })
@@ -137,7 +137,7 @@ const actions = {
         }
       })
       .catch(error =>{
-        console.log(error)
+      // console.log(error)
         reject(error)
       })
     })
@@ -159,10 +159,10 @@ const actions = {
       path:imagenNoDisponibleUrl
     })
     .then(response => {
-      context.commit('addCategorySubmit', response.data)
+      context.commit('addCategorySubmit', response.data.CategoryTree)
     })
     .catch(error => {
-      console.log(error)
+    // console.log(error)
     })
   },
 
@@ -179,10 +179,10 @@ const actions = {
     })
       .then(response => {
         // console.log(response)
-        context.commit('addParentSubmit',response.data)
+        context.commit('addParentSubmit',response.data.CategoryTree)
       })
       .catch(error => {
-        console.log(error)
+      // console.log(error)
       })
   },
 
@@ -197,10 +197,10 @@ const actions = {
     })
       .then(response => {
         // console.log(response)
-        context.commit('addChildrenSubmit',response.data)
+        context.commit('addChildrenSubmit',response.data.CategoryTree)
       })
       .catch(error => {
-        console.log(error)
+      // console.log(error)
       })
   },
 
@@ -208,10 +208,10 @@ const actions = {
     const checkedCategories = context.state.checkedCategories
     this.$myApi.delete(categoryUrl +'/'+ checkedCategories[0].id)
       .then(response => {
-        context.commit('deleteCategorySubmit', response.data)
+        context.commit('deleteCategorySubmit', response.data.CategoryTree)
       })
       .catch(error => {
-        console.log(error)
+      // console.log(error)
       })
   },
   getImageCategory(context){
@@ -235,11 +235,11 @@ const actions = {
         pathName:pathName,
         state:estado
       }
-      console.log(response.data)
+    // console.log(response.data)
       context.commit('getImageCategory',obj)
     })
     .catch(error => {
-      console.log(error)
+    // console.log(error)
     })
   },
   putImageCategory(context,object){
@@ -254,7 +254,7 @@ const actions = {
         var storageRef = storage.ref();
         var desertRef = storageRef.child('/category/'+state.image.oldPathName);
         desertRef.delete().then(function() {
-            console.log('se elimino correctamente de firebase su imagen')
+          // console.log('se elimino correctamente de firebase su imagen')
         }).catch(function(error) {
         // Uh-oh, an error occurred!
         });
@@ -268,7 +268,7 @@ const actions = {
             path:state.image.path,
             pathName:state.image.pathName
           }).then(response=>{
-            console.log('inserto la imagen de la categoria')
+          // console.log('inserto la imagen de la categoria')
             // context.commit('createImageCategory')
           })
         }
@@ -299,13 +299,13 @@ const actions = {
                 uploadTask.on(firebase.storage.TaskEvent.STATE_CHANGED, 
                 function(snapshot) {
                     var progress =  (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-                    console.log('Upload is ' + progress + '% done');
+                  // console.log('Upload is ' + progress + '% done');
                     switch (snapshot.state) {
                     case firebase.storage.TaskState.PAUSED: 
-                        console.log('Upload is paused');
+                      // console.log('Upload is paused');
                         break;
                     case firebase.storage.TaskState.RUNNING: 
-                        console.log('Upload is running');
+                      // console.log('Upload is running');
                         break;
                     }
                 }, function(error) {
@@ -332,7 +332,7 @@ const actions = {
                         // //   console.log('tama;o Imagen', state.maxUploadImage-1)
                         
                         context.commit('uploadImageFirebase',objectFile)
-                        console.log('File available at', downloadURL);
+                      // console.log('File available at', downloadURL);
                         resolve(true)
                     });
                 })

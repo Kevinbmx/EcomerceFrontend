@@ -1,6 +1,5 @@
 <template>
 <div style="background:white;">
-  <v-breadcrumbs class="breadCrumbs" :items="items" divider=">"></v-breadcrumbs>
     <v-layout row wrap mb-3>
       <v-flex md6>
         <v-container>
@@ -151,23 +150,6 @@ export default {
     parameterId:'',
     productDetail:'',
     productRandom:'',
-      items: [
-        {
-          text: 'Dashboard',
-          disabled: false,
-          href: 'breadcrumbs_dashboard'
-        },
-        {
-          text: 'Link 1',
-          disabled: false,
-          href: 'breadcrumbs_link_1'
-        },
-        {
-          text: 'Link 2',
-          disabled: true,
-          href: 'breadcrumbs_link_2'
-        }
-      ],
     swiperOptionTop: {
       initialSlide: 1,
       spaceBetween: 20,
@@ -240,7 +222,7 @@ export default {
   },
 watch: { 
   '$route.params.id': function(search) {
-    console.log(search);
+    // console.log(search);
       this.fillProductDetail(search)
   },
   cantidadSelected(){

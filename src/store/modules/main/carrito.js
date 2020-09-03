@@ -124,7 +124,8 @@ const actions = {
         return new Promise((resolve, reject) => {
             this.$myApi.get(pedidoByIdUrl+'/'+id)
             .then(response=>{
-                console.log('by id', response)
+              // console.log('by id', response)
+                context.commit('updatePedido',response.data.pedido)
                 resolve(response.data.pedido)
             }) 
             .catch(error =>{
@@ -159,7 +160,7 @@ const actions = {
                 objCart.quantity = sumQuantity
                 dispatch('createAndUpdateCarrito',objCart)
             }else{
-                console.log('no se puede a;adir mas de ' +  obj.product.quantity + 'items' )
+              // console.log('no se puede a;adir mas de ' +  obj.product.quantity + 'items' )
             }
         } else{
             dispatch('createAndUpdateCarrito',objCart)
@@ -168,9 +169,10 @@ const actions = {
     async createPedido(context){
         try{
             let response = await this.$myApi.post(pedidoUrl)
+          // console.log('se esta añadiendo un pedido',response)
             context.commit('createPedido',response.data.pedido)
         }catch(ex){
-            console.log(ex)
+          // console.log(ex)
         }
         // this.$myApi.post(pedidoUrl)
         // .then(response=>{
@@ -257,7 +259,7 @@ const actions = {
     },
     updatePedido({ state, commit },pedido_id){
         return new Promise((resolve, reject) => {
-            this.$myApi.post(pedidoUrl+'/'+pedido_id,state.pedido)
+            this.$myApi.post(pedidoUrl+'/'+pedido_id, state.pedido)
             .then(response =>{
                 if(response.data.pedido != null){
                     commit('updatePedido',response.data.pedido)

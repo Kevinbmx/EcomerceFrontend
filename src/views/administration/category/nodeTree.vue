@@ -73,7 +73,7 @@ export default {
         this.$store.dispatch('checkedCategory', e.target.value)
         .then(response =>{
           if(!response){
-            console.log('chequeo incorrecto!')
+            // console.log('chequeo incorrecto!')
             var title = 'chequeo incorrecto'
             var text = 'dedes chequear solamente en raiz'
             var icon = 'error'
