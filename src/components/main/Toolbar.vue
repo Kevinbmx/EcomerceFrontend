@@ -105,9 +105,9 @@ export default {
           //console.log('pedidoId null y toke not null',response) 
               if(response !== null){
                 this.$store.dispatch('selectCarritoByPedidoId',response.id)
-                .then(response =>{
-                //console.log('carrito ',response)
-              })
+              //   .then(response =>{
+              //   //console.log('carrito ',response)
+              // })
             }
           })
         }else if(pedido_id != null && token != null){
@@ -141,16 +141,16 @@ export default {
                         }
                       }
                       this.$store.dispatch('deletePedidoAndCarritoByPedidoId',oldCarrito[index].pedido_id)
-                      .then(responseDelete=>{
-                        //console.log('se elimino',responseDelete)
-                      })
+                      // .then(responseDelete=>{
+                      //   //console.log('se elimino',responseDelete)
+                      // })
                     });
                   });
                 }else{
                 this.$store.dispatch('selectCarritoByPedidoId',response1.id)
-                .then(response3 =>{
-                //console.log('carrito ',response3)
-                })
+                // .then(response3 =>{
+                // //console.log('carrito ',response3)
+                // })
               }
             }else{
               this.$store.dispatch('selectPedidoById',pedido_id)
@@ -159,9 +159,9 @@ export default {
                 .then(responseUpdatePedido=>{
                   if(responseUpdatePedido){
                     this.$store.dispatch('selectCarritoByPedidoId',responsePedido.id)
-                    .then(response3 =>{
-                    //console.log('carrito ',response3)
-                    })
+                    // .then(response3 =>{
+                    // //console.log('carrito ',response3)
+                    // })
                   }
                 })
               })
@@ -174,9 +174,9 @@ export default {
               if(response !== null){
                 // this.$store.commit('selectPedidoByUserId',response)
                 this.$store.dispatch('selectCarritoByPedidoId',response.id)
-                .then(response1 =>{
-                //console.log('carrito ',response1)
-              })
+              //   .then(response1 =>{
+              //   //console.log('carrito ',response1)
+              // })
             }
           })
         }

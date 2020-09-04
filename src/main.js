@@ -5,13 +5,14 @@ import App from "./App.vue";
 import routes from './routes'
 import store from './store/store'
 import VeeValidate from 'vee-validate'
-import * as firebase from 'firebase'
+// import * as firebase from 'firebase'
+import * as firebase from "firebase/app";
 import VueAwesomeSwiper from 'vue-awesome-swiper'
 import api from '@/services/custom_axios'
 import "./filters/filters.js";
 import * as VueGoogleMaps from 'vue2-google-maps'
 // import firebase from 'firebase/app';
-// import 'firebase/storage';
+import 'firebase/storage';
 
 Vue.use(VeeValidate)
 // Vue.use(moneda)
