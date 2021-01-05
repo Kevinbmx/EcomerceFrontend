@@ -20,9 +20,6 @@
                         @keyup.enter="getAllPedido()"
                         ></v-text-field>
                     </v-card-title>
-                    <v-card-text style="position: relative">
-                        <v-btn outline small color="primary" :to="{name: 'mainPermission'}" >ir atras</v-btn>
-                    </v-card-text>
                     <v-card-text >
                         <v-data-table
                             :headers="headers"
@@ -135,7 +132,7 @@ import { mapGetters } from 'vuex'
             ]),
         },
        watch: { 
-            $route (to, from) {
+            $route () {
                 this.initializeData()
                 this.getAllPedido()
             }
@@ -200,7 +197,7 @@ import { mapGetters } from 'vuex'
                 this.Pedido_id = id;
                 this.dialog = true;
             },
-            closeDialog(id){
+            closeDialog(){
                 this.Pedido_id ='';
                 this.dialog = false;
             },

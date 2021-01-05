@@ -67,6 +67,11 @@ export default {
             // console.log('next')
         },
         updateProductAndPedido(){
+            this.$swal.fire({
+                text: 'se ha confirmado tu pedido',
+                icon: 'success',
+                showConfirmButton: false,
+            })
             this.$store.dispatch('updateProductAccordingPedido')
             .then(response2 =>{
                 // console.log(response2)
@@ -96,10 +101,6 @@ export default {
             }else{
                 this.updateProductAndPedido()
             }
-            Swal.fire({
-                text: 'se ha confirmado tu pedido',
-                type: 'success',
-            })
             // console.log('se realizo tu pedido con exito')
         },
     }

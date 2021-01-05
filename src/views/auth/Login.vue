@@ -1,13 +1,13 @@
 <template>
   <v-app id="login" class="primary">
-    <v-content>
+    <v-main>
       <v-container fluid fill-height>
         <v-layout align-center justify-center>
           <v-flex xs12 sm8 md4 lg4>
             <v-card class="elevation-1 pa-3">
               <v-card-text>
                 <div class="layout column align-center">
-                  <router-link class="estiloTitulo" :to="{ name: 'mainPage' }"><h1 class="flex my-4 primary--text">Trovare</h1></router-link>
+                  <router-link class="estiloTitulo" :to="{ name: 'mainPage' }"><h1 class="flex my-4 primary--text">Niño Tienda</h1></router-link>
                 </div>   
                   <v-alert
                     v-model='alert'
@@ -35,6 +35,7 @@
                     label="Password" 
                     id="password" 
                     type="password" 
+                    autocomplete="off"
                      :error-messages="errors.collect('password')"
                     data-vv-name="password"
                     required
@@ -51,13 +52,13 @@
                 <v-btn block color="primary"  @click="login" :loading="loading">Login</v-btn>
               </v-card-actions>
               <div class="text-xs-center">
-                <v-btn flat small :to="{name:'register'}">Register</v-btn>
+                <v-btn text block small :to="{name:'register'}">Register</v-btn>
               </div>
             </v-card>
           </v-flex>
         </v-layout>
       </v-container>
-    </v-content>
+    </v-main>
   </v-app>
 </template>
 
@@ -79,8 +80,10 @@ export default {
   },
   data: () => ({
     loading: false,
-      username: 'admin@admin.com',
-      password: 'secret'
+      // username: 'admin@admin.com',
+      // password: 'secret'
+      username: '',
+      password: ''
   }),
   methods: {
     login () {
@@ -98,7 +101,7 @@ export default {
               location.reload();
             }
           })
-          .catch(error =>{
+          .catch(() =>{
            this.$props.alert = true
             this.loading = false
             // console.log('errorssss',error)
@@ -110,15 +113,15 @@ export default {
 
 };
 </script>
-<style scoped lang="css">
+<style scoped>
   #login {
-    height: 50%;
+    height: 50% !important;
     width: 100%;
     position: absolute;
     top: 0;
     left: 0;
     content: "";
-    z-index: 0;
+    z-index: 1;
   }
   .custom-loader {
     animation: loader 1s infinite;

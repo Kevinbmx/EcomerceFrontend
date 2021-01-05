@@ -1,85 +1,75 @@
 <template>
-<div>
-    <v-carousel hide-delimiters interval=8000 height=400 >
-      <router-link  :to="{ name: 'createProduct' }">
-        <v-carousel-item 
-        :src="'//cdn.shopify.com/s/files/1/0177/6500/7432/files/bike-to-school-2019.08.15_1800x533.jpg?v=1565890178'"
-        >
-            <!-- <router-link  :to="{ name: 'createProduct' }">
-          <v-img
-                :src="'https://www.jrbicycles.com/media/bannerslider/t/r/troy-lee-fiberlite.jpg'"
-                :lazy-src="'https://www.jrbicycles.com/media/bannerslider/t/r/troy-lee-fiberlite.jpg'"
-              ></v-img>
-            </router-link> -->
-        </v-carousel-item>
-      </router-link>
-      <router-link  :to="{ name: 'mainCategory' }">
-        <v-carousel-item 
-        :src="'https://picsum.photos/2983/1542/?image=841'"
-        >
-        <!-- <router-link  :to="{ name: 'mainCategory' }">
-        <v-img
-                :src="'https://picsum.photos/2983/1542/?image=841'"
-                :lazy-src="'https://picsum.photos/2983/1542/?image=841'"
-              ></v-img>
-              </router-link> -->
-        </v-carousel-item>
-      </router-link>
-  </v-carousel>
-  <v-container fluid grid-list-xl class="white">
-  <v-container fluid grid-list-xl pa-0 >
-    <v-layout row wrap>
-      <v-flex xs12 pa-2>
-      Compra por Categorias
-      </v-flex>
-      <v-flex xs6 sm6 md3 pa-2 v-for="(category,index) in categoryRandom" :key="index">
+  <v-card>
+    <v-row no-gutters>
+      <v-col
+        cols="12"
+      >
+        <v-carousel height=400  cycle hide-delimiters show-arrows-on-hover>
+          <!-- <v-carousel-item
+          :src="'//cdn.shopify.com/s/files/1/0177/6500/7432/files/bike-to-school-2019.08.15_1800x533.jpg?v=1565890178'"
+          >
+          </v-carousel-item> -->
+          <v-carousel-item
+          :src="'https://picsum.photos/2983/1542/?image=146'"
+          >
+          </v-carousel-item>
+          <v-carousel-item
+          :src="'https://picsum.photos/2983/1542/?image=281'"
+          >
+          </v-carousel-item>
+          <v-carousel-item
+          :src="'https://picsum.photos/2983/1542/?image=841'"
+          >
+          </v-carousel-item>
+        </v-carousel>
+      </v-col>
+    </v-row>
+    <v-row no-gutters>
+      <v-col cols="12" class="pa-2">
+        <h3>Compra por Categorias</h3>
+      </v-col>
+    </v-row>
+    <v-row no-gutters>
+      <v-col cols="6" sm="6" md="3" class="pa-2" v-for="(category,index) in categoryRandom" :key="index">
           <v-card
-          class="mx-auto eliminar-shadow"
+          class="eliminar-shadow"
           >
             <router-link :to="{ name: 'search',query: { id: category.id } }">
-          <v-img
-            :aspect-ratio="1.7"
-            :src="category.path"
-            :lazy-src="category.path"
-          ></v-img>
-          {{category.name}}
+              <v-img
+                :aspect-ratio="1.7"
+                :src="category.path"
+                :lazy-src="category.path"
+              ></v-img>
+              <h4>{{category.name}}</h4>
             </router-link>
-        </v-card>
-      </v-flex>
-    </v-layout>
-  </v-container>
-  </v-container>
-  <v-container fluid grid-list-xl mt-3 class="white">
-  <v-container fluid  pa-0 >
-    <v-layout row >
-      <v-flex xs12 pa-2>
-      algunos de nuestro producto
-      </v-flex>
-    </v-layout>
-    <v-layout row wrap >
-      <v-flex xs6 sm4 md2 lg2 pa-2 v-for="(product,index) in productRandom" :key="index">
-        <v-hover>
-          <v-card
-          slot-scope="{ hover }"
-          :class="`elevation-${hover ? 12 : 2}`"
-          class="mx-auto eliminar-shadow"
-          >
-          <!-- {{product}} -->
-          <router-link :to="{ name: 'productDetail',params: { id: product.id } }">
-          <v-img
-            :aspect-ratio="1.1"
-            :src="product.file[0].path"
-            :lazy-src="product.file[0].path"
-            contain
-          ></v-img>
-          </router-link>
-        </v-card>
-        </v-hover>
-      </v-flex>
-    </v-layout>
-  </v-container>
-  </v-container>
-</div>
+          </v-card>
+      </v-col>
+    </v-row>
+    <v-row no-gutters>
+      <v-col cols="12" class="pa-2">
+        <h3>Algunos de Nuestro Producto</h3>
+      </v-col>
+    </v-row>
+    <v-row no-gutters>
+      <v-col cols="6"  sm="4" md="2" class="pa-2" v-for="(product,index) in productRandom" :key="index">
+          <v-hover>
+            <v-card
+            class="mx-auto eliminar-shadow"
+            >
+            <!-- {{product}} -->
+            <router-link :to="{ name: 'productDetail',params: { id: product.id } }">
+            <v-img
+              :aspect-ratio="1.1"
+              :src="product.file[0].path"
+              :lazy-src="product.file[0].path"
+              contain
+            ></v-img>
+            </router-link>
+          </v-card>
+          </v-hover>
+      </v-col>
+    </v-row>
+  </v-card>
 </template>
 
 <script>

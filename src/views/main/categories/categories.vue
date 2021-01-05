@@ -1,5 +1,5 @@
 <template>
-  <div style="background:white;">
+  <div style="background:white;" id="categories">
     <v-container grid-list-xl>
       <v-layout row wrap>
         <v-flex xs12 sm6 md3 v-for="(category,index) in childCategory" :key="index">
@@ -77,7 +77,10 @@ ul li::before {
   /* padding: 5px; */
   background: rgba(0,0,0,0.3)
 }
-.quitarPadding{
-  padding: 0px 12px !important;
+
+#categories{
+  font-size: 14px;
+  font-family: 'Roboto', sans-serif;
+  line-height: 1.5;
 }
 </style>
