@@ -24,14 +24,14 @@
                 </v-img>
                 
                 <v-card-actions>
-                    <v-btn flat color="orange" @click="onPickFile(1)">Upload Image</v-btn>
+                    <v-btn text color="orange" @click="onPickFile(1)">Upload Image</v-btn>
                     <input
                         type="file"
                         style="display: none"
                         ref="fileInput"
                         accept="image/*"
                         @change="onFilePicked">
-                    <v-btn flat color="orange" @click="deleteImage(1)">delete</v-btn>
+                    <v-btn text color="orange" @click="deleteImage(1)">delete</v-btn>
                 </v-card-actions>
             </v-card>
         </v-flex>
@@ -46,14 +46,14 @@
                 </v-img>
                 
                 <v-card-actions>
-                    <v-btn flat color="orange" @click="onPickFile(2)">Upload Image</v-btn>
+                    <v-btn text color="orange" @click="onPickFile(2)">Upload Image</v-btn>
                     <input
                         type="file"
                         style="display: none"
                         ref="fileInput"
                         accept="image/*"
                         @change="onFilePicked">
-                    <v-btn flat color="orange" @click="deleteImage(2)">delete</v-btn>
+                    <v-btn text color="orange" @click="deleteImage(2)">delete</v-btn>
                 </v-card-actions>
             </v-card>
         </v-flex>  <v-flex xs12 sm6 md3>
@@ -67,14 +67,14 @@
                 </v-img>
                 
                 <v-card-actions>
-                    <v-btn flat color="orange" @click="onPickFile(3)">Upload Image</v-btn>
+                    <v-btn text color="orange" @click="onPickFile(3)">Upload Image</v-btn>
                     <input
                         type="file"
                         style="display: none"
                         ref="fileInput"
                         accept="image/*"
                         @change="onFilePicked">
-                    <v-btn flat color="orange" @click="deleteImage(3)">delete</v-btn>
+                    <v-btn text color="orange" @click="deleteImage(3)">delete</v-btn>
                 </v-card-actions>
             </v-card>
         </v-flex>
@@ -89,14 +89,14 @@
                 </v-img>
                 
                 <v-card-actions>
-                    <v-btn flat color="orange" @click="onPickFile(4)">Upload Image</v-btn>
+                    <v-btn text color="orange" @click="onPickFile(4)">Upload Image</v-btn>
                     <input
                         type="file"
                         style="display: none"
                         ref="fileInput"
                         accept="image/*"
                         @change="onFilePicked">
-                    <v-btn flat color="orange" @click="deleteImage(4)">delete</v-btn>
+                    <v-btn text color="orange" @click="deleteImage(4)">delete</v-btn>
                 </v-card-actions>
             </v-card>
         </v-flex>
@@ -111,14 +111,14 @@
                 </v-img>
                 
                 <v-card-actions>
-                    <v-btn flat color="orange" @click="onPickFile(5)">Upload Image</v-btn>
+                    <v-btn text color="orange" @click="onPickFile(5)">Upload Image</v-btn>
                     <input
                         type="file"
                         style="display: none"
                         ref="fileInput"
                         accept="image/*"
                         @change="onFilePicked">
-                    <v-btn flat color="orange" @click="deleteImage(5)">delete</v-btn>
+                    <v-btn text color="orange" @click="deleteImage(5)">delete</v-btn>
                 </v-card-actions>
             </v-card>
         </v-flex>

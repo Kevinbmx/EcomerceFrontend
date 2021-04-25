@@ -46,9 +46,11 @@ export const eliminarRol    =  'eliminar rol'
 //--------------------pedido--------------------
 
 // export const crearPedido      =  'crear pedido'
-export const listarPedido      =  'listar pedido'
-export const anularPedidoAdmin =  'anular pedido admin'
-export const eliminarPedido    =  'eliminar pedido'
+export const listarPedido       =  'listar pedido'
+export const anularPedido       =  'anular pedido admin'
+// export const eliminarPedido     =  'eliminar pedido'
+export const verDetallePedido   =  'ver detalle pedido'
+
 
 //--------------------pedido cliente--------------------
 

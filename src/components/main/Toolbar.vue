@@ -1,71 +1,133 @@
 <template>
-  <v-card dark class="primary"> 
-    <v-layout row wrap class="pb-2" >
-      <v-flex xs4 sm2 md2 order-xs1 order-sm1 order-md1>
-        <v-card-text class="text-md-center">
-          <router-link class="estiloTitulo" :to="{ name: 'mainPage' }"><span> Trovare</span></router-link>
-        </v-card-text>
-      </v-flex>
-      <v-flex xs12 sm7 md7 order-xs3 order-sm2 order-md2>
+  <v-card tile dark class="primary"> 
+    <v-row no-gutters class="pt-2 pb-2">
+      <v-col cols="4" sm="2" md="2"  align="center" class="centrarcss" justify="center" order="1" order-sm="1" order-md="1">
+        <router-link class="estiloTitulo" :to="{ name: 'mainPage' }">ni&ntilde;o tienda</router-link>
+      </v-col>
+      <v-col cols="12" xs="12" sm="6" md="7" order="3" order-sm="2" order-md="2">
         <v-text-field
-          class="mx-3 mt-2"
-          flat
+        class="mx-3"
+          hide-details
+            dark
+            label="Buscar"
+            prepend-inner-icon="search"
+            solo-inverted
+            v-model="searchField"
+            @keyup.enter="search"
+          ></v-text-field>
+      </v-col>
+      <v-col cols="8" sm="4" md="3" order="2" order-sm="3" order-md="3">
+        <v-bottom-navigation 
+          background-color="primary"
+          class="remove-shadow"
           dark
-          label="Buscar"
-          prepend-inner-icon="search"
-          solo-inverted
-          v-model="searchField"
-          @keyup.enter="search"
-        ></v-text-field>
-      </v-flex>
-
-      <v-flex xs8 sm3 md3 order-xs2 order-sm3 order-md3>
-        <v-content class="text-xs-right text-md-center">
-            <v-bottom-nav class="remove-shadow"
-              absolute
-              color="primary"
-            >
-            <v-btn flat color="white" :to="{name:'categories'}">
-              <span>Categorias</span>
-              <v-icon size="18">dashboard</v-icon>
-            </v-btn>
+          color="white"
+        >
+          <v-btn text :to="{name:'categories'}">
+            <label>Categorias</label>
+            <v-icon size="18">dashboard</v-icon>
+          </v-btn>
           
-            <v-btn flat color="white" @click="openMenuMain">
-              <span>Mi Cuenta</span>
-              <v-icon size="18">account_circle</v-icon>
-            </v-btn>
-            <v-btn :to="{ name: 'carrito'}" flat color="white" >
-              <span>carrito({{this.$store.getters.getCantidadCarrito}})</span>
-              <v-icon size="18">shopping_cart</v-icon>
-            </v-btn>
-          </v-bottom-nav>
-        </v-content>
-      </v-flex>
-    </v-layout>
+          <v-btn text @click="openMenuMain()">
+            <label>Mi Cuenta</label>
+            <v-icon size="18">account_circle</v-icon>
+          </v-btn>
+          <v-btn text @click="goToCarrito()" :to="{ name: 'carrito'}" >
+            <label>carrito({{this.$store.getters.getCantidadCarrito}})</label>
+            <v-icon size="18">shopping_cart</v-icon>
+          </v-btn>
+        </v-bottom-navigation>
+      </v-col>
+    </v-row>
+  <v-navigation-drawer
+          right
+          temporary
+          v-model="rightDrawer"
+          fixed
+          light
+          >
+    <v-list-item>
+        <v-list-item-content>
+          <v-list-item-title class="title">
+            <v-icon medium>person</v-icon>{{ getUser.name}}
+          </v-list-item-title>
+        </v-list-item-content>
+      </v-list-item>
+
+      <v-divider></v-divider>
+
+      <v-list
+        dense
+        nav
+      >
+        <v-list-item 
+          v-for="(item, i) in items"
+          :key="i"
+          :to="item.to"
+        >
+          <v-list-item-icon>
+            <v-icon>{{ item.icon }}</v-icon>
+          </v-list-item-icon>
+
+          <v-list-item-content>
+            <v-list-item-title>{{ item.title }}</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+        <v-list-item @click="cerrarSesion">
+          <v-list-item-icon>
+             <v-icon>exit_to_app</v-icon>
+          </v-list-item-icon>
+          <v-list-item-content>
+            <v-list-item-title> Cerrar Sesion</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+      </v-list>
+   </v-navigation-drawer>     
   </v-card>
 </template>
 <script>
 
 import {categoryParentUrl,carritoUrl} from '@/packages/config'
+import { mapGetters } from 'vuex'
+
 export default {
     data () {
       return {
         tabs: null,
         searchField:'',
-        // categories: [],
+        rightDrawer: false,
         items: [
-          { title: 'Home', icon: 'dashboard' },
-          { title: 'About', icon: 'question_answer' }
-        ]
+          { title: 'Tus Pedidos', icon: 'list_alt',to:{name:'pedido'}},
+          // { title: 'Tus Direcciones', icon: 'directions',to:{name:'pedido'}},
+        ],
       }
     },
+     computed: {
+      ...mapGetters([
+        'getUser',
+      ])
+    },
     created(){
-      // if(this.$store.state.auth.token !==null){
-      // this.fillCategory()
       this.fillCarrito()
-      // }
     },
     methods:{
+       openMenuMain() {
+        if(!localStorage.getItem('access_token')){
+          this.$router.push({name: 'login'})
+          // location.reload();
+        }else{
+          this.$vuetify.goTo(0);
+          this.rightDrawer = (!this.rightDrawer);
+        }
+      },
+      cerrarSesion() {
+        this.$store.dispatch('destroyToken')
+        .then(() => {
+          this.fillCarrito()
+          // location.reload();
+          this.openMenuMain()
+        })
+      },
       fillCategory(){
           this.$myApi.get(categoryParentUrl)
           .then(response =>{
@@ -75,7 +137,7 @@ export default {
       },
       //esto lo utilizo solo para hacer consulta cuando hay dos carrito distinto 
       getCarritoByPedidoId(pedido_id){
-        return new Promise((resolve, reject) => {
+        return new Promise((resolve) => {
           this.$myApi.get(carritoUrl + '/'+ pedido_id)
           .then(response =>{
             //console.log('carrito ',response)
@@ -91,14 +153,12 @@ export default {
           this.$router.push({ name: 'search', query: { q: this.searchField } })
         }
       },
-      openMenuMain() {
-        // console.log(this.$parent.$parent)
-        this.$parent.$parent.openMenuMain();
+      goToCarrito(){
+        this.fillCarrito()
       },
       fillCarrito(){
         var pedido_id = localStorage.getItem('pedido_id')
         var token = localStorage.getItem('access_token')
-
         if(pedido_id == null && token != null){
           this.$store.dispatch('selectPedidoByUserId')
           .then(response => {
@@ -179,13 +239,15 @@ export default {
               // })
             }
           })
+        }else{
+           this.$store.dispatch('pedidoAndCarritoVaciar')
         }
       }
     }
 }
 </script>
 
-<style>
+<style scoped>
   .v-text-field__details{
     display: none;
   }
@@ -195,14 +257,31 @@ export default {
   .remove-shadow{
     -webkit-box-shadow:none !important;
     box-shadow:none !important;
+    font-size: 18px;
   }
   .full-with{
     width: 100%;
   }
   .estiloTitulo{
-    color:#fff;
+    color:#fff !important;
     text-decoration:none;   
-    font-family: 'Roboto', sans-serif;
+    /* font-family: 'Roboto', sans-serif; */
+    /* font-family: 'Courgette' !important; */
+    font-size: 18px;
     line-height: 1.5;
   }
+  .v-btn__content{
+    color: #FFFFFFB3 ;
+  }
+   .v-list-item--link:before {
+    background-color: initial;
+  }
+  .centrarcss{
+    margin-top: 1%;
+  }
+  @media only screen and (max-width: 600px) {
+ .centrarcss{
+    margin-top: 4%;
+  }
+}
 </style>

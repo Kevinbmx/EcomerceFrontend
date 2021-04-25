@@ -1,5 +1,6 @@
 <template>
     <div id="pageIndexCategory">
+         <v-container grid-list-xl fluid>
         <v-card>
             <v-card-title>
                 Asignar accesos
@@ -29,7 +30,7 @@
                 </v-container>
                  <v-divider></v-divider>
                 <v-container >
-                    <v-layout row wrap>
+                    <v-layout row wrap mb-5>
                         <v-flex xs12 md5 >
                             <v-layout style="max-height: 400px">
                                 <v-flex xs12 md12 text-xs-center style="overflow: auto">
@@ -37,19 +38,24 @@
                                     <v-data-table
                                         :headers="headers"
                                         :items="this.permissionsWithoutAcces"
-                                        hide-actions 
-                                        hide-headers
+                                        hide-default-header
+                                        hide-default-footer
                                         class="elevation-1"
+                                         disable-pagination
                                         >
-                                        <template slot="items" slot-scope="props">
-                                            <td>
-                                                <v-checkbox
-                                                    v-model="permissionsWithoutAccesSelected"
-                                                    :value="props.item.id"
-                                                     :disabled="boolPermissionWithouttAccesCheckbox"
-                                                ></v-checkbox>     
-                                            </td>
-                                            <td class="text-xs-left">{{ props.item.name }}</td>
+                                        <template v-slot:body="{ items }">
+                                            <tbody>
+                                                <tr v-for="item in items" :key="item.id">
+                                                    <td>
+                                                        <v-checkbox
+                                                            :label="item.name"
+                                                            v-model="permissionsWithoutAccesSelected"
+                                                            :value="item.id"
+                                                            :disabled="boolPermissionWithouttAccesCheckbox"
+                                                        ></v-checkbox>     
+                                                    </td>
+                                                </tr>
+                                            </tbody>
                                         </template>
                                     </v-data-table>
                                 </v-flex>
@@ -70,26 +76,32 @@
                                 </v-flex>
                             </v-layout>
                         </v-flex>
-                        <v-flex xs12 md5 >
+                        <v-flex xs12 md5>
                             <v-layout style="max-height: 400px">
                                 <v-flex xs12 md12 class="tabla" text-xs-center style="overflow: auto">
                                     <h4>accesos permitidos</h4>
                                     <v-data-table
                                         :headers="headersAccess"
                                         :items="this.accesPermissions"
-                                        hide-actions 
-                                        hide-headers
+                                        hide-default-header
+                                        hide-default-footer
                                         class="elevation-1"
+                                         disable-pagination
                                         >
-                                        <template slot="items" slot-scope="props">
-                                            <td>
-                                                <v-checkbox style="display: flex; align-items: center;"
-                                                    v-model="accesPermissionsSelected"
-                                                    :value="props.item.id"
-                                                    :disabled="boolAccesPermissionCheckbox"
-                                                ></v-checkbox>     
-                                            </td>
-                                            <td class="text-xs-left">{{ props.item.name }}</td>
+                                         <template v-slot:body="{ items }">
+                                            <tbody>
+                                                <tr v-for="item in items" :key="item.id">
+                                                    <td>
+                                                        <v-checkbox
+                                                            :label="item.name"
+                                                            v-model="accesPermissionsSelected"
+                                                            :value="item.id"
+                                                            :disabled="boolAccesPermissionCheckbox"
+                                                        ></v-checkbox>     
+                                                    </td>
+                                                </tr>
+                                                
+                                            </tbody>
                                         </template>
                                     </v-data-table>
                                 </v-flex>
@@ -99,6 +111,7 @@
                 </v-container>
             </v-form>
         </v-card>
+         </v-container>
     </div>
 </template>
 

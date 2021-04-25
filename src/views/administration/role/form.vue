@@ -35,7 +35,7 @@
                                 v-model="description" label="Descripcion del rol" required>
                             </v-textarea>
                                 <v-btn
-                                outline
+                                outlined
                                 color="primary"
                                 :to="{name: 'mainRole'}"
                                 >
@@ -44,6 +44,7 @@
                             <v-btn
                                 color="primary"
                                 @click="save()"
+                                :loading="loading"
                                 >
                                 guardar
                             </v-btn>
@@ -65,7 +66,8 @@ data () {
             description:'',
             id : "",
             maxLengthTextArea:50,
-            crearRolVar:crearRol
+            crearRolVar:crearRol,
+            loading : false
       }
     },
     created(){
@@ -83,33 +85,38 @@ data () {
     },
     methods:{
         save(){
-            if(this.$route.meta.mode === 'edit') {
-                this.$myApi.post(roleUrl+'/'+this.id,{
-                    name: this.name,
-                    description: this.description
-                })
-                .then(response => {
-                    if(response.data.hasPermission){
-                        this.$router.push({ name: 'mainRole' })
-                    }
-                    else{
-                        this.$router.push({ name: 'withoutAccess' })
-                    }
-                });
-            }else{
-                this.$myApi.post(roleUrl,{
-                    name: this.name,
-                    description: this.description
-                })
-                .then(response => {
-                    if(response.data.hasPermission){
-                        this.$router.push({ name: 'mainRole' })
-                    }
-                    else{
-                        this.$router.push({ name: 'withoutAccess' })
-                    }
-                });
+            this.$validator.validateAll().then(response =>{
+            if(response){
+                this.loading = true
+                if(this.$route.meta.mode === 'edit') {
+                    this.$myApi.post(roleUrl+'/'+this.id,{
+                        name: this.name,
+                        description: this.description
+                    })
+                    .then(response => {
+                        if(response.data.hasPermission){
+                            this.$router.push({ name: 'mainRole' })
+                        }
+                        else{
+                            this.$router.push({ name: 'withoutAccess' })
+                        }
+                    });
+                }else{
+                    this.$myApi.post(roleUrl,{
+                        name: this.name,
+                        description: this.description
+                    })
+                    .then(response => {
+                        if(response.data.hasPermission){
+                            this.$router.push({ name: 'mainRole' })
+                        }
+                        else{
+                            this.$router.push({ name: 'withoutAccess' })
+                        }
+                    });
+                }
             }
+         })
         },
         fillRole(id){
             this.$myApi.get(roleUrl+'/'+id)

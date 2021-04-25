@@ -59,8 +59,6 @@ const actions = {
             localStorage.removeItem('role_id')
             context.commit('destroyToken')
             resolve(response)
-            // console.log(response);
-            // context.commit('addTodo', response.data)
           })
           .catch(error => {
             localStorage.removeItem('access_token')

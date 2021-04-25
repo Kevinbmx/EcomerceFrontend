@@ -1,30 +1,32 @@
 import Vue from "vue";
-import VueRouter from 'vue-router'
-import "./plugins/vuetify"
 import App from "./App.vue";
+import VueRouter from 'vue-router'
+import vuetify from '@/plugins/vuetify' // path to vuetify export
 import routes from './routes'
 import store from './store/store'
-import VeeValidate from 'vee-validate'
-// import * as firebase from 'firebase'
+import VeeValidate from "vee-validate";
+import VueSweetalert2 from 'vue-sweetalert2';
+import 'sweetalert2/dist/sweetalert2.min.css';
 import * as firebase from "firebase/app";
-import VueAwesomeSwiper from 'vue-awesome-swiper'
 import api from '@/services/custom_axios'
 import "./filters/filters.js";
 import * as VueGoogleMaps from 'vue2-google-maps'
-// import firebase from 'firebase/app';
 import 'firebase/storage';
+import PerfectScrollbar from 'vue2-perfect-scrollbar'
+import 'vue2-perfect-scrollbar/dist/vue2-perfect-scrollbar.css'
+import VueMeta from 'vue-meta'
 
-Vue.use(VeeValidate)
-// Vue.use(moneda)
-// import '@mdi/font/css/materialdesignicons.css'
+Vue.use(VueMeta)
 
+Vue.use(PerfectScrollbar)
+
+Vue.use(VeeValidate);
+Vue.use(VueSweetalert2);
 Vue.use(VueRouter)
 const router = new VueRouter({
   mode:'history',
   routes
 })
-Vue.use(VueAwesomeSwiper, /* { default global options } */)
-
 Vue.use(VueGoogleMaps, {
   load: {
     key: process.env.VUE_APP_GM_KEY,
@@ -35,18 +37,13 @@ Vue.use(VueGoogleMaps, {
 })
 
 router.beforeEach((to, from, next) => {
-  let isDelegated = false;
-
   for (let matched = (to.matched || []), i = matched.length; i--;) {
       let route = matched[i];
-
       if (route.meta.beforeEach) {
-          isDelegated = true;
           route.meta.beforeEach(to, from, next);
       }
   }
 
-  // !isDelegated && next();
   if (to.matched.some(record => record.meta.requiresAuth)) {
     if (!store.getters.loggedIn) {
       next({
@@ -71,6 +68,7 @@ router.beforeEach((to, from, next) => {
 Vue.config.productionTip = false;
 
 new Vue({
+  vuetify,
   delimiters: ['[[',']]'] ,
   render: h => h(App),
   api,

@@ -25,38 +25,42 @@
                         :headers="headers"
                         :items="ProductGetter"
                         :search="search"
-                        :rows-per-page-items='[10,25,{"text":"$vuetify.dataIterator.rowsPerPageAll","value":-1}]'
+                        :items-per-page-options='[10,25,{"text":"$vuetify.dataIterator.rowsPerPageAll","value":-1}]'
                     >
-                        <template slot="items" slot-scope="props">
-                            <td>{{ props.item.name }}</td>
-                            <td class="text-xs-right">{{ props.item.modelo }}</td>
-                            <td class="text-xs-right">{{ props.item.quantity }}</td>
-                            <td class="text-xs-right">{{ props.item.brand }}</td>
-                            <td class="text-xs-right">{{ props.item.price }}</td>
-                            <td class="text-xs-right">{{ props.item.peso }}</td>
-                            <td class="text-xs-right">{{ props.item.alto }}</td>
-                            <td class="text-xs-right">{{ props.item.ancho }}</td>
-                            <td class="text-xs-right">{{ props.item.fondo }}</td>
-                            <td class="justify-center layout px-0">
-                                <v-btn flat  icon 
-                                v-if="hasPermission(actualizarProductoVar)"
-                                    color="primary" 
-                                    :to="{name: 'editProduct',params: {id:props.item.id}}">
-                                    <v-icon small>
-                                        edit
-                                    </v-icon>
-                                </v-btn>
-                                <v-btn flat  icon 
-                                    v-if="hasPermission(eliminarProductoVar)"
-                                    color="red" 
-                                    :to="{name: 'editProduct',params: {id:props.item.id}}">
-                                    <v-icon
-                                        small
-                                    >
-                                        delete
-                                    </v-icon>
-                                </v-btn>
-                                </td>
+                        <template v-slot:body="{ items }">
+                            <tbody>
+                                <tr v-for="item in items" :key="item.id">
+                                    <td class="text-xs-left">{{ item.name }}</td>
+                                    <td class="text-xs-right">{{ item.modelo }}</td>
+                                    <td class="text-xs-right">{{ item.quantity }}</td>
+                                    <td class="text-xs-right">{{ item.brand }}</td>
+                                    <td class="text-xs-right">{{ item.price }}</td>
+                                    <td class="text-xs-right">{{ item.peso }}</td>
+                                    <td class="text-xs-right">{{ item.alto }}</td>
+                                    <td class="text-xs-right">{{ item.ancho }}</td>
+                                    <td class="text-xs-right">{{ item.fondo }}</td>
+                                    <td class="justify-center px-0">
+                                        <v-btn text  icon  title="editar"
+                                        v-if="hasPermission(actualizarProductoVar)"
+                                            color="primary" 
+                                            :to="{name: 'editProduct',params: {id:item.id}}">
+                                            <v-icon small>
+                                                edit
+                                            </v-icon>
+                                        </v-btn>
+                                        <v-btn text  icon title="eliminar"
+                                            v-if="hasPermission(eliminarProductoVar)"
+                                            color="red" 
+                                            :to="{name: 'editProduct',params: {id:item.id}}">
+                                            <v-icon
+                                                small
+                                            >
+                                                delete
+                                            </v-icon>
+                                        </v-btn>
+                                        </td>
+                                </tr>
+                            </tbody>
                         </template>
                         <v-alert slot="no-results" :value="true" color="error" icon="warning">
                         Your search for "{{ search }}" found no results.
@@ -65,18 +69,16 @@
                 </v-card-text>
                 <v-card-text style="position: relative">
                     <v-fab-transition>
-                        <v-tooltip top>
-                            <v-btn  dark
-                            v-if="hasPermission(crearProductoVar)"
-                                    :to="{ name: 'createProduct' }"
-                                    right
-                                    fixed
-                                    bottom
-                                    fab slot="activator" color="primary">
-                                <v-icon dark>add</v-icon>
-                            </v-btn>
-                            <span>new Product</span>
-                        </v-tooltip>
+                        <v-btn  dark
+                        v-if="hasPermission(crearProductoVar)"
+                                :to="{ name: 'createProduct' }"
+                                right
+                                fixed
+                                bottom
+                                title="nuevo producto"
+                                fab slot="activator" color="primary">
+                            <v-icon dark>add</v-icon>
+                        </v-btn>
                     </v-fab-transition>
                 </v-card-text>
             </v-card>

@@ -5,14 +5,15 @@ const state = {
     pedido : null,
     carrito :[],
     new_direction:{
-        name:'kevin delgadillo salazar',
-        direction:'calle 24 de septiembre al frente de la policia 110',
-        latitud:-17.343550576389543,
-        longitud:-63.25430584547132,
-        phone_number:'75057204'
+        name:'',
+        direction:'',
+        latitud:'',
+        longitud:'',
+        phone_number:''
     },
     directions : [],
-    hasDirection:false
+    hasDirection:false,
+    precioTransporte:10
 }
 
 const getters = {
@@ -31,12 +32,9 @@ const getters = {
         for (let x = 0; x < state.carrito.length; x++) {
             subtotal = subtotal + (state.carrito[x].price *state.carrito[x].quantity)
         }
-        return subtotal
+        return subtotal + state.precioTransporte
     },
-  
-    getPosition(state){
-
-    }
+   
 }
 
 const mutations = {
@@ -47,8 +45,8 @@ const mutations = {
         }
     },
     selectCarritoByPedidoId(state, response){
-            // state.carrito = []
-            state.carrito = response
+        // state.carrito = []
+        state.carrito = response
     },
     createAndUpdateCarrito(state, response){
         state.carrito = response
@@ -91,6 +89,7 @@ const mutations = {
     },
     updatePedido(state, objPedido){
         state.pedido = objPedido
+        // localStorage.removeItem('pedido_id')
     },
     fecha_entrega(state, date){
         state.pedido.fecha_entrega = date
@@ -103,6 +102,10 @@ const mutations = {
     },
     change_user_id_pedido(state,estado){
         state.pedido.user_id = estado
+    },
+    pedidoAndCarritoVaciar(state){
+        state.pedido = null
+        state.carrito=[]
     }
 }
 
@@ -145,26 +148,36 @@ const actions = {
             })
         })
     },
-
+    pedidoAndCarritoVaciar(context){
+        context.commit('pedidoAndCarritoVaciar')
+    },
     addCarrito({ dispatch, getters },obj){
-        var cartObtained = getters.searchCarritoById(obj.product.id)
-        let objCart = {
-                        product_id:     obj.product.id, 
-                        pedido_id:      obj.pedido.id,
-                        quantity:       obj.cantidadSelected,
-                        price:          obj.product.price,
-                    }
-        if(cartObtained.length > 0 ){
-            var sumQuantity = cartObtained[0].quantity + obj.cantidadSelected
-            if(sumQuantity <= obj.product.quantity && sumQuantity > cartObtained[0].quantity){
-                objCart.quantity = sumQuantity
+        return new Promise((resolve) => {
+            var cartObtained = getters.searchCarritoById(obj.product.id)
+            let objCart = {
+                            product_id:     obj.product.id, 
+                            pedido_id:      obj.pedido.id,
+                            quantity:       obj.cantidadSelected,
+                            price:          obj.product.price,
+                        }
+            if(cartObtained.length > 0 ){
+                var sumQuantity = cartObtained[0].quantity + obj.cantidadSelected
+                if(sumQuantity <= obj.product.quantity && sumQuantity > cartObtained[0].quantity){
+                    objCart.quantity = sumQuantity
+                    dispatch('createAndUpdateCarrito',objCart)
+                    .then(response =>{
+                        resolve(response)
+                    })
+                }else{
+                    resolve(false)
+                }
+            } else{
                 dispatch('createAndUpdateCarrito',objCart)
-            }else{
-              // console.log('no se puede a;adir mas de ' +  obj.product.quantity + 'items' )
+                .then(response =>{
+                    resolve(response)
+                })
             }
-        } else{
-            dispatch('createAndUpdateCarrito',objCart)
-        }
+        })
     },
     async createPedido(context){
         try{
@@ -190,6 +203,7 @@ const actions = {
             })
             .then(response =>{
                 context.commit('createAndUpdateCarrito',response.data.carrito)
+                // console.log(response.data)
                 resolve(response.data.create)
             })
             .catch(error =>{
@@ -223,25 +237,17 @@ const actions = {
         })
     },
     getDirectionsByUserId(context){
-        return new Promise((resolve, reject) => {
-            this.$myApi.get(directionUrl)
-            .then(response =>{
-                if(response.data.direction != null){
-                    context.commit('getDirectionsByUserId',response.data.direction)
-                }
-            })
-        })
-        .catch(error =>{
-            reject(error)
+        this.$myApi.get(directionUrl)
+        .then(response =>{
+            if(response.data.direction != null){
+                context.commit('getDirectionsByUserId',response.data.direction)
+            }
         })
     },
     selectDirection(context,direction_id){
-        return new Promise((resolve, reject) => {
+        return new Promise((resolve) => {
             context.commit('selectDirection',direction_id)
             resolve(true)
-        })
-        .catch(error =>{
-            reject(error)
         })
     },
     insertDirection({ state, commit }){
@@ -271,7 +277,7 @@ const actions = {
             })
         })
     },
-    updateProductAccordingPedido({ state, commit }){
+    updateProductAccordingPedido({ state }){
         return new Promise((resolve, reject) => {
             this.$myApi.post(updateProductAccordingPedidoUrl, state.carrito)
             .then(response =>{
@@ -294,12 +300,6 @@ const actions = {
     change_user_id_pedido(context, estado){
         context.commit('change_user_id_pedido',estado)
     },
-    //----------------si esta sin loguear pero ingreso items al carrito------------
-    verifyIfUserHaveAPedido(context,estado){
-
-    }
-    
-    
 }
 
 

@@ -67,6 +67,11 @@ export default {
             // console.log('next')
         },
         updateProductAndPedido(){
+            this.$swal.fire({
+                text: 'Se ha confirmado tu pedido, espere un momento.',
+                icon: 'success',
+                showConfirmButton: false,
+            })
             this.$store.dispatch('updateProductAccordingPedido')
             .then(response2 =>{
                 // console.log(response2)
@@ -74,6 +79,8 @@ export default {
                     this.$store.dispatch('updatePedido',localStorage.pedido_id)
                     .then(response3=>{
                         if (response3 == true){
+                            localStorage.removeItem('pedido_id')
+                            this.$router.push({ name: 'pedido' })
                             location.reload()
                         }
                     })
@@ -96,10 +103,6 @@ export default {
             }else{
                 this.updateProductAndPedido()
             }
-            Swal.fire({
-                text: 'se ha confirmado tu pedido',
-                type: 'success',
-            })
             // console.log('se realizo tu pedido con exito')
         },
     }

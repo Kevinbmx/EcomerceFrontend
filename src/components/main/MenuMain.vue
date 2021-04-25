@@ -1,48 +1,58 @@
 <template>
-  <div>
-    <v-list class="pa-1">
-      <v-list-tile avatar>
-        <v-icon medium>person</v-icon>
-        <v-list-tile-content>
-          <v-list-tile-title>{{getUser.name}}</v-list-tile-title>
-        </v-list-tile-content>
-      </v-list-tile>
-    </v-list>
-    <v-divider></v-divider>
-    <v-list dense class="pt-0">
-      <v-list-tile
-        v-for="item in items"
-        :key="item.title"
-        :to="item.to"
+  <v-navigation-drawer
+          class="setting-drawer"
+          temporary
+          right
+          v-model="rightDrawer"
+          fixed
+          >
+    <v-list-item>
+        <v-list-item-content>
+          <v-list-item-title class="title">
+            <v-icon medium>person</v-icon>{{ getUser.name}}
+          </v-list-item-title>
+        </v-list-item-content>
+      </v-list-item>
+
+      <v-divider></v-divider>
+
+      <v-list
+        dense
+        nav
       >
-        <v-list-tile-action>
-          <v-icon>{{ item.icon }}</v-icon>
-        </v-list-tile-action>
-        <v-list-tile-content>
-          <v-list-tile-title>{{ item.title }}</v-list-tile-title>
-        </v-list-tile-content>
-      </v-list-tile>
+        <v-list-item 
+          v-for="(item, i) in items"
+          :key="i"
+          :to="item.to"
+        >
+          <v-list-item-icon>
+            <v-icon>{{ item.icon }}</v-icon>
+          </v-list-item-icon>
 
-      <v-list-tile @click="cerrarSesion">
-        <v-list-tile-action>
-          <v-icon>exit_to_app</v-icon>
-        </v-list-tile-action>
-
-        <v-list-tile-content>
-          <v-list-tile-title > Cerrar Sesion</v-list-tile-title>
-        </v-list-tile-content>
-      </v-list-tile>
-    </v-list>
-  </div>
+          <v-list-item-content>
+            <v-list-item-title>{{ item.title }}</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+        <v-list-item @click="cerrarSesion">
+          <v-list-item-icon>
+             <v-icon>exit_to_app</v-icon>
+          </v-list-item-icon>
+          <v-list-item-content>
+            <v-list-item-title> Cerrar Sesion</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+      </v-list>
+   </v-navigation-drawer>     
 </template>
 <script>
 import { mapGetters } from 'vuex'
   export default {
     data () {
       return {
+        rightDrawer: true,
         items: [
           { title: 'Tus Pedidos', icon: 'list_alt',to:{name:'pedido'}},
-          // { title: 'Tus Direcciones', icon: 'directions',to:{name:'mainPage'}},
+          // { title: 'Tus Direcciones', icon: 'directions',to:{name:'pedido'}},
         ],
       }
     },
@@ -53,11 +63,29 @@ import { mapGetters } from 'vuex'
     },
     methods:{
       cerrarSesion() {
-        this.$store.dispatch('destroyToken')
-        .then(response => {
-          this.$router.push({ name: 'login' })
-        })
+        // this.$store.dispatch('destroyToken')
+        // .then(() => {
+          this.openMenuMain()
+        // })
+      },
+      // openMenuMain() {
+      //   console.log(this)
+      //   // this.openMenuMain();
+      // },
+      openMenuMain() {
+          // console.log('entro al menu')
+        if(!localStorage.getItem('access_token')){
+          this.$router.push({name: 'login'})
+        }else{
+          this.$vuetify.goTo(0);
+          this.rightDrawer = (!this.rightDrawer);
+        }
       },
     }
   }
 </script>
+<style scoped>
+  .v-list-item--link:before {
+    background-color: initial;
+  }
+</style>

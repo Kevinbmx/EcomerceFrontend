@@ -24,26 +24,40 @@
                         <v-data-table
                             :headers="headers"
                             :items="pedidos"
-                            hide-actions
-                            :rows-per-page-items='[7]'>
-                            <template slot="items" slot-scope="props">
-                                <td class="text-xs-left">{{ props.item.id}}</td>
-                                <td class="text-xs-left">{{ props.item.estado}}</td>
-                                <td class="text-xs-left">{{ props.item.fecha_entrega}}</td>
-                                <td class="text-xs-left">{{ props.item.fecha_anulacion}}</td>
-                                <td class="text-xs-left">{{ props.item.motivo_anulacion}}</td>
-                                <td class="text-xs-left">{{ props.item.total}}</td>
-                                <td class="text-xs-left">{{ getName(props.item.user)}}</td>
-                                <td class="text-xs-left">{{ getDirection(props.item.direction)}}</td>
-                                <td class="layout px-0">
-                                    <v-btn flat  
-                                    v-if="hasPermission(anularPedidoAdminVar) && props.item.estado == 'confirmado'"
-                                    icon color="red" @click="openDialog(props.item.id)">
-                                        <v-icon small>
-                                            cancel
-                                        </v-icon>
-                                    </v-btn>
-                                </td>
+                            hide-default-footer
+                            :items-per-page-options='[7]'>
+                            <template v-slot:body="{ items }">
+                                <tbody>
+                                    <tr v-for="(item,index) in items" :key="index">
+                                        <td class="text-xs-left">{{item.id}}</td>
+                                        <td class="text-xs-left">{{item.estado}}</td>
+                                        <td class="text-xs-left">{{item.updated_at | date}}</td>
+                                        <td class="text-xs-left">{{item.fecha_entrega | date}}</td>
+                                        <td class="text-xs-left">{{item.fecha_anulacion}}</td>
+                                        <td class="text-xs-left">{{item.motivo_anulacion}}</td>
+                                        <td class="text-xs-left">{{item.total}}</td>
+                                        <td class="text-xs-left">{{getName(item.user)}}</td>
+                                        <td class="text-xs-left">{{getDirection(item.direction)}}</td>
+                                        <td class="justify-center px-0">
+                                            <v-btn text  icon  title="detalle pedido"
+                                                v-if="hasPermission(verDetallePedidoVar)"
+                                                color="primary" 
+                                                :to="{name: 'detailPedido',params: {idPedido:item.id}}">
+                                                <v-icon small>
+                                                    remove_red_eye
+                                                </v-icon>
+                                            </v-btn>
+                                            <!-- <v-btn text  
+                                            title="anular pedido"
+                                            v-if="hasPermission(anularPedidoAdminVar) && item.estado == 'confirmado'"
+                                            icon color="red" @click="openDialog(item.id,index)">
+                                                <v-icon small>
+                                                    cancel
+                                                </v-icon>
+                                            </v-btn> -->
+                                        </td>
+                                    </tr>
+                                </tbody>
                             </template>
                             <v-alert slot="no-results" :value="true" color="error" icon="warning">
                             Your search for "{{ search }}" found no results.
@@ -53,20 +67,20 @@
                             <span class="mr-5">{{paginador.from}}-{{paginador.to}} of {{paginador.total}}</span>
                             <v-btn 
                                 :to="{ name: 'mainPedido',query: { page: paginador.prev_page_url } }" 
-                                flat  icon
+                                text  icon
                                 :disabled="!paginador.prev_page_url">
                                 <v-icon>navigate_before</v-icon>
                             </v-btn> 
                             <v-btn 
                                 :to="{ name: 'mainPedido',query: { page: paginador.next_page_url }}" 
-                                flat  icon
+                                text  icon
                                 :disabled="!paginador.next_page_url">
                                 <v-icon>navigate_next</v-icon>
                             </v-btn>
                         </div>
                     </v-card-text>
-                    <v-dialog 
-                        v-if="hasPermission(eliminarPedidoVar)"
+                    <!-- <v-dialog 
+                        v-if="hasPermission(anularPedidoVar)"
                         v-model="dialog" persistent max-width="400px">
                         <v-card>
                             <v-card-title>
@@ -81,19 +95,19 @@
                             </v-card-text>
                             <v-card-actions>
                             <v-spacer></v-spacer>
-                                <v-btn color="blue darken-1" flat @click="closeDialog()">cerrar</v-btn>
-                                <v-btn color="red" flat @click="deletePedido()">confirmar</v-btn>
+                                <v-btn color="blue darken-1" text @click="closeDialog()">cerrar</v-btn>
+                                <v-btn color="red" text @click="deletePedido()">confirmar</v-btn>
                             </v-card-actions>
                         </v-card>
-                    </v-dialog>
+                    </v-dialog> -->
                 </v-card>
             </v-app>
         </v-container>
     </div>
 </template>
 <script>
-import moment from 'moment'
-import {anularPedidoAdmin,eliminarPedido} from '@/packages/libreriaDeAccesos'
+// import moment from 'moment'
+import {verDetallePedido} from '@/packages/libreriaDeAccesos'
 import {pedidoSearchUrl,MotivoAnularPedidoUrl} from '../../../packages/config'
 import { mapGetters } from 'vuex'
     export default {
@@ -105,10 +119,11 @@ import { mapGetters } from 'vuex'
                 headers: [
                     { text: 'N° pedido', value: 'id', sortable: true },
                     { text: 'estado', value: 'estado', sortable: true },
+                    { text: 'pedido en', value: 'updated_at', sortable: false },
                     { text: 'fecha entrega', value: 'fecha_entrega', sortable: true},
                     { text: 'fecha anulacion', value: 'fecha_anulacion', sortable: true},
                     { text: 'motivo anulacion', value: 'motivo_anulacion', sortable: true},
-                    { text: 'total', value: 'total', sortable: false },
+                    { text: 'total Bs.', value: 'total', sortable: false },
                     { text: 'usuario', value: 'user', sortable: false },
                     { text: 'direccion', value: 'direction', sortable: false },
                     { text: 'Actions', value: 'action', sortable: false }
@@ -116,10 +131,10 @@ import { mapGetters } from 'vuex'
                 pedidos:[],
                 Pedido_id:'',
                 dialog:false,
-                anularPedidoAdminVar : anularPedidoAdmin,
-                eliminarPedidoVar : eliminarPedido,
+                // anularPedidoVar : anularPedido,
+                verDetallePedidoVar : verDetallePedido,
                 paginador:{},
-                motivoAnulacion:''
+                motivoAnulacion:'',
             }
         },
         created(){
@@ -132,7 +147,7 @@ import { mapGetters } from 'vuex'
             ]),
         },
        watch: { 
-            $route (to, from) {
+            $route () {
                 this.initializeData()
                 this.getAllPedido()
             }
@@ -164,8 +179,8 @@ import { mapGetters } from 'vuex'
             deletePedido(){
                 let objPedido = {
                     motivo_anulacion:this.motivoAnulacion,
-                    fecha_anulacion: moment().format('YYYY-MM-DD HH:MM'),
-                    pedido_id: this.Pedido_id
+                    pedido_id: this.Pedido_id,
+                    carrito: this.pedidos[this.indexDelPedidoAEliminar].carrito
                 }
                 this.$myApi.post(MotivoAnularPedidoUrl,objPedido)
                 .then(response => {
@@ -193,11 +208,12 @@ import { mapGetters } from 'vuex'
                     return ' '
                 }
             },
-            openDialog(id){
-                this.Pedido_id = id;
-                this.dialog = true;
-            },
-            closeDialog(id){
+            // openDialog(id,index){
+            //     this.Pedido_id = id;
+            //     this.dialog = true;
+            //     this.indexDelPedidoAEliminar = index
+            // },
+            closeDialog(){
                 this.Pedido_id ='';
                 this.dialog = false;
             },

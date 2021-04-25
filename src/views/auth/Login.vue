@@ -1,13 +1,13 @@
 <template>
   <v-app id="login" class="primary">
-    <v-content>
+    <v-main>
       <v-container fluid fill-height>
         <v-layout align-center justify-center>
           <v-flex xs12 sm8 md4 lg4>
             <v-card class="elevation-1 pa-3">
               <v-card-text>
                 <div class="layout column align-center">
-                  <router-link class="estiloTitulo" :to="{ name: 'mainPage' }"><h1 class="flex my-4 primary--text">Trovare</h1></router-link>
+                  <router-link :to="{ name: 'mainPage' }"><h1 class="flex my-4 primary--text">ni&ntilde;o tienda</h1></router-link>
                 </div>   
                   <v-alert
                     v-model='alert'
@@ -20,13 +20,13 @@
                   <v-text-field
                     v-validate="'required|email'"
                     append-icon="person"
-                    name="login" 
-                    label="Login" 
+                    name="email" 
+                    label="email" 
                     type="text" 
-                    :error-messages="errors.collect('username')"
-                    data-vv-name="username"
+                    :error-messages="errors.collect('email')"
+                    data-vv-name="email"
                     required
-                    v-model="username">
+                    v-model="email">
                    </v-text-field>
                   <v-text-field 
                     v-validate="'required'"
@@ -35,12 +35,14 @@
                     label="Password" 
                     id="password" 
                     type="password" 
+                    autocomplete="off"
                      :error-messages="errors.collect('password')"
                     data-vv-name="password"
                     required
                     v-model="password">
                     </v-text-field>
                 </v-form>
+                    <router-link to="forgot">¿olvidaste tu contrase&ntilde;a?</router-link>
               </v-card-text>
               <v-card-actions>
                 <!-- <v-spacer></v-spacer> -->
@@ -51,13 +53,13 @@
                 <v-btn block color="primary"  @click="login" :loading="loading">Login</v-btn>
               </v-card-actions>
               <div class="text-xs-center">
-                <v-btn flat small :to="{name:'register'}">Register</v-btn>
+                <v-btn text block small :to="{name:'register'}">Register</v-btn>
               </div>
             </v-card>
           </v-flex>
         </v-layout>
       </v-container>
-    </v-content>
+    </v-main>
   </v-app>
 </template>
 
@@ -70,7 +72,7 @@ export default {
     },
     alertName:{
       type:String,
-      default: 'su correo o su contraseña es incorrecta'
+      default: 'su correo o su contrase&ntilde;a es incorrecta'
     },
     alertType:{
       type:String,
@@ -79,8 +81,10 @@ export default {
   },
   data: () => ({
     loading: false,
-      username: 'admin@admin.com',
-      password: 'secret'
+      // email: 'admin@admin.com',
+      // password: 'secret'
+      email: '',
+      password: ''
   }),
   methods: {
     login () {
@@ -88,7 +92,7 @@ export default {
         if(response){
           this.loading = true
           this.$store.dispatch('retrieveToken',{
-            username:this.username,
+            username:this.email,
             password:this.password,
           })
           .then(response =>{
@@ -98,7 +102,7 @@ export default {
               location.reload();
             }
           })
-          .catch(error =>{
+          .catch(() =>{
            this.$props.alert = true
             this.loading = false
             // console.log('errorssss',error)
@@ -110,15 +114,15 @@ export default {
 
 };
 </script>
-<style scoped lang="css">
+<style scoped>
   #login {
-    height: 50%;
+    height: 50% !important;
     width: 100%;
     position: absolute;
     top: 0;
     left: 0;
     content: "";
-    z-index: 0;
+    z-index: 1;
   }
   .custom-loader {
     animation: loader 1s infinite;

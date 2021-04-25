@@ -1,16 +1,16 @@
 <template>
-<div style="background:white;">
-    <v-layout row wrap mb-3>
-      <v-flex md6>
+  <div style="background:white; color: #293f56;">
+    <v-row no-gutters class="mb-3">
+      <v-col cols="12" md="6" >
         <v-container>
-          <v-layout row wrap mb-3 class="showTittleImage">
-              <v-flex md12>
+          <v-row no-gutters class="mb-3 showTittleImage">
+            <v-col cols="12" >
               <span>Marca: <strong>{{productDetail.brand}}</strong></span>
-            </v-flex>
-            <v-flex md12>
+            </v-col>
+            <v-col cols="12">
               <h2>{{productDetail.name}}</h2>
-            </v-flex>
-          </v-layout>
+            </v-col>
+          </v-row>
         </v-container>
         <swiper :options="swiperOptionTop" class="gallery-top" ref="swiperTop">
           <swiper-slide v-for="image in productDetail.file " :key="image.index" class="slide-img">
@@ -31,142 +31,136 @@
         <swiper :options="swiperOptionThumbs" class="gallery-thumbs" ref="swiperThumbs">
           <swiper-slide v-for="image in productDetail.file" :key="image.index" class="slide-img">
             <v-img
-                  :src="image.path"
-                  :lazy-src="image.path"
-                  aspect-ratio="1"
-                  contain
-                  >
-                  </v-img>
+              :src="image.path == null ? imagenNoDisponible : image.path"
+              :lazy-src="image.path == null ? imagenNoDisponible : image.path"
+              aspect-ratio="2"
+              contain
+              >
+            </v-img>
             <!-- <img :src="image.link" alt=""> -->
           </swiper-slide>
         </swiper>
-      </v-flex>
-      <v-flex md6>
-        <template>
-          <v-container>
-            <v-layout row wrap mb-3 class="showTittle">
-              <v-flex md12>
-                <h2>{{productDetail.name}}</h2>
-              </v-flex>
-              <v-flex md7>
-                <span>Marca: <strong>{{productDetail.brand}}</strong></span>
-              </v-flex>
-            </v-layout>
-              <v-divider></v-divider>
-            <v-layout row wrap mb-3>
-              <v-flex xs12 md12 mt-2 order-xs1 order-md1 style="display:flex; color: #D90000;">
-                <h1>{{productDetail.price}}  </h1><p> Bs.</p>
-              </v-flex>
-              <v-flex xs12 md12 order-xs3 order-md2 mt-2>
-                <strong>Caracteristicas:</strong>
-              </v-flex>
-              <v-flex xs12 md12 order-xs4 order-md3 mt-2>
-                <ul>
-                  <li v-for="(characteristic,index) in productDetail.characteristic" :key="index">
-                    <span> {{characteristic.characteristic}}</span>
-                  </li>
-                </ul>
-              </v-flex>
-              <v-flex xs12 md12 order-xs5 order-md4 mt-2>
-                <strong>Descripcion:</strong>
-              </v-flex>
-              <v-flex xs12 md12 order-xs6 order-md5 mt-2 >
-                <span>{{productDetail.description}}</span>
-              </v-flex>
-              <v-flex xs2 md2 order-xs2 order-md6 mt-3>
-                <v-select
-                  :items="cantidad"
-                  label="Cantidad"
-                  no-data-text="no hay stock"
-                  v-model="cantidadSelected"
-                  :error="errorComboBox"
-                  outlined
-                ></v-select>
-            
-              </v-flex>
-              <v-flex xs12 md12 order-xs2 order-md7 mt-3>
-                <v-btn block color="secondary" @click="addCarrito" dark>añadir al carrito  <v-icon right dark>shopping_cart</v-icon></v-btn>
-              </v-flex>
-            </v-layout>
-          </v-container>
-        </template>
-      </v-flex>
-    </v-layout>
-    <v-layout row wrap>
-      <v-flex md12>
-        <template>
-          <v-divider></v-divider>
-          <v-container fluid  pa-0 >
-            <v-layout row >
-              <v-flex xs12 pa-2>
-              productos que te puedan interesar
-              </v-flex>
-            </v-layout>
-            <v-layout row wrap >
-              <v-flex xs6 sm4 md2 lg2 pa-2 v-for="(product,index) in productRandom" :key="index">
-                <v-hover>
-                  <v-card
-                  slot-scope="{ hover }"
-                  :class="`elevation-${hover ? 12 : 2}`"
-                  class="mx-auto eliminar-shadow"
-                  >
-                  <!-- {{product}} -->
-                    <router-link :to="{ name: 'productDetail',params: { id: product.id } }" exact>
-                      <v-img
-                        :aspect-ratio="1.6"
-                        :src="product.file[0].path"
-                        :lazy-src="product.file[0].path"
-                        contain
-                      ></v-img>
-                      <p>{{product.name}}</p>
-                      <span style="color:rgb(217, 0, 0);">{{product.price}}Bs.</span>
-                    </router-link>
-                  </v-card>
-                </v-hover>
-              </v-flex>
-            </v-layout>
-          </v-container>
-        </template>
-      </v-flex>
-    </v-layout>
-</div>
+      </v-col>
+      <v-col cols="12" md="6" class="pa-4">
+        <v-row no-gutters class="mb-3 showTittle">
+          <v-col cols="12">
+            <h2>{{productDetail.name}}</h2>
+          </v-col>
+          <v-col cols="7">
+            <span>Marca: <strong>{{productDetail.brand}}</strong></span>
+          </v-col>
+        </v-row>
+        <v-divider></v-divider>
+        <v-row no-gutters class="mb-3">
+          <v-col cols="12" md="12" class="mt-2" order="1" order-md="1" style="display:flex; color: #D90000;">
+            <h1 class="colordelprecio">{{productDetail.price}}  </h1><p> Bs.</p>
+          </v-col>
+          <v-col cols="12" md="12" order="3" order-md="2" class="mt-2">
+            <strong>Caracteristicas:</strong>
+          </v-col>
+          <v-col cols="12" md="12" order="4" order-md="3"  class="mt-2">
+            <ul>
+              <li v-for="(characteristic,index) in productDetail.characteristic" :key="index">
+                <span style=" text-transform: none;"> {{characteristic.characteristic}}</span>
+              </li>
+            </ul>
+          </v-col>
+          <v-col cols="12" md="12" order="5" order-md="4"  class="mt-2">
+           <strong>Descripcion:</strong>
+          </v-col>
+          <v-col cols="12" md="12" order="6" order-md="5" class="mt-2">
+            <span style=" text-transform: none;">{{productDetail.description}}</span>
+          </v-col>
+          <v-col cols="4" md="3" order="2" order-md="6"  class="mt-3">
+            <v-select
+                :items="cantidad"
+                label="Cantidad"
+                no-data-text="no hay stock"
+                v-model="cantidadSelected"
+                :error="errorComboBox"
+            ></v-select>
+          </v-col>
+          <v-col cols="12" md="12" order="2" order-md="7"  class="mt-2">
+            <v-btn block color="secondary" @click="addCarrito" :loading="loading" dark>a&ntilde;adir al carrito  <v-icon right dark>shopping_cart</v-icon></v-btn>
+          </v-col>
+        </v-row>
+     
+      </v-col>
+    </v-row>
+    <v-divider></v-divider>
+    <v-row no-gutters>
+      <v-col cols="12" class="pa-3">
+          <h3>  Productos que te puedan interesar</h3>
+      </v-col>
+      <v-col cols="12" sm="4" md="2" class="px-2 pt-2" v-for="(product,index) in productRandom" :key="index">
+        <v-hover>
+          <v-card class="mx-auto eliminar-shadow">
+            <router-link :to="{ name: 'productDetail',params: { id: product.id} }" >
+              <v-row no-gutters>
+                <v-col cols="5" sm="12" md="12" >
+                  <v-img
+                    :aspect-ratio="1.3"
+                    :src="product.file[0].path == null ? imagenNoDisponible : product.file[0].path"
+                    :lazy-src="product.file[0].path == null ? imagenNoDisponible : product.file[0].path"
+                    contain
+                  ></v-img>
+                </v-col>
+                <v-col cols="7" sm="12" md="12" class="pl-2 pb-2">
+                  <p>{{product.name}}</p>
+                  <span class="price"  style="color:rgb(217, 0, 0);">{{product.price}}Bs.</span>
+                </v-col>
+              </v-row>
+            </router-link>
+          </v-card>
+        </v-hover>
+      </v-col>
+    </v-row>
+  </div>
 </template>
 
 <script>
 import 'swiper/dist/css/swiper.css'
-import touch from '@/components/widgets/touchSpin/TouchSpin'
-import {ProductDetailUrl,productRandomUrl} from '@/packages/config'
+import {ProductDetailUrl,productRandomUrl,imagenNoDisponibleUrl} from '@/packages/config'
 import { swiper, swiperSlide } from 'vue-awesome-swiper'
 export default {
   components: {
     swiper,
     swiperSlide,
-    touch
   },
-  data:()=>({
-    cantidad: [],
-    cantidadSelected:'',
-    errorComboBox:true,
-    parameterId:'',
-    productDetail:'',
-    productRandom:'',
-    swiperOptionTop: {
-      initialSlide: 1,
-      spaceBetween: 20,
-      navigation: {
-        nextEl: ".swiper-button-next",
-        prevEl: ".swiper-button-prev"
-      }
-    },
-    swiperOptionThumbs: {
-      initialSlide: 1,
-      spaceBetween: 20,
-      centeredSlides: true,
-      slidesPerView: "auto",
-      touchRatio: 0.2,
-      slideToClickedSlide: true
+  data() {
+    return {
+      loading:false,
+      cantidad: [],
+      cantidadSelected:null,
+      errorComboBox:true,
+      parameterId:'',
+      productDetail:'',
+      productRandom:'',
+      swiperOptionTop: {
+        initialSlide: 1,
+        spaceBetween: 20,
+        navigation: {
+          nextEl: ".swiper-button-next",
+          prevEl: ".swiper-button-prev"
+        }
+      },
+      swiperOptionThumbs: {
+        initialSlide: 1,
+        spaceBetween: 20,
+        centeredSlides: true,
+        slidesPerView: "auto",
+        touchRatio: 0.2,
+        slideToClickedSlide: true
+      },
+      imagenNoDisponible :imagenNoDisponibleUrl,
     }
-  }),
+  },
+  metaInfo() {
+    return {
+        titleTemplate: `%s | ${this.productDetail.name}`
+    }
+  },
+ 
   created(){
     this.fillProductDetail(this.$route.params.id)
     this.fillProductRandom()
@@ -176,8 +170,10 @@ export default {
     fillProductDetail($id){
       this.$myApi.get(ProductDetailUrl+'/'+$id)
       .then(response => {
+        window.scrollTo(0,0);
         this.productDetail = response.data
         this.fillComboBoxCantidad(response.data.quantity)
+        this.fillProductRandom()
       })
     },
     fillProductRandom(){
@@ -186,19 +182,7 @@ export default {
         this.productRandom = response.data
       })
     },
-    fetchData () {
-      this.error = this.post = null
-      this.loading = true
-      // replace `getPost` with your data fetching util / API wrapper
-      getPost(this.$route.params.id, (err, post) => {
-        this.loading = false
-        if (err) {
-          this.error = err.toString()
-        } else {
-          this.post = post
-        }
-      })
-    },
+
     fillComboBoxCantidad(cantidad){
       this.cantidad = []
       if(cantidad > 0 ){
@@ -208,16 +192,44 @@ export default {
       }
     },
     async addCarrito(){
+      this.loading = true
       if(localStorage.getItem('pedido_id') == null || this.$store.state.carrito.pedido == null){
         await this.$store.dispatch('createPedido')
         // console.log('entro a crear pedido')
       }
-      let object ={
-            pedido:this.$store.state.carrito.pedido,
-            cantidadSelected : this.cantidadSelected,
-            product : this.productDetail,
+      if(this.cantidadSelected !=null){
+        let object ={
+              pedido:this.$store.state.carrito.pedido,
+              cantidadSelected : this.cantidadSelected,
+              product : this.productDetail,
+        }
+        await this.$store.dispatch('addCarrito', object).then(response => {
+          // console.log(response)
+          if(response){
+            this.$swal.fire({
+                text: 'Se agrego al carrito',
+                icon: 'success',
+                showConfirmButton: false,
+            })
+            this.loading = false
+          }else{
+            this.loading = false
+                this.$swal.fire({
+                  text: 'No se puedo agregar al carrito',
+                  icon: 'error',
+                  showConfirmButton: false,
+              })
+          }
+        })
       }
-        await this.$store.dispatch('addCarrito', object)
+      else{
+        this.loading = false
+        this.$swal.fire({
+          text: 'No se puedo agregar al carrito',
+          icon: 'error',
+          showConfirmButton: false,
+        })
+      }
     }
   },
 watch: { 
@@ -242,14 +254,6 @@ mounted() {
 </script>
 
 <style scoped>
-/* .gallery-top {
-  height: 64% !important;
-  width: 80%;
-} */
-/* .gallery-thumbs {
-  height: 20% !important;
-  width: 80%;
-} */
 .gallery-thumbs .swiper-slide {
   width: 100px;
   height: 100px;
@@ -262,16 +266,7 @@ img {
   width: inherit;
   height: inherit;
 }
-.swiper-button-prev {
-  background-image: url("data:image/svg+xml;charset=utf-8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 27 44'><path d='M0,22L22,0l2.1,2.1L4.2,22l19.9,19.9L22,44L0,22L0,22L0,22z' fill='#E78127'/></svg>") !important;
-}
 
-.swiper-button-next {
-  background-image: url("data:image/svg+xml;charset=utf-8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 27 44'><path d='M27,22L27,22L5,44l-2.1-2.1L22.8,22L2.9,2.1L5,0L27,22L27,22z' fill='#E78127'/></svg>") !important;
-}
-#product {
-  width: 400px;
-}
 .showTittleImage{
   display: none;
 }
@@ -315,5 +310,8 @@ span{
 .breadCrumbs{
   background-color: whitesmoke;
   padding: 5px 12px;
+}
+.colordelprecio{
+  color:#D90000 !important;
 }
 </style>

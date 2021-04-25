@@ -3,7 +3,10 @@ import axios from 'axios'
 import Vuex from 'vuex'
 
 const myApi = axios.create({
-    baseURL: 'http://webtrovare.test/',
+    // baseURL: 'http://webtrovare.test/',
+    // baseURL: 'http://localhost:8090/',
+    baseURL: process.env.VUE_APP_BU_BASE_URL,
+    // baseURL: 'https://www.api.ninotienda.com/',//para produccion
     headers: {
         'Authorization': `Bearer ${localStorage.getItem('access_token')}`
     }

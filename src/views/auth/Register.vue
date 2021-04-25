@@ -1,19 +1,19 @@
 <template>
   <v-app id="register" class="primary">
-    <v-content>
+    <v-main>
       <v-container fluid fill-height>
         <v-layout align-center justify-center>
           <v-flex xs12 sm8 md4 lg4>
             <v-card class="elevation-1 pa-3">
               <v-card-text>
                 <div class="layout column align-center">
-                  <router-link class="estiloTitulo" :to="{ name: 'mainPage' }"><h1 class="flex my-4 primary--text">Trovare</h1></router-link>
+                  <router-link :to="{ name: 'mainPage' }"><h1 class="flex my-4 primary--text">ni&ntilde;o tienda</h1></router-link>
                 </div> 
                 <v-form>
                   <v-text-field
-                    v-validate="'required|max:15'"
+                    v-validate="'required|min:8|max:35'"
+                    counter="35"
                     v-model="name"
-                    :counter="15"
                     :error-messages="errors.collect('name')"
                     label="Name"
                     data-vv-name="name"
@@ -58,13 +58,13 @@
               <v-btn block color="primary"  @click="register" :loading="loading">register</v-btn>
             </v-card-actions>
               <div class="text-xs-center">
-                <v-btn flat small :to="{name:'login'}">Login</v-btn>
+                <v-btn text block small :to="{name:'login'}">Login</v-btn>
               </div>
             </v-card>
           </v-flex>
         </v-layout>
       </v-container>
-    </v-content>
+    </v-main>
   </v-app>
 </template>
 <script>
@@ -83,6 +83,11 @@
       password: '',
       confirmPassword: '',
     }),
+    computed: {
+    comparePasswords () {
+      return this.password === this.confirmPassword || "Passwords do not match"
+    },
+  },
     methods: {
       register() {
         this.$validator.validateAll().then(response =>{
@@ -94,7 +99,7 @@
               password: this.password,
               role_id:2
             })
-            .then(response => {
+            .then(() => {
               this.loading = false
               this.alertName = 'Registered Successfully!'
               this.alertType='success'
@@ -102,27 +107,24 @@
                 alertName: this.alertName , alertType:this.alertType , alert:true} })
               // this.$router.push({ name: 'login' })
             })
-            .catch(error => {
+            .catch(() => {
                 this.loading = false
             })
           }
         })
       },
-      comparePasswords () {
-        return this.password !== this.confirmPassword ? 'Passwords do not match' : 'correcto'
-      },
     }
 }
 </script>
-<style scoped lang="css">
+<style scoped>
   #register {
-    height: 50%;
+    height: 50% !important;
     width: 100%;
     position: absolute;
     top: 0;
     left: 0;
     content: "";
-    z-index: 0;
+    z-index: 1;
   }
   .custom-loader {
     animation: loader 1s infinite;

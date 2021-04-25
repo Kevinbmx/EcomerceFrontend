@@ -1,3 +1,3 @@
 <template>
-  <h1> no se encuentra lo que buscabas</h1>
+  <h1> No se encuentro lo que buscabas</h1>
 </template>

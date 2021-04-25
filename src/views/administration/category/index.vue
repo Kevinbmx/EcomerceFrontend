@@ -39,8 +39,8 @@
                 </v-card-text>
                 <v-card-actions>
                   <v-spacer></v-spacer>
-                  <v-btn color="red darken-1" flat @click="ClearAndhideDialog('dialog_form')">Cerrar</v-btn>
-                  <v-btn color="blue darken-1" flat @click="categorySubmit('dialog_form')">Guardar</v-btn>
+                  <v-btn color="red darken-1" text @click="ClearAndhideDialog('dialog_form')">Cerrar</v-btn>
+                  <v-btn color="blue darken-1" text @click="categorySubmit('dialog_form')">Guardar</v-btn>
                 </v-card-actions>
               </v-card>
             </v-dialog> 
@@ -50,8 +50,8 @@
                 <v-card-text class="text-xs-center"><v-icon size=177 color="red darken-2">error</v-icon></v-card-text>
                 <v-card-actions>
                   <v-spacer></v-spacer>
-                  <v-btn color="red darken-1" flat @click="ClearAndhideDialog('dialog_delete')">Cerrar</v-btn>
-                  <v-btn color="blue darken-1" flat @click="categorySubmit('dialog_delete')">de acuerdo</v-btn>
+                  <v-btn color="red darken-1" text @click="ClearAndhideDialog('dialog_delete')">Cerrar</v-btn>
+                  <v-btn color="blue darken-1" text @click="categorySubmit('dialog_delete')">de acuerdo</v-btn>
                 </v-card-actions>
               </v-card>
             </v-dialog>
@@ -61,8 +61,8 @@
                 <!-- <v-img src="https://picsum.photos/510/300?random" aspect-ratio="2" contain></v-img> -->
                 <v-img
                 @click="onPickFile()"
-                :src="getImage.path"
-                :lazy-src="getImage.path"
+                :src="getImage.path == null ? imagenNoDisponible : getImage.path"
+                :lazy-src="getImage.path == null ? imagenNoDisponible : getImage.path"
                 aspect-ratio="2"
                 contain
                 ></v-img>
@@ -75,8 +75,8 @@
                 <!-- {{getImage}} -->
                 <v-card-actions>
                   <v-spacer></v-spacer>
-                  <v-btn color="red darken-1" flat @click="ClearAndhideDialog('dialog_image')">Cerrar</v-btn>
-                  <v-btn color="blue darken-1" flat @click="categorySubmit('dialog_image')">de acuerdo</v-btn>
+                  <v-btn color="red darken-1" text @click="ClearAndhideDialog('dialog_image')">Cerrar</v-btn>
+                  <v-btn color="blue darken-1" text @click="categorySubmit('dialog_image')">de acuerdo</v-btn>
                 </v-card-actions>
               </v-card>
             </v-dialog>
@@ -91,7 +91,7 @@
                     </v-layout>
                   </v-card-text>
                   <v-spacer></v-spacer>
-                  <v-btn color="red darken-1" flat @click="dialog_errorMatch = false">Cerrar</v-btn>
+                  <v-btn color="red darken-1" text @click="dialog_errorMatch = false">Cerrar</v-btn>
                 </v-card-actions>
               </v-card>
             </v-dialog>  
@@ -119,8 +119,7 @@
 import NodeTree from "./nodeTree";
 import { mapGetters,mapState } from 'vuex'
 import {crearCategoria,listarCategoria,eliminarCategoria,insertarImagenCategoria} from '@/packages/libreriaDeAccesos'
-
-
+import {imagenNoDisponibleUrl} from '@/packages/config'
 export default {
    props:{
     tittleDialog:{
@@ -141,7 +140,8 @@ export default {
     crearCategoriaVar : crearCategoria,
     insertarImagenCategoriaVar:insertarImagenCategoria,
     eliminarCategoriaVar:eliminarCategoria,
-    listarCategoriaVar:listarCategoria
+    listarCategoriaVar:listarCategoria,
+    imagenNoDisponible:imagenNoDisponibleUrl
   }),
   components: {
     NodeTree,
@@ -197,7 +197,7 @@ export default {
           {
             name: this.nameCategory,
             parent_id: 0,
-          }).catch(error=>{
+          }).catch(()=>{
             // console.log(error)
           })
         }
@@ -206,7 +206,7 @@ export default {
           this.$store.dispatch('addParentSubmit',
           {
             name: this.nameCategory,
-          }).catch(error=>{
+          }).catch(()=>{
             // console.log(error)
           })
         }
@@ -215,20 +215,20 @@ export default {
           this.$store.dispatch('addChildrenSubmit',
           {
             name: this.nameCategory,
-          }).catch(error=>{
+          }).catch(()=>{
             // console.log(error)
           })
         }
       else if(this.nameMethod =="deleteCategory" && this.hasPermission(this.eliminarCategoriaVar)){
         // console.log('entraaaaaaa')
         this.$store.dispatch('deleteCategorySubmit')
-          .catch(error=>{
-            console.log(error)
+          .catch(()=>{
+            // console.log(error)
           })
         }
       else if(this.nameMethod =="imageCategory"  && this.hasPermission(this.insertarImagenCategoriaVar)){
           this.$store.dispatch('createImageCategory')
-          .catch(error=>{
+          .catch(()=>{
             // console.log(error)
           })
         }
@@ -249,7 +249,7 @@ export default {
       }else{
         if(!this.dialog_image){
           this.$store.dispatch('getImageCategory')
-          .catch(error=>{
+          .catch(()=>{
             // console.log(error)
           })
         }

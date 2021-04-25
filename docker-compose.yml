@@ -1,0 +1,19 @@
+version: "3.7"
+services:
+  app:
+    build: .
+    volumes:
+      - .:/app
+    working_dir: /app
+    ports:
+      - 8099:8080
+    # command: ['yarn', 'install']
+    command: ['yarn', 'serve']  
+    # command: ['yarn', 'build']  
+    networks:
+      - ninostore
+
+networks:
+  ninostore:
+    name: network_laravel_net
+    driver: bridge

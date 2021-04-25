@@ -1,43 +1,44 @@
 <template>
-  <v-footer
-    class="py-4"
-    dark
-    height="auto"
-  >
-    <v-container mx-auto>
-      <v-layout wrap>
-        <v-flex xs9>
-          <base-btn
-            v-for="(item, i) in items"
-            :key="i"
-            :href="item.href"
-            class="ml-0 mr-3"
-            color="primary"
-            square
-            target="_blank"
-          >
-            <v-icon v-text="item.icon" />
-          </base-btn>
-        </v-flex>
-        <v-spacer />
-        <base-btn
-          class="mr-0"
-          square
-          title="Go to top"
-          @click="$vuetify.goTo(0)"
-        >
-          <v-icon>mdi-chevron-up</v-icon>
-        </base-btn>
-      </v-layout>
-    </v-container>
+  <v-footer padless style="color: #293f56;">
+    <v-col cols="12" md="12" class="text-center">
+      <!-- <a href="https://api.whatsapp.com/send?phone=59175057204">Envíanos un mensaje de WhatsApp</a> -->
+      <h2> Contactanos</h2>
+      <v-btn href="https://www.facebook.com/Ni%C3%B1o-Tienda-111040967171644" color="primary" icon  fab small dark>
+              <v-icon>facebook</v-icon>
+      </v-btn>
+         <v-btn href="https://api.whatsapp.com/send?phone=59175057204" color="primary" icon  fab small dark>
+            <v-icon>mdi-whatsapp</v-icon>
+      </v-btn>
+      <!-- <v-btn href="https://www.instagram.com/ninotienda/" color="primary" icon  fab small dark>
+        <v-icon>mdi-instagram</v-icon>
+      </v-btn> -->
+      <v-btn href="mailto:ninotienda.com@gmail.com" color="primary" icon  fab small dark>
+              <v-icon>mail_outline</v-icon>
+      </v-btn>
+      <v-btn href="https://goo.gl/maps/eFPJf3jcPjgRVZhd8" color="primary" icon  fab small dark>
+              <v-icon>directions</v-icon>
+      </v-btn>
+    </v-col>
+    <v-col
+      class="text-center"
+      cols="12"
+      style="background-color: #293F56;"
+    >
+    <span style="color:#ffff">
+      {{ new Date().getFullYear() }} — <strong>ni&ntilde;o tienda</strong></span>
+    </v-col>
   </v-footer>
 </template>
-<script>
-export default {
-
+<style scoped>
+.theme--light.v-foote{
+  /* background-color:#DBDBDB;
+  background-color:#a0a0a0; */
+  background-color:#686868;
 }
-</script>
-
-<style>
-
+.v-application ul{
+  padding-left: 13px;
+}
+ul li{
+  line-height: 30px;
+}
 </style>

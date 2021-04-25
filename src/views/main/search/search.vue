@@ -1,81 +1,107 @@
 <template>
   <div style="background:white;">
-    <!-- <v-breadcrumbs class="breadCrumbs" :items="items" divider=">"></v-breadcrumbs> -->
-      <v-layout row wrap>
-        <v-flex md12 v-if="haveProductAndCategory">
-          <v-layout row wrap mb-4 class="text-md-center" v-show="allCategory.length > 0"> 
-            <v-flex xs12 sm12 md12 lg12 mt-4 mb-3  > 
-            <span class="titleCategory">Compra por Categoria</span>
-              <!-- <h3 class="text-md-center">Compra por Categoria</h3> -->
-            </v-flex>
-            <!-- <router-link :to="{ name: 'search',query: { id: 5, page: 1} }" > first   page </router-link>
-            <router-link :to="{ name: 'search',query: { id: 5, page: 2} }" > second page </router-link> -->
-            <v-flex xs6 sm3 md3 pa-2 v-for="(category,index) in allCategory" :key="index">
-              <v-card class="eliminar-shadow">
-                <router-link :to="{ name: 'search',query: { id: category.id } }">
-                  <v-layout class="fondoNameCategory">
-                    <v-flex xs12 align-end flexbox class="quitarPadding">
-                      <span class="headline">{{category.name}}</span>
-                    </v-flex>
-                  </v-layout>
-                  <v-img
-                    class="white--text"
-                    :aspect-ratio="1.6"
-                    :src="category.path == null ? imagenNoDisponible : category.path"
-                  >
-                  </v-img>
-                </router-link>
-                <!-- <v-card-title v-show="category.children.length > 0">
-                  <div>
-                    <ul>
-                        <li v-for="(children,index) in category.children" :key="index">
-                          <router-link :to="{ name: 'perCategory',params: { id: children.id } }">
-                            {{children.name}}
-                          </router-link>
-                          </li>
-                    </ul>
-                  </div>
-                </v-card-title> -->
-              </v-card>
-            </v-flex>
-          </v-layout>
-          <v-divider></v-divider>
-          <v-layout row wrap mt-4>
-            <v-flex xs12 sm4 md2 lg2 px-2 pt-2 v-for="(product,index) in allProduct" :key="index">
-              <!-- {{product}} -->
-              <v-hover>
-                <v-card
-                slot-scope="{ hover }"
-                :class="`elevation-${hover ? 12 : 2}`"
-                class="mx-auto eliminar-shadow"
-                >
-                  <router-link :to="{ name: 'productDetail',params: { id: product.id} }" >
-                    <v-layout row wrap mpb-1>
-                      <v-flex xs5 sm12 md12>
-                        <v-img
-                          :aspect-ratio="1.3"
-                          :src="product.file[0].path"
-                          :lazy-src="product.file[0].path"
-                          contain
-                        ></v-img>
-                      </v-flex>
-                      <v-flex xs7 sm12 md12 pl-2 pb-2 >
-                        <p>{{product.name}}</p>
-                        <span  style="color:rgb(217, 0, 0);">{{product.price}}Bs.</span>
-                      </v-flex>
-                    </v-layout>
-                  </router-link>
-                </v-card>
-              </v-hover>
-              <v-divider ></v-divider>
-            </v-flex>
-          </v-layout>
-        </v-flex>
-        <v-flex v-else>
-          no se encontro ningun resultado
-        </v-flex>
+   
+    <v-row no-gutters v-if="allCategory.length > 0 || allProduct.length > 0">
+      <v-col cols="12" class="pa-2 mt-4 mb-3 text-md-center">
+         <span class="titleCategory">Compra por categoria</span>
+      </v-col>
+      <v-layout row wrap style="padding: 0 16px" >
+        <v-flex xs6 sm4 md3 xl2 pa-1 class="lg5-custom" v-for="(category,index) in allCategory" :key="index">
+      <!-- <v-col cols="12" sm="3" md="3" class="pa-2" v-for="(category,index) in allCategory" :key="index"> -->
+       <v-card class="eliminar-shadow">
+          <router-link :to="{ name: 'search',query: { id: category.id } }">
+            <!-- <v-container class="fondoNameCategory">
+            <v-layout style="color: white; ">
+              <v-flex xs12 align-end flexbox class="quitarPadding">
+                <span class="headline">{{category.name}}</span>
+              </v-flex>
+            </v-layout>
+             </v-container>
+            <v-img
+              class="white--text"
+              :aspect-ratio="1.6"
+              :src="category.path == null ? imagenNoDisponible : category.path"
+            >
+            </v-img> -->
+             <v-img
+              class="white--text"
+              :aspect-ratio="1.5"
+              :src="category.path == null ? imagenNoDisponible : category.path"
+              :lazy-src="category.path == null ? imagenNoDisponible : category.path"
+
+            >
+            <v-container class="fondoNameCategory">
+              <v-layout>
+                <v-flex xs12 align-end flexbox class="quitarPadding">
+                  <span class="headline">{{category.name}}</span>
+                </v-flex>
+              </v-layout>
+            </v-container>
+            </v-img>
+          </router-link>
+        </v-card>
+      <!-- </v-col> -->
+    </v-flex>
       </v-layout>
-    </div>
+    
+    </v-row>
+    <v-divider></v-divider>
+    <v-row no-gutters v-if="allCategory.length > 0 || allProduct.length > 0">
+      <v-col cols="12" sm="4" md="2" class="mt-4 px-2 pt-2" v-for="(product,index) in allProduct" :key="index" >
+        <v-hover>
+          <v-card class="mx-auto eliminar-shadow">
+            <router-link :to="{ name: 'productDetail',params: { id: product.id} }" >
+              <v-row no-gutters>
+                <v-col cols="5" sm="12" md="12" >
+                  <v-img
+                    :aspect-ratio="1.3"
+                     :src="product.file[0].path == null ? imagenNoDisponible : product.file[0].path"
+                    :lazy-src="product.file[0].path == null ? imagenNoDisponible : product.file[0].path"
+                    contain
+                  ></v-img>
+                </v-col>
+                <v-col cols="7" sm="12" md="12" class="pl-2 pb-2">
+                  <p>{{product.name}}</p>
+                  <span  style="color:rgb(217, 0, 0);">{{product.price}}Bs.</span>
+                </v-col>
+              </v-row>
+            </router-link>
+          </v-card>
+        </v-hover>
+      </v-col>
+      <v-col cols="12" sm="12" md="12" style="text-align:center;">
+        <div>
+          <v-btn class="ma-2" 
+              :to="{ name: 'search',query: {id:this.idQuery , q:this.qQuery, page: paginador.prev_page_url }}" 
+              outlined color="secondary"  exact
+              :disabled="!paginador.prev_page_url">
+                  anterior
+          </v-btn> 
+          <span>Pagina {{paginador.current_page}} de {{paginador.last_page}}</span>
+          <v-btn class="ma-2" 
+              :to="{ name: 'search',query: {id:this.idQuery, q:this.qQuery, page: paginador.next_page_url }}" 
+              outlined color="secondary"  exact
+              :disabled="!paginador.next_page_url">
+                  siguiente
+          </v-btn>
+        </div>
+      </v-col>
+    </v-row>
+    <v-row no-gutters v-else>
+       <v-col class="margenError" align="center" cols="12">
+          <span class="titleCategory">{{message}}</span>
+      </v-col>
+    </v-row>
+  <v-row no-gutters v-if="allCategory.length == 0 && allProduct.length == 0">
+       <v-col align="center" cols="12">
+          <v-progress-circular
+          v-show="loading"
+            indeterminate
+            color="primary"
+          ></v-progress-circular>
+      </v-col>
+    </v-row>
+  </div>
 </template>
 
 <script>
@@ -83,30 +109,39 @@ import {childPerCategoryUrl,relatedProductbyCategoryUrl,relatedProductAndCategor
 export default {
   data () {
       return {
-        allCategory:"" ,
+        loading:true,
+        message:'',
+        allCategory:"",
         allProduct:"",
         idQuery : "",
         pageQuery : "",
         qQuery : "",
         haveQquerydata : false,
-        haveProductAndCategory : true,
-        imagenNoDisponible : imagenNoDisponibleUrl
+        imagenNoDisponible : imagenNoDisponibleUrl,
+        paginador:{},
+      }
+    },
+    metaInfo() {
+      return {
+          titleTemplate: `%s | ${this.$route.query.q == null ? '' : this.$route.query.q} ${this.$route.query.id == null ? '' : this.$route.query.id}`  
       }
     },
     watch: { 
-      $route (to, from) {
+      $route () {
+        this.clearData()
         this.initializeData()
         this.haveQquery(this.haveQquerydata,this.qQuery,this.idQuery)
       }
     },
     created(){
+      this.clearData()
       this.initializeData()
       this.haveQquery(this.haveQquerydata,this.qQuery,this.idQuery)
     },
     methods:{
       haveQquery($haveQquerydata,$qQuery,$idQuery){
         if($haveQquerydata){
-          this.FieldFillBySearch($qQuery)
+          this.FieldFillBySearch($qQuery, this.pageQuery)
           // console.log('hay query')
         }else{
           // console.log('no hay query')
@@ -114,17 +149,24 @@ export default {
           this.relatedProductbyCategory($idQuery,this.pageQuery)
         }
       },
-      FieldFillBySearch($q){
-        this.$myApi.get(relatedProductAndCategorybySearch+'/'+$q)
+      FieldFillBySearch($q, $page){
+        var urlFormada = ''
+        if($page == null){
+          urlFormada = relatedProductAndCategorybySearch+'/'+$q
+        }
+        else{
+          urlFormada = relatedProductAndCategorybySearch+'/'+$q+'?page='+$page
+        }
+        this.$myApi.get(urlFormada)
         .then(response => {
           // console.log(response.data)
-          this.allCategory = response.data.category
-          this.allProduct = response.data.product
-          if(this.allCategory.length < 0 && this.allProduct.length < 0){
-            this.haveProductAndCategory = false
-          }else{
-            this.haveProductAndCategory = true
-          }
+            this.allCategory = response.data.category
+            this.allProduct = response.data.product.data
+            this.paginando(response.data.product)
+            if(this.allCategory.length <= 0 && this.allProduct.length <= 0){
+              this.message = "Lo sentimos, no se encontro ningun resultado"
+              this.loading = false
+            }
         })
       },
       fillallCategory($id){
@@ -145,6 +187,11 @@ export default {
         this.$myApi.get(urlFormada)
         .then(response => {
           this.allProduct = response.data.data
+          this.paginando(response.data)
+          if(this.allCategory.length <= 0 && this.allProduct.length <= 0){
+            this.message = "Lo sentimos, no se encontro ningun resultado"
+            this.loading = false
+          }
           // this.allProduct = response.data
           // console.log(response.data.data)
         })
@@ -159,6 +206,26 @@ export default {
           this.haveQquerydata = false
         }
         
+      },
+      paginando(data){
+        let objPaginador = {
+            current_page: data.current_page,
+            last_page: data.last_page,
+            //le sumo mas 1 para sustraer la posicion correcta de mi string
+            next_page_url: data.next_page_url == null ? null : data.next_page_url.substring(data.next_page_url.indexOf('=')+1, data.next_page_url.length),
+            prev_page_url: data.prev_page_url == null ? null : data.prev_page_url.substring(data.prev_page_url.indexOf('=')+1, data.prev_page_url.length)
+        }
+        this.paginador = objPaginador
+      },
+      clearData(){
+        this.loading = true
+        this.paginador = {}
+        this.message =''
+        this.allCategory ="" 
+        this.allProduct =""
+        this.idQuery = ""
+        this.pageQuery = ""
+        this.qQuery = ""
       }
     }
 }
@@ -179,7 +246,7 @@ span{
   line-height: 16px !important;
   font-style: normal!important;
     /* font-weight: regular !important; */
-  text-transform: uppercase;
+  text-transform: capitalize;
   /* padding: 10px 15px;
   background: rgba(0,0,0,0.3) */
 }
@@ -191,10 +258,15 @@ span{
   height: 100%;
 }
 .titleCategory{
-  font-size: 19px !important;
+  font-size: 24px !important;
     line-height: 16px !important;
     font-style: normal!important;
-    text-transform: uppercase;
+    text-transform: capitalize;
+    text-align: center !important;
+    color: #293F56;
+}
+.margenError{
+  margin-top: 15%;
 }
 .breadCrumbs{
   background-color: whitesmoke;
@@ -202,5 +274,17 @@ span{
 }
 .text-md-center{
   text-align: center;
+}
+.fondoNameCategory{
+  /* padding: 5px; */
+  padding: 10px  12px 5px 12px;
+  background: rgba(0,0,0,0.3)
+}
+@media (min-width: 1264px) and (max-width: 1903px) {
+    .flex.lg5-custom {
+        width: 20%;
+        max-width: 20%;
+        flex-basis: 20%;
+    }
 }
 </style>

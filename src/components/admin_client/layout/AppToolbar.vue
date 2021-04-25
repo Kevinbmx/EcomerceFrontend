@@ -1,33 +1,25 @@
 <template>
-  <v-toolbar
-    color="primary"
-    fixed
-    dark
-    app
+    <v-app-bar
+      color="primary"
+      dark
     >
     <v-toolbar-title class="ml-0 pl-3">
-      <v-toolbar-side-icon @click.stop="handleDrawerToggle"></v-toolbar-side-icon>
+      <v-app-bar-nav-icon @click.stop="handleDrawerToggle"></v-app-bar-nav-icon>
     </v-toolbar-title>
     <v-spacer></v-spacer>
       
-    <v-btn icon href="https://github.com/tookit/vue-material-admin">
-      <v-icon>fa fa-github</v-icon>
-    </v-btn>
     <v-btn icon @click="handleFullScreen()">
       <v-icon>fullscreen</v-icon>
     </v-btn>
-      <h3>{{getUser.name}}</h3>
-  </v-toolbar>
+      <v-toolbar-title class="ml-0 pl-3">{{getUser.name}}</v-toolbar-title>
+ </v-app-bar>
+
 </template>
 <script>
 import { mapGetters } from 'vuex'
-import NotificationList from '@/components/widgets/list/NotificationList';
 import Util from '@/util';
 export default {
   name: 'app-toolbar',
-  components: {
-    NotificationList
-  },
   data: () => ({
   
   }),
