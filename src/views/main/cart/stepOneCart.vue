@@ -28,7 +28,8 @@
                 <v-col cols="12"  md="2" sm="2">
                     <router-link :to="{ name: 'productDetail',params: { id: cart.product.id }}">
                         <v-img
-                        :src= cart.product.file[0].path
+                        :src="cart.product.file[0].path == null ? imagenNoDisponible : cart.product.file[0].path"
+                        :lazy-src="cart.product.file[0].path == null ? imagenNoDisponible : cart.product.file[0].path"
                         aspect-ratio="2"
                         contain
                         >
@@ -76,14 +77,33 @@
                         </v-col>
                     </v-row>
                 </v-col>
-                <v-col cols="12" md="3" sm="3" class="price" style="display:flex; color: #D90000 !important;">
-                    <h3>{{cart.product.price | moneda }}</h3> <p class="margin-price"> &nbsp; Bs.</p>
+                <v-col cols="12" md="3" sm="3"  style="display:flex; color: #D90000 !important; padding-left: 2%;">
+                    <h3 class="price">{{cart.product.price | moneda }}</h3> <p class="margin-price"> &nbsp; Bs.</p>
+                </v-col>
+            </v-row>
+            <v-row>
+                <v-col cols="12"  md="2" sm="2">
+                        <v-img
+                        src="img/transport.png"
+                        aspect-ratio="2"
+                        contain
+                        >
+                        </v-img>
+                </v-col>
+                <v-col cols="12" md="7" sm="7" style="text-align:center;">
+                        <v-col cols="12"  md="12">
+                            <h3>Envio dentro del 1er y 2do anillo de Montero</h3>
+                            <span> (o si no contactanos para poder hacertelo llegar)</span>
+                        </v-col>
+                </v-col>
+                <v-col cols="12" md="3" sm="3"  style="display:flex; color: #D90000 !important;">
+                    <h3 class="price">{{this.precioTransporte | moneda}}</h3> <p class="margin-price"> &nbsp; Bs.</p>
                 </v-col>
             </v-row>
             <v-divider ></v-divider>
             <v-row>
                 <v-col cols="12" style="display:flex; justify-content: flex-end;">
-                     <p>subtotal({{this.$store.getters.getCantidadCarrito +' productos'}}): &nbsp;</p> <span style="color: #D90000;">{{this.$store.getters.getSubtotalCarrito | moneda }} Bs.</span>
+                     <p>subtotal({{this.$store.getters.getCantidadCarrito+' productos'}}): &nbsp;</p> <span style="color: #D90000;">{{this.$store.getters.getSubtotalCarrito | moneda }} Bs.</span>
                 </v-col>
                 <v-col cols="12" class="align-rigth ">
                     <v-btn  color="primary" @click="validate()">
@@ -102,14 +122,20 @@
 </template>
 
 <script>
+import {mapState } from 'vuex'
 export default {
-
+ computed:{
+    ...mapState({
+            precioTransporte: state => state.carrito.precioTransporte,
+        }),
+  },
     data () {
         return {
             cantidad: [],
-            carrito:''
+            carrito:'',
         }
     },
+   
     methods:{
         eliminarItem(cart){
             this.$store.dispatch('eliminarItem',cart)
@@ -166,8 +192,5 @@ export default {
     }
     p{
         margin: 0px;
-    }
-    .price h3{
-        color: #D90000 !important ;
     }
 </style>

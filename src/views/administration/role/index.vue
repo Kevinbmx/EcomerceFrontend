@@ -25,27 +25,31 @@
                         :headers="headers"
                         :items="this.roles"
                         :search="search"
-                        :rows-per-page-items='[10,25,{"text":"$vuetify.dataIterator.rowsPerPageAll","value":-1}]'
+                        :items-per-page-options='[10,25,{"text":"$vuetify.dataIterator.rowsPerPageAll","value":-1}]'
                     >
-                        <template slot="items" slot-scope="props">
-                            <td class="text-xs-left">{{ props.item.name }}</td>
-                            <td class="text-xs-left">{{ props.item.description }}</td>
-                            <td class="layout px-0">
-                                <v-btn flat 
-                                    v-if="hasPermission(actualizarRolVar)"
-                                    icon color="primary" :to="{name: 'editRole',params: {id:props.item.id}}">
-                                    <v-icon small>
-                                        edit
-                                    </v-icon>
-                                </v-btn>
-                                <v-btn flat 
-                                    v-if="hasPermission(eliminarRolVar)"
-                                    icon color="red"  @click="openDialog(props.item.id)">
-                                    <v-icon small>
-                                        delete
-                                    </v-icon>
-                                </v-btn>
-                                </td>
+                        <template v-slot:body="{ items }">
+                                <tbody>
+                                    <tr v-for="item in items" :key="item.id">
+                                        <td class="text-xs-left">{{ item.name }}</td>
+                                        <td class="text-xs-left">{{ item.description }}</td>
+                                        <td class="layout px-0">
+                                            <v-btn text 
+                                                v-if="hasPermission(actualizarRolVar)"
+                                                icon color="primary" :to="{name: 'editRole',params: {id:item.id}}">
+                                                <v-icon small>
+                                                    edit
+                                                </v-icon>
+                                            </v-btn>
+                                            <v-btn text 
+                                                v-if="hasPermission(eliminarRolVar)"
+                                                icon color="red"  @click="openDialog(item.id)">
+                                                <v-icon small>
+                                                    delete
+                                                </v-icon>
+                                            </v-btn>
+                                        </td>
+                                    </tr>
+                                </tbody>
                         </template>
                         <v-alert slot="no-results" :value="true" color="error" icon="warning">
                         Your search for "{{ search }}" found no results.
@@ -54,18 +58,16 @@
                 </v-card-text>
                 <v-card-text style="position: relative">
                     <v-fab-transition>
-                        <v-tooltip top>
-                            <v-btn  dark
-                                v-if="hasPermission(crearRolVar)"
-                                :to="{ name: 'createRole' }"
-                                right
-                                fixed
-                                bottom
-                                fab slot="activator" color="primary">
-                                <v-icon dark>add</v-icon>
-                            </v-btn>
-                            <span>new Role</span>
-                        </v-tooltip>
+                        <v-btn  dark
+                            v-if="hasPermission(crearRolVar)"
+                            :to="{ name: 'createRole' }"
+                            right
+                            fixed
+                            bottom
+                            title="Nuevo Rol"
+                            fab slot="activator" color="primary">
+                            <v-icon dark>add</v-icon>
+                        </v-btn>
                     </v-fab-transition>
                 </v-card-text>
                 <v-dialog v-if="hasPermission(eliminarRolVar)" v-model="dialog" persistent max-width="400px">
@@ -75,8 +77,8 @@
                         </v-card-title>
                         <v-card-actions>
                         <v-spacer></v-spacer>
-                        <v-btn color="blue darken-1" flat @click="closeDialog()">cerrar</v-btn>
-                        <v-btn color="red" flat @click="deleteRole()">confirmar</v-btn>
+                        <v-btn color="blue darken-1" text @click="closeDialog()">cerrar</v-btn>
+                        <v-btn color="red" :loading="loading" text @click="deleteRole()">confirmar</v-btn>
                         </v-card-actions>
                     </v-card>
                 </v-dialog>
@@ -111,7 +113,8 @@ import { mapGetters } from 'vuex'
             listarRolVar : listarRol,
             crearRolVar : crearRol,
             actualizarRolVar : actualizarRol,
-            eliminarRolVar : eliminarRol
+            eliminarRolVar : eliminarRol,
+            loading : false
             }
         },
         created(){
@@ -137,11 +140,13 @@ import { mapGetters } from 'vuex'
                 });
             },
             deleteRole(){
+                this.loading = true
                 this.$myApi.delete(roleUrl+'/'+ this.role_id)
                 .then(response => {
                     if(response.data.hasPermission){
                         this.getAllRole()
                         this.closeDialog()
+                        this.loading = true
                     }
                     else{
                         this.$router.push({ name: 'withoutAccess' })

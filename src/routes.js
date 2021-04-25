@@ -2,7 +2,8 @@ import LoginPage from "./views/auth/Login"
 // import MainPage from "./components/administration/mainPage"
 import RegisterPage from "./views/auth/Register"
 import Logout from "./views/auth/Logout"
-
+import Forgot from "./views/auth/Forgot"
+import Reset from "./views/auth/Reset"
 
 import WithoutAccess from "./views/error/withoutAccess"
 
@@ -57,6 +58,8 @@ const routes = [
   {path: "/login", component : LoginPage, name:"login", props:true, meta:{visitor:true,public: true}},
   {path: "/register", component : RegisterPage, name:"register", meta:{visitor:true,public: true}},
   {path: "/logout", component : Logout, name:"logout", meta:{requiresAuth:true}},
+  {path: "/forgot", component : Forgot, name:"forgot", meta:{visitor:true,public: true}},
+  {path: "/reset/:token", component : Reset, name:"reset", meta:{visitor:true,public: true}},
   // //----------------------------------administracion-----------------------------------------
   {path: "/admin/withoutAccess", component:WithoutAccess, name:"withoutAccess", meta:{requiresAuth:true}},
   // //-----------------------------------Category-----------------------------------------

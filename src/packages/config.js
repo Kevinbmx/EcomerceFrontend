@@ -6,6 +6,8 @@ export const userUrl = apiDomain + 'api/user'
 export const loginUrlCustom = apiDomain + 'api/login'
 export const logoutUrl = apiDomain + 'api/logout'
 export const registertUrl = apiDomain + 'api/register'
+export const forgotPasswordtUrl = apiDomain + 'api/forgot'
+export const resetPasswordUrl = apiDomain + 'api/reset'
 //----------------------------------------------------
 //-------------------usuario by token-------------------------
 export const getUserByTokenUrl = apiDomain + 'api/getUserByToken'
@@ -69,6 +71,9 @@ export const addRolepermissionUrl = apiDomain + 'api/addRolepermission'
 //------------------------------------------------------------
 //--------------------------pedido---------------------------------
 export const pedidoSearchUrl = apiDomain + 'api/pedidoSearch'
+export const pedidoByIdAdminUrl = apiDomain + 'api/pedidoByIdAdmin'
+
+
 
 
 //----------------------------Main page-------------------------------

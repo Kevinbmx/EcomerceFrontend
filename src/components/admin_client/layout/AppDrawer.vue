@@ -3,42 +3,79 @@
     id="appDrawer"
     :mini-variant.sync="mini"
     fixed
-    :dark="$vuetify.dark"
     app
+    :dark="$vuetify.dark"
     v-model="drawer"
     width="260"
     >
     <v-toolbar color="primary darken-1" dark>
       <v-toolbar-title class="ml-0">
-        <span class="hidden-sm-and-down">Niño Tienda</span>
+        <span class="hidden-sm-and-down">ni&ntilde;o tienda</span>
       </v-toolbar-title>        
     </v-toolbar>
     <perfect-scrollbar @ps-scroll-y="onScroll" ref="scrollbar">
-        <v-list>
-          <v-subheader>Inventario</v-subheader>
+      <v-list dense expand>
       <v-list-group
         v-for="item in items"
         :key="item.title"
         v-model="item.active"
         :prepend-icon="item.action"
         no-action
+        :group="item.group"
       >
         <template v-slot:activator>
-          <v-list-item-content>
-            <v-list-item-title v-text="item.title"></v-list-item-title>
-          </v-list-item-content>
+          <v-list-item :to="item.to" ripple>
+            <v-list-item-content>
+              <v-list-item-title v-text="item.title"></v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
         </template>
 
         <v-list-item
-          v-for="subItem in item.items"
-          :key="subItem.title"
+          v-for="child in item.items"
+          :key="child.title"
+          :to="child.to"
         >
           <v-list-item-content>
-            <v-list-item-title v-text="subItem.title"></v-list-item-title>
+            <v-list-item-title v-text="child.title"></v-list-item-title>
           </v-list-item-content>
         </v-list-item>
       </v-list-group>
-    </v-list> 
+    </v-list>
+
+
+
+      
+        <!-- <v-list flat>
+          <v-subheader>Inventario</v-subheader>
+          <v-list-group
+            v-for="item in items"
+            :key="item.title"
+            v-model="item.active"
+            :prepend-icon="item.action"
+            no-action
+          >
+          <template v-slot:activator>
+              <v-list-item-icon>
+              <v-icon v-text="item.icon"></v-icon>
+            </v-list-item-icon>
+            <v-list-item-content>
+              <v-list-item-title v-text="item.title"></v-list-item-title>
+            </v-list-item-content>
+          </template>
+          <v-list-item
+            v-for="subItem in item.items"
+            :key="subItem.title"
+          >
+           <v-list-item-icon>
+            <v-icon v-text="subItem.icon"></v-icon>
+          </v-list-item-icon>
+            <v-list-item-content>
+              <v-list-item-title v-text="subItem.title"></v-list-item-title>
+            </v-list-item-content>
+        </v-list-item>
+      </v-list-group>
+    </v-list>  -->
     </perfect-scrollbar>        
   </v-navigation-drawer>
 </template>
@@ -91,14 +128,13 @@ export default {
       }
       return { name: `${item.group}/${(subItem.name)}` };
     },
-    onScroll(event) {
-      console.log(this.$refs.scrollbar.ps, event);
+    onScroll(){
+    // onScroll(event) {
+      // console.log(this.$refs.scrollbar.ps, event);
     }
   }
 };
 </script>
-
-
 <style>
 #appDrawer {
   overflow: hidden;
@@ -107,5 +143,4 @@ export default {
   height: calc(100vh - 48px);
   overflow: auto;
 }
-
 </style>

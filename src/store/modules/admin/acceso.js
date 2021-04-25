@@ -28,9 +28,14 @@ const actions = {
     if(localStorage.getItem('access_token')){
       this.$myApi.get(accesPermissionsByUserTokenUrl)
         .then(response => {
-          // console.log('acceso by user token',response)
-          dispatch('retrieveUser',response.data.user)
-          commit('retrieveAcceso', response.data.rolePermission)
+            // console.log(response)
+            // console.log('acceso by user token',response)
+            dispatch('retrieveUser',response.data.user)
+            commit('retrieveAcceso', response.data.rolePermission)
+        }) .catch(() => {
+          localStorage.removeItem('access_token')
+          localStorage.removeItem('pedido_id')
+          localStorage.removeItem('role_id')
         });
     }
   },

@@ -3,7 +3,7 @@
        <v-row >
            <v-col cols="12" sm="12" md="12">
                 <h3>Seleccione una fecha y hora de entrega</h3>
-                <p>(puedes escoger la fecha de entrega de tu pedido no mayor a 5 dias)</p>
+                <!-- <p>(Seleccionando abajo)</p> -->
             </v-col>
             <v-col cols="12" sm="6" md="6">
                 <v-date-picker
@@ -26,6 +26,7 @@
         <v-row>
             <v-col cols="12" sm="12" md="12" class="align-rigth">
                 <v-btn
+                :loading="loading"
                 color="primary"
                 @click="validate()"
                 >
@@ -44,12 +45,13 @@ export default {
     },
     data () {
         return {
-                minDate: '',
-                maxDate: '',
-                date: '',
-                picker: null,
-                showMarkDate: false
-                // disabledDates: { weekdays: [1, 7] },
+            loading:false,
+            minDate: '',
+            maxDate: '',
+            date: '',
+            picker: null,
+            showMarkDate: false
+            // disabledDates: { weekdays: [1, 7] },
         }
     },
     mounted() {
@@ -86,6 +88,7 @@ export default {
                 this.fechaEntrega()
                 this.chageEstadoPedido()
                 this.updateTotalPedido()
+                this.loading = true
                 this.$emit('next-step')
             }else{
                 this.showMarkDate = true

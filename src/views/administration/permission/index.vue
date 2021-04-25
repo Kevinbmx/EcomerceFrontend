@@ -24,21 +24,25 @@
                             :headers="headers"
                             :items="this.permissions"
                             :search="search"
-                            :rows-per-page-items='[10,25,{"text":"$vuetify.dataIterator.rowsPerPageAll","value":-1}]'
+                            :items-per-page-options='[10,25,{"text":"$vuetify.dataIterator.rowsPerPageAll","value":-1}]'
                         >
-                            <template slot="items" slot-scope="props">
-                                <td class="text-xs-left">{{ props.item.name }}</td>
-                                <td class="text-xs-left">{{ props.item.permission.length }}</td>
-                                <td class="text-xs-left layout px-0">
-                                    <v-btn flat  
-                                        v-if="hasPermission(listarPermisoVar)"
-                                        icon color="primary" 
-                                        :to="{name: 'mainPermisosPorModulo',params: {idmodule:props.item.id}}">
-                                        <v-icon small>
-                                        remove_red_eye
-                                        </v-icon>
-                                    </v-btn>
-                                    </td>
+                            <template v-slot:body="{ items }">
+                                <tbody>
+                                    <tr v-for="item in items" :key="item.id">
+                                        <td class="text-xs-left">{{ item.name }}</td>
+                                        <td class="text-xs-left">{{ item.permission.length }}</td>
+                                        <td class="text-xs-left layout px-0">
+                                            <v-btn flat  
+                                                v-if="hasPermission(listarPermisoVar)"
+                                                icon color="primary" 
+                                                :to="{name: 'mainPermisosPorModulo',params: {idmodule:item.id}}">
+                                                <v-icon small>
+                                                remove_red_eye
+                                                </v-icon>
+                                            </v-btn>
+                                        </td>
+                                    </tr>
+                                </tbody>
                             </template>
                             <v-alert slot="no-results" :value="true" color="error" icon="warning">
                             Your search for "{{ search }}" found no results.

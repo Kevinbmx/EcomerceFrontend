@@ -46,8 +46,9 @@ const state = {
     ],
     fileForDelete : [],
     maxUploadImage:4,
-    userFirebase:'kevi3195@gmail.com',
-    passFirebase:'secret!123'
+    userFirebase: process.env.VUE_APP_FI_USER_FIREBASE,
+  // passFirebase:'secret!123',
+  passFirebase: process.env.VUE_APP_FI_PASSWORK_FIREBASE
 }
 
 const getters={

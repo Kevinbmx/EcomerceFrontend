@@ -2,7 +2,7 @@
     <div>
        <v-row v-if="hasDirection" class="mx-1">
            <v-col cols="12" sm="12" md="12">
-                <h3>Seleccione una direccion o añada una nueva</h3> 
+                <h3>Seleccione una direccion o a&ntilde;ada una nueva</h3> 
                 <br>
                 <v-divider></v-divider>
            </v-col>

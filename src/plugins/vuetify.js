@@ -6,6 +6,9 @@ import colors from 'vuetify/es5/util/colors'
 Vue.use(Vuetify)
 
 const vuetify = new Vuetify({
+  icons: {
+    iconfont: 'mdiSvg', // 'mdi' || 'mdiSvg' || 'md' || 'fa' || 'fa4' || 'faSvg'
+  },
   theme: {
     themes: {
       light: {

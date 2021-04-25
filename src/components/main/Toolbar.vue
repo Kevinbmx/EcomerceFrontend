@@ -2,7 +2,7 @@
   <v-card tile dark class="primary"> 
     <v-row no-gutters class="pt-2 pb-2">
       <v-col cols="4" sm="2" md="2"  align="center" class="centrarcss" justify="center" order="1" order-sm="1" order-md="1">
-        <router-link class="estiloTitulo" :to="{ name: 'mainPage' }"><label> Niño Tienda</label></router-link>
+        <router-link class="estiloTitulo" :to="{ name: 'mainPage' }">ni&ntilde;o tienda</router-link>
       </v-col>
       <v-col cols="12" xs="12" sm="6" md="7" order="3" order-sm="2" order-md="2">
         <v-text-field
@@ -32,7 +32,7 @@
             <label>Mi Cuenta</label>
             <v-icon size="18">account_circle</v-icon>
           </v-btn>
-          <v-btn text :to="{ name: 'carrito'}"  >
+          <v-btn text @click="goToCarrito()" :to="{ name: 'carrito'}" >
             <label>carrito({{this.$store.getters.getCantidadCarrito}})</label>
             <v-icon size="18">shopping_cart</v-icon>
           </v-btn>
@@ -114,6 +114,7 @@ export default {
        openMenuMain() {
         if(!localStorage.getItem('access_token')){
           this.$router.push({name: 'login'})
+          // location.reload();
         }else{
           this.$vuetify.goTo(0);
           this.rightDrawer = (!this.rightDrawer);
@@ -122,6 +123,8 @@ export default {
       cerrarSesion() {
         this.$store.dispatch('destroyToken')
         .then(() => {
+          this.fillCarrito()
+          // location.reload();
           this.openMenuMain()
         })
       },
@@ -150,11 +153,12 @@ export default {
           this.$router.push({ name: 'search', query: { q: this.searchField } })
         }
       },
- 
+      goToCarrito(){
+        this.fillCarrito()
+      },
       fillCarrito(){
         var pedido_id = localStorage.getItem('pedido_id')
         var token = localStorage.getItem('access_token')
-
         if(pedido_id == null && token != null){
           this.$store.dispatch('selectPedidoByUserId')
           .then(response => {
@@ -235,13 +239,15 @@ export default {
               // })
             }
           })
+        }else{
+           this.$store.dispatch('pedidoAndCarritoVaciar')
         }
       }
     }
 }
 </script>
 
-<style  scoped>
+<style scoped>
   .v-text-field__details{
     display: none;
   }
@@ -251,6 +257,7 @@ export default {
   .remove-shadow{
     -webkit-box-shadow:none !important;
     box-shadow:none !important;
+    font-size: 18px;
   }
   .full-with{
     width: 100%;
@@ -258,7 +265,9 @@ export default {
   .estiloTitulo{
     color:#fff !important;
     text-decoration:none;   
-    font-family: 'Roboto', sans-serif;
+    /* font-family: 'Roboto', sans-serif; */
+    /* font-family: 'Courgette' !important; */
+    font-size: 18px;
     line-height: 1.5;
   }
   .v-btn__content{

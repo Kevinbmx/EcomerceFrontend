@@ -24,14 +24,14 @@
                 </v-img>
                 
                 <v-card-actions>
-                    <v-btn flat color="orange" @click="onPickFile(index)">Upload Image</v-btn>
+                    <v-btn text color="orange" @click="onPickFile(index)">Upload Image</v-btn>
                     <input
                         type="file"
                         style="display: none"
                         ref="fileInput"
                         accept="image/*"
                         @change="onFilePicked">
-                    <v-btn flat color="orange" v-show="dessapearDeleteButton" @click="deleteFileImage(index)">delete</v-btn>
+                    <v-btn text color="orange" v-show="dessapearDeleteButton" @click="deleteFileImage(index)">delete</v-btn>
                 </v-card-actions>
             </v-card>
         </v-flex>

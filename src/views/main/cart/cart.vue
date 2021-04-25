@@ -68,7 +68,7 @@ export default {
         },
         updateProductAndPedido(){
             this.$swal.fire({
-                text: 'se ha confirmado tu pedido',
+                text: 'Se ha confirmado tu pedido, espere un momento.',
                 icon: 'success',
                 showConfirmButton: false,
             })
@@ -79,6 +79,8 @@ export default {
                     this.$store.dispatch('updatePedido',localStorage.pedido_id)
                     .then(response3=>{
                         if (response3 == true){
+                            localStorage.removeItem('pedido_id')
+                            this.$router.push({ name: 'pedido' })
                             location.reload()
                         }
                     })

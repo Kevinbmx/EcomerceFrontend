@@ -1,5 +1,6 @@
 <template>
     <div id="pageIndexCategory">
+        <v-container>
         <v-card>
             <v-card-title>
                 Agregar Modulos
@@ -28,9 +29,9 @@
                                 required
                                 v-model="nameModule">
                             </v-text-field>
-                                <v-btn
-                                outline
-                                color="primary"
+                            <v-btn
+                                outlined
+                                color="secundary"
                                 :to="{name: 'mainModule'}"
                                 >
                                 cancelar
@@ -38,6 +39,7 @@
                             <v-btn
                                 color="primary"
                                 @click="save()"
+                                :loading="loading"
                                 >
                                 guardar
                             </v-btn>
@@ -46,6 +48,7 @@
                 </v-container>
             </v-form>
         </v-card>
+        </v-container>
     </div>
 </template>
 
@@ -55,6 +58,7 @@ import {moduleUrl} from '../../../packages/config'
 export default {
 data () {
       return {
+            loading:false,
             nameModule:'',
             id : "",
             crearModuloVar:crearModulo
@@ -75,6 +79,7 @@ data () {
     },
     methods:{
         save(){
+            this.loading = true
             if(this.$route.meta.mode === 'edit') {
                 this.$myApi.post(moduleUrl+'/'+this.id,{
                     name: this.nameModule

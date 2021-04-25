@@ -12,7 +12,8 @@ const state = {
         phone_number:''
     },
     directions : [],
-    hasDirection:false
+    hasDirection:false,
+    precioTransporte:10
 }
 
 const getters = {
@@ -31,8 +32,9 @@ const getters = {
         for (let x = 0; x < state.carrito.length; x++) {
             subtotal = subtotal + (state.carrito[x].price *state.carrito[x].quantity)
         }
-        return subtotal
+        return subtotal + state.precioTransporte
     },
+   
 }
 
 const mutations = {
@@ -87,7 +89,7 @@ const mutations = {
     },
     updatePedido(state, objPedido){
         state.pedido = objPedido
-        localStorage.removeItem('pedido_id')
+        // localStorage.removeItem('pedido_id')
     },
     fecha_entrega(state, date){
         state.pedido.fecha_entrega = date
@@ -100,6 +102,10 @@ const mutations = {
     },
     change_user_id_pedido(state,estado){
         state.pedido.user_id = estado
+    },
+    pedidoAndCarritoVaciar(state){
+        state.pedido = null
+        state.carrito=[]
     }
 }
 
@@ -142,7 +148,9 @@ const actions = {
             })
         })
     },
-
+    pedidoAndCarritoVaciar(context){
+        context.commit('pedidoAndCarritoVaciar')
+    },
     addCarrito({ dispatch, getters },obj){
         return new Promise((resolve) => {
             var cartObtained = getters.searchCarritoById(obj.product.id)

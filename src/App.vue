@@ -1,21 +1,25 @@
 <template>
   <div id="appRoot">
     <template v-if="!$route.meta.public">
-      <v-app id="inspire" class="app">
-        <app-drawer class="app--drawer"></app-drawer>
-        <app-toolbar class="app--toolbar"></app-toolbar>
-        <v-main>
-          <!-- Page Header -->
-          <page-header v-if="$route.meta.breadcrumb"></page-header>
-          <div class="page-wrapper">
-            <router-view></router-view>
-          </div>   
-          <!-- App Footer -->
-          <footers></footers>
-        </v-main>
-        <!-- Go to top -->
-        <app-fab></app-fab>
-        <!-- theme setting -->
+      <v-app 
+        class="app mx-auto overflow-hidden"
+        height="400"
+      >
+            <v-main>
+            <app-toolbar ></app-toolbar>
+            <app-drawer ></app-drawer>
+              <!-- Page Header -->
+              <page-header v-if="$route.meta.breadcrumb"></page-header>
+              <div class="page-wrapper">
+                <router-view></router-view>
+              </div>   
+              <!-- App Footer -->
+              <footers></footers>
+            <!-- Go to top -->
+            <app-fab></app-fab>
+            <!-- theme setting -->
+            </v-main>
+        
       </v-app>
     </template>
     <template v-else>
@@ -71,22 +75,17 @@ export default {
       color: '',
     }
   }),
+   metaInfo: {
+    // if no subcomponents specify a metaInfo.title, this title will be used
+    title: 'niño tienda',
+    // all titles will be injected into this template
+    titleTemplate: '%s | Tienda online donde encontraras de todo'
+  },
   created () {
     this.retrieveAcceso()
-    // AppEvents.forEach(item => {
-    //   this.$on(item.name, item.callback);
-    // });
     window.getApp = this;
   },
   methods: {
-    // openMenuMain() {
-    //   if(!localStorage.getItem('access_token')){
-    //     this.$router.push({name: 'login'})
-    //   }else{
-    //     this.$vuetify.goTo(0);
-    //     this.rightDrawer = (!this.rightDrawer);
-    //   }
-    // },
     retrieveAcceso(){
       //console.log('esta viendo los accesos')
       this.$store.dispatch('retrieveAcceso')

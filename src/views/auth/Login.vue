@@ -7,7 +7,7 @@
             <v-card class="elevation-1 pa-3">
               <v-card-text>
                 <div class="layout column align-center">
-                  <router-link class="estiloTitulo" :to="{ name: 'mainPage' }"><h1 class="flex my-4 primary--text">Niño Tienda</h1></router-link>
+                  <router-link :to="{ name: 'mainPage' }"><h1 class="flex my-4 primary--text">ni&ntilde;o tienda</h1></router-link>
                 </div>   
                   <v-alert
                     v-model='alert'
@@ -20,13 +20,13 @@
                   <v-text-field
                     v-validate="'required|email'"
                     append-icon="person"
-                    name="login" 
-                    label="Login" 
+                    name="email" 
+                    label="email" 
                     type="text" 
-                    :error-messages="errors.collect('username')"
-                    data-vv-name="username"
+                    :error-messages="errors.collect('email')"
+                    data-vv-name="email"
                     required
-                    v-model="username">
+                    v-model="email">
                    </v-text-field>
                   <v-text-field 
                     v-validate="'required'"
@@ -42,6 +42,7 @@
                     v-model="password">
                     </v-text-field>
                 </v-form>
+                    <router-link to="forgot">¿olvidaste tu contrase&ntilde;a?</router-link>
               </v-card-text>
               <v-card-actions>
                 <!-- <v-spacer></v-spacer> -->
@@ -71,7 +72,7 @@ export default {
     },
     alertName:{
       type:String,
-      default: 'su correo o su contraseña es incorrecta'
+      default: 'su correo o su contrase&ntilde;a es incorrecta'
     },
     alertType:{
       type:String,
@@ -80,9 +81,9 @@ export default {
   },
   data: () => ({
     loading: false,
-      // username: 'admin@admin.com',
+      // email: 'admin@admin.com',
       // password: 'secret'
-      username: '',
+      email: '',
       password: ''
   }),
   methods: {
@@ -91,7 +92,7 @@ export default {
         if(response){
           this.loading = true
           this.$store.dispatch('retrieveToken',{
-            username:this.username,
+            username:this.email,
             password:this.password,
           })
           .then(response =>{

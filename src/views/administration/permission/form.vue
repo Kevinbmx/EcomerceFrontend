@@ -29,7 +29,7 @@
                                 v-model="namePermission">
                             </v-text-field>
                             <v-btn
-                                outline
+                                outlined
                                 color="primary"
                                 :to="{name: 'mainPermisosPorModulo'}"
                                 >
@@ -38,6 +38,7 @@
                             <v-btn
                                 color="primary"
                                 @click="save()"
+                                :loading="loading"
                                 >
                                 guardar
                             </v-btn>
@@ -60,7 +61,8 @@ data () {
             idmodule:'',
             idpermission:'',
             nameModule:'',
-            crearPermisoVar : crearPermiso
+            crearPermisoVar : crearPermiso,
+            loading:false
       }
     },
     created(){
@@ -85,6 +87,7 @@ data () {
     },
     methods:{
         save(){
+            this.loading = true
             if(this.$route.meta.mode === 'edit') {
                 this.$myApi.post(permissionUrl+'/'+this.idpermission,{
                     name: this.namePermission,

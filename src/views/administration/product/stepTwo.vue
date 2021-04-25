@@ -39,24 +39,18 @@
           </v-text-field>
         </v-flex>
         <v-flex xs3 sm1 md1 v-show="charact.state !== 'delete'" >
-          <v-tooltip top>
-            <v-btn @click="deleteCharacteristic(index)"   slot="activator" flat icon color="red">
+            <v-btn title="eliminar caracteristica" @click="deleteCharacteristic(index)" text icon color="red">
               <v-icon>delete</v-icon>
             </v-btn>
-             <span>eliminar caracteristica</span>
-          </v-tooltip>
         </v-flex>
       </v-layout>
       <v-layout  wrap
         justify-space-between>
         <v-flex xs12
               md12>
-          <v-tooltip top>
-            <v-btn @click="addCharacteristic()"   slot="activator" flat icon color="primary">
+            <v-btn title="a&ntilde;adir nueva caracteristica" @click="addCharacteristic()" text icon color="primary">
               <v-icon>add_circle</v-icon>
             </v-btn>
-            <span>new characteristic</span>
-          </v-tooltip>
         </v-flex>
         <v-flex xs12
               md12>

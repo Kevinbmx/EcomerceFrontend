@@ -1,9 +1,8 @@
 const Menu =  [
   {
     title: 'Seguridad',
-    group: 'inventario',
-    icon: 'security',
-    
+    group: 'seguridad',
+    action: 'security',
     items:[
       { title: 'Modulo',
         to:{name:'mainModule'},
@@ -24,15 +23,15 @@ const Menu =  [
   },
   {
     title: 'Categoria',
-    group: 'inventario',
-    icon: 'dashboard',
+    group: 'categoria',
+    action: 'dashboard',
     name: 'Categoria',
     to:{name:'mainCategory'}
   },
   {
     title: 'Producto',
-    group: 'inventario',
-    icon: 'description',
+    group: 'producto',
+    action: 'description',
     // target: '_blank',
     name: 'Producto',
     to:{name:'mainProduct'}
@@ -40,7 +39,7 @@ const Menu =  [
   {
     title: 'Pedido',
     group: 'pedido',
-    icon: 'list_alt',
+    action: 'list_alt',
     // target: '_blank',
     name: 'pedido',
     to:{name:'mainPedido'}
@@ -48,7 +47,7 @@ const Menu =  [
   {
     title: 'Cerrar Sesion',
     group: 'logout',
-    icon: 'exit_to_app',
+    action: 'exit_to_app',
     name: 'logout',
     to:{name:'logout'}
   },

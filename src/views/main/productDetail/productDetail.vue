@@ -1,5 +1,5 @@
 <template>
-  <div style="background:white;">
+  <div style="background:white; color: #293f56;">
     <v-row no-gutters class="mb-3">
       <v-col cols="12" md="6" >
         <v-container>
@@ -31,12 +31,12 @@
         <swiper :options="swiperOptionThumbs" class="gallery-thumbs" ref="swiperThumbs">
           <swiper-slide v-for="image in productDetail.file" :key="image.index" class="slide-img">
             <v-img
-                  :src="image.path"
-                  :lazy-src="image.path"
-                  aspect-ratio="1"
-                  contain
-                  >
-                  </v-img>
+              :src="image.path == null ? imagenNoDisponible : image.path"
+              :lazy-src="image.path == null ? imagenNoDisponible : image.path"
+              aspect-ratio="2"
+              contain
+              >
+            </v-img>
             <!-- <img :src="image.link" alt=""> -->
           </swiper-slide>
         </swiper>
@@ -53,7 +53,7 @@
         <v-divider></v-divider>
         <v-row no-gutters class="mb-3">
           <v-col cols="12" md="12" class="mt-2" order="1" order-md="1" style="display:flex; color: #D90000;">
-            <h1>{{productDetail.price}}  </h1><p> Bs.</p>
+            <h1 class="colordelprecio">{{productDetail.price}}  </h1><p> Bs.</p>
           </v-col>
           <v-col cols="12" md="12" order="3" order-md="2" class="mt-2">
             <strong>Caracteristicas:</strong>
@@ -61,7 +61,7 @@
           <v-col cols="12" md="12" order="4" order-md="3"  class="mt-2">
             <ul>
               <li v-for="(characteristic,index) in productDetail.characteristic" :key="index">
-                <span> {{characteristic.characteristic}}</span>
+                <span style=" text-transform: none;"> {{characteristic.characteristic}}</span>
               </li>
             </ul>
           </v-col>
@@ -69,7 +69,7 @@
            <strong>Descripcion:</strong>
           </v-col>
           <v-col cols="12" md="12" order="6" order-md="5" class="mt-2">
-            <span>{{productDetail.description}}</span>
+            <span style=" text-transform: none;">{{productDetail.description}}</span>
           </v-col>
           <v-col cols="4" md="3" order="2" order-md="6"  class="mt-3">
             <v-select
@@ -81,7 +81,7 @@
             ></v-select>
           </v-col>
           <v-col cols="12" md="12" order="2" order-md="7"  class="mt-2">
-            <v-btn block color="secondary" @click="addCarrito" dark>añadir al carrito  <v-icon right dark>shopping_cart</v-icon></v-btn>
+            <v-btn block color="secondary" @click="addCarrito" :loading="loading" dark>a&ntilde;adir al carrito  <v-icon right dark>shopping_cart</v-icon></v-btn>
           </v-col>
         </v-row>
      
@@ -90,7 +90,7 @@
     <v-divider></v-divider>
     <v-row no-gutters>
       <v-col cols="12" class="pa-3">
-          productos que te puedan interesar
+          <h3>  Productos que te puedan interesar</h3>
       </v-col>
       <v-col cols="12" sm="4" md="2" class="px-2 pt-2" v-for="(product,index) in productRandom" :key="index">
         <v-hover>
@@ -100,14 +100,14 @@
                 <v-col cols="5" sm="12" md="12" >
                   <v-img
                     :aspect-ratio="1.3"
-                    :src="product.file[0].path"
-                    :lazy-src="product.file[0].path"
+                    :src="product.file[0].path == null ? imagenNoDisponible : product.file[0].path"
+                    :lazy-src="product.file[0].path == null ? imagenNoDisponible : product.file[0].path"
                     contain
                   ></v-img>
                 </v-col>
                 <v-col cols="7" sm="12" md="12" class="pl-2 pb-2">
                   <p>{{product.name}}</p>
-                  <span  style="color:rgb(217, 0, 0);">{{product.price}}Bs.</span>
+                  <span class="price"  style="color:rgb(217, 0, 0);">{{product.price}}Bs.</span>
                 </v-col>
               </v-row>
             </router-link>
@@ -120,37 +120,47 @@
 
 <script>
 import 'swiper/dist/css/swiper.css'
-import {ProductDetailUrl,productRandomUrl} from '@/packages/config'
+import {ProductDetailUrl,productRandomUrl,imagenNoDisponibleUrl} from '@/packages/config'
 import { swiper, swiperSlide } from 'vue-awesome-swiper'
 export default {
   components: {
     swiper,
     swiperSlide,
   },
-  data:()=>({
-    cantidad: [],
-    cantidadSelected:'',
-    errorComboBox:true,
-    parameterId:'',
-    productDetail:'',
-    productRandom:'',
-    swiperOptionTop: {
-      initialSlide: 1,
-      spaceBetween: 20,
-      navigation: {
-        nextEl: ".swiper-button-next",
-        prevEl: ".swiper-button-prev"
-      }
-    },
-    swiperOptionThumbs: {
-      initialSlide: 1,
-      spaceBetween: 20,
-      centeredSlides: true,
-      slidesPerView: "auto",
-      touchRatio: 0.2,
-      slideToClickedSlide: true
+  data() {
+    return {
+      loading:false,
+      cantidad: [],
+      cantidadSelected:null,
+      errorComboBox:true,
+      parameterId:'',
+      productDetail:'',
+      productRandom:'',
+      swiperOptionTop: {
+        initialSlide: 1,
+        spaceBetween: 20,
+        navigation: {
+          nextEl: ".swiper-button-next",
+          prevEl: ".swiper-button-prev"
+        }
+      },
+      swiperOptionThumbs: {
+        initialSlide: 1,
+        spaceBetween: 20,
+        centeredSlides: true,
+        slidesPerView: "auto",
+        touchRatio: 0.2,
+        slideToClickedSlide: true
+      },
+      imagenNoDisponible :imagenNoDisponibleUrl,
     }
-  }),
+  },
+  metaInfo() {
+    return {
+        titleTemplate: `%s | ${this.productDetail.name}`
+    }
+  },
+ 
   created(){
     this.fillProductDetail(this.$route.params.id)
     this.fillProductRandom()
@@ -160,8 +170,10 @@ export default {
     fillProductDetail($id){
       this.$myApi.get(ProductDetailUrl+'/'+$id)
       .then(response => {
+        window.scrollTo(0,0);
         this.productDetail = response.data
         this.fillComboBoxCantidad(response.data.quantity)
+        this.fillProductRandom()
       })
     },
     fillProductRandom(){
@@ -180,31 +192,44 @@ export default {
       }
     },
     async addCarrito(){
+      this.loading = true
       if(localStorage.getItem('pedido_id') == null || this.$store.state.carrito.pedido == null){
         await this.$store.dispatch('createPedido')
         // console.log('entro a crear pedido')
       }
-      let object ={
-            pedido:this.$store.state.carrito.pedido,
-            cantidadSelected : this.cantidadSelected,
-            product : this.productDetail,
-      }
-      await this.$store.dispatch('addCarrito', object).then(response => {
-        console.log(response)
-        if(response){
+      if(this.cantidadSelected !=null){
+        let object ={
+              pedido:this.$store.state.carrito.pedido,
+              cantidadSelected : this.cantidadSelected,
+              product : this.productDetail,
+        }
+        await this.$store.dispatch('addCarrito', object).then(response => {
+          // console.log(response)
+          if(response){
             this.$swal.fire({
-                text: 'se agrego al carrito',
+                text: 'Se agrego al carrito',
                 icon: 'success',
                 showConfirmButton: false,
             })
-        }else{
-              this.$swal.fire({
-                text: 'no se puedo agregar al carrito',
-                icon: 'error',
-                showConfirmButton: false,
-            })
-        }
-      })
+            this.loading = false
+          }else{
+            this.loading = false
+                this.$swal.fire({
+                  text: 'No se puedo agregar al carrito',
+                  icon: 'error',
+                  showConfirmButton: false,
+              })
+          }
+        })
+      }
+      else{
+        this.loading = false
+        this.$swal.fire({
+          text: 'No se puedo agregar al carrito',
+          icon: 'error',
+          showConfirmButton: false,
+        })
+      }
     }
   },
 watch: { 
@@ -285,5 +310,8 @@ span{
 .breadCrumbs{
   background-color: whitesmoke;
   padding: 5px 12px;
+}
+.colordelprecio{
+  color:#D90000 !important;
 }
 </style>

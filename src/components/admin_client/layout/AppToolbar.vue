@@ -1,9 +1,7 @@
 <template>
-  <v-toolbar
-    color="primary"
-    fixed
-    dark
-    app
+    <v-app-bar
+      color="primary"
+      dark
     >
     <v-toolbar-title class="ml-0 pl-3">
       <v-app-bar-nav-icon @click.stop="handleDrawerToggle"></v-app-bar-nav-icon>
@@ -13,11 +11,9 @@
     <v-btn icon @click="handleFullScreen()">
       <v-icon>fullscreen</v-icon>
     </v-btn>
-      <v-btn icon @click.stop="handleDrawerToggle">
-      <v-icon>fullscreen</v-icon>
-    </v-btn>
-      <h3>{{getUser.name}}</h3>
-  </v-toolbar>
+      <v-toolbar-title class="ml-0 pl-3">{{getUser.name}}</v-toolbar-title>
+ </v-app-bar>
+
 </template>
 <script>
 import { mapGetters } from 'vuex'

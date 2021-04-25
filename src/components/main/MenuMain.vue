@@ -73,7 +73,7 @@ import { mapGetters } from 'vuex'
       //   // this.openMenuMain();
       // },
       openMenuMain() {
-          console.log('entro al menu')
+          // console.log('entro al menu')
         if(!localStorage.getItem('access_token')){
           this.$router.push({name: 'login'})
         }else{

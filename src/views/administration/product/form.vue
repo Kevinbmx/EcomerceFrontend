@@ -1,38 +1,35 @@
 <template>
   <div id="pageIndexCategory">
-      <v-container grid-list-xl fluid>
-        <v-stepper v-model="stepper">
-            <v-stepper-header>
-                <div class="step" v-for="(step, index) in steps" :key=index>
-                <v-stepper-step
-                    :edit-icon="'check'"
-                    :complete-icon="'edit'"
-                    :step="index + 1"
-                    :complete="(index + 1 ) <= stepper"
-                    :editable="(index + 1) < stepper">{{ step.label }}</v-stepper-step>
-                <v-divider></v-divider>
-            </div>
-            </v-stepper-header>
+        <v-container grid-list-xl >
+            <v-stepper v-model="stepper">
+                <v-stepper-header>
+                    <div class="step" v-for="(step, index) in steps" :key=index>
+                    <v-stepper-step
+                        :edit-icon="'check'"
+                        :complete-icon="'edit'"
+                        :step="index + 1"
+                        :complete="(index + 1 ) <= stepper"
+                        :editable="(index + 1) < stepper">{{ step.label }}</v-stepper-step>
+                    <v-divider></v-divider>
+                </div>
+                </v-stepper-header>
 
-            <v-stepper-items>
-                <v-stepper-content step="1">
-                    <step-one @next-step="nextStep(2)"></step-one>
-                </v-stepper-content>
+                <v-stepper-items>
+                    <v-stepper-content  step="1" style="pading: 0px;">
+                        <step-one @next-step="nextStep(2)"></step-one>
+                    </v-stepper-content>
 
-                <v-stepper-content step="2">
-                    <step-two @next-step="nextStep(3)"></step-two>
-                </v-stepper-content>
+                    <v-stepper-content step="2">
+                        <step-two @next-step="nextStep(3)"></step-two>
+                    </v-stepper-content>
 
-                <!-- <v-stepper-content step="3">
-                    <step-three @next-step="finish()"></step-three>
-                </v-stepper-content> -->
-                 <v-stepper-content step="3">
-                    <step-four @next-step="finish()" ></step-four>
-                </v-stepper-content>
-            </v-stepper-items>
-        </v-stepper>
-      </v-container>
-  </div>
+                    <v-stepper-content step="3">
+                        <step-four @next-step="finish()" ></step-four>
+                    </v-stepper-content>
+                </v-stepper-items>
+            </v-stepper>
+        </v-container>
+    </div>
 </template>
 
 <script>
@@ -57,7 +54,7 @@ data () {
       return {
         crearProductoVar: crearProducto,
         method:'post',
-        stepper: 0,
+        stepper: 1,
         steps: [
             {
                 label: 'product',

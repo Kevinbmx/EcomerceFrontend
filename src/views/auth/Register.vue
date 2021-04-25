@@ -7,13 +7,13 @@
             <v-card class="elevation-1 pa-3">
               <v-card-text>
                 <div class="layout column align-center">
-                  <router-link class="estiloTitulo" :to="{ name: 'mainPage' }"><h1 class="flex my-4 primary--text">Niño Tienda</h1></router-link>
+                  <router-link :to="{ name: 'mainPage' }"><h1 class="flex my-4 primary--text">ni&ntilde;o tienda</h1></router-link>
                 </div> 
                 <v-form>
                   <v-text-field
-                    v-validate="'required|max:15'"
+                    v-validate="'required|min:8|max:35'"
+                    counter="35"
                     v-model="name"
-                    :counter="15"
                     :error-messages="errors.collect('name')"
                     label="Name"
                     data-vv-name="name"
@@ -83,6 +83,11 @@
       password: '',
       confirmPassword: '',
     }),
+    computed: {
+    comparePasswords () {
+      return this.password === this.confirmPassword || "Passwords do not match"
+    },
+  },
     methods: {
       register() {
         this.$validator.validateAll().then(response =>{
@@ -107,9 +112,6 @@
             })
           }
         })
-      },
-      comparePasswords () {
-        return this.password !== this.confirmPassword ? 'Passwords do not match' : 'correcto'
       },
     }
 }

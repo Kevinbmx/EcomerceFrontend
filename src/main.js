@@ -7,31 +7,26 @@ import store from './store/store'
 import VeeValidate from "vee-validate";
 import VueSweetalert2 from 'vue-sweetalert2';
 import 'sweetalert2/dist/sweetalert2.min.css';
-// import * as VeeValidate from 'vee-validate';
-// import * as firebase from 'firebase'
 import * as firebase from "firebase/app";
-// import VueAwesomeSwiper from 'vue-awesome-swiper'
-// import 'swiper/swiper-bundle.css'
 import api from '@/services/custom_axios'
 import "./filters/filters.js";
 import * as VueGoogleMaps from 'vue2-google-maps'
-// import firebase from 'firebase/app';
 import 'firebase/storage';
 import PerfectScrollbar from 'vue2-perfect-scrollbar'
 import 'vue2-perfect-scrollbar/dist/vue2-perfect-scrollbar.css'
+import VueMeta from 'vue-meta'
+
+Vue.use(VueMeta)
 
 Vue.use(PerfectScrollbar)
 
 Vue.use(VeeValidate);
-// Vue.use(VueAwesomeSwiper)
 Vue.use(VueSweetalert2);
 Vue.use(VueRouter)
 const router = new VueRouter({
   mode:'history',
   routes
 })
-// Vue.use(VueAwesomeSwiper, /* { default global options } */)
-
 Vue.use(VueGoogleMaps, {
   load: {
     key: process.env.VUE_APP_GM_KEY,
@@ -44,7 +39,6 @@ Vue.use(VueGoogleMaps, {
 router.beforeEach((to, from, next) => {
   for (let matched = (to.matched || []), i = matched.length; i--;) {
       let route = matched[i];
-
       if (route.meta.beforeEach) {
           route.meta.beforeEach(to, from, next);
       }

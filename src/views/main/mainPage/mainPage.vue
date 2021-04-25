@@ -26,7 +26,7 @@
     </v-row>
     <v-row no-gutters>
       <v-col cols="12" class="pa-2">
-        <h3>Compra por Categorias</h3>
+        <h3>Busca por categorias</h3>
       </v-col>
     </v-row>
     <v-row no-gutters>
@@ -34,20 +34,40 @@
           <v-card
           class="eliminar-shadow"
           >
+
             <router-link :to="{ name: 'search',query: { id: category.id } }">
+              <v-img
+                class="white--text"
+                :aspect-ratio="1.6"
+                :src="category.path"
+              >
+              <!-- <v-container > -->
+                <v-layout class="fondoNameCategory">
+                  <v-flex xs12 align-end flexbox class="quitarPadding">
+                    <span class="headline">{{category.name}}</span>
+                  </v-flex>
+                </v-layout>
+              <!-- </v-container> -->
+              </v-img>
+            </router-link>
+
+
+
+
+            <!-- <router-link :to="{ name: 'search',query: { id: category.id } }">
               <v-img
                 :aspect-ratio="1.7"
                 :src="category.path"
                 :lazy-src="category.path"
               ></v-img>
               <h4>{{category.name}}</h4>
-            </router-link>
+            </router-link> -->
           </v-card>
       </v-col>
     </v-row>
     <v-row no-gutters>
       <v-col cols="12" class="pa-2">
-        <h3>Algunos de Nuestro Producto</h3>
+        <h3>Algunos de nuestros productos</h3>
       </v-col>
     </v-row>
     <v-row no-gutters>
@@ -118,5 +138,8 @@ export default {
   a{
     text-decoration: none;
   }
-  
+  .fondoNameCategory{
+  padding: 5px;
+  background: rgba(0,0,0,0.3)
+}
 </style>
