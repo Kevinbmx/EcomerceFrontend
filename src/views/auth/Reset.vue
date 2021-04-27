@@ -20,7 +20,7 @@
                   <v-text-field
                     v-validate="'required|min:6'"
                     name="password"
-                    label="Password"
+                    label="Contraseña"
                     id="password"
                     v-model="password"
                     :error-messages="errors.collect('password')"
@@ -33,7 +33,7 @@
                   <v-text-field
                   v-validate="'required|confirmed:password|min:6'"
                     name="password_confirmation"
-                    label="Confirm Password"
+                    label="Confirmar contraseña"
                     id="password_confirmation"
                     v-model="confirmPassword"
                     :error-messages="errors.collect('password_confirmation')"

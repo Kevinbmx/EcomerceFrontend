@@ -21,7 +21,7 @@
                     v-validate="'required|email'"
                     append-icon="person"
                     name="email" 
-                    label="ingrese su correo su electronico para resetear su contrase&ntilde;a" 
+                    label="ingrese su correo su electronico para resetear su contraseña" 
                     type="email" 
                     :error-messages="errors.collect('email')"
                     data-vv-name="email"

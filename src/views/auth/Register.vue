@@ -15,7 +15,7 @@
                     counter="35"
                     v-model="name"
                     :error-messages="errors.collect('name')"
-                    label="Name"
+                    label="Nombre"
                     data-vv-name="name"
                     required
                   ></v-text-field>
@@ -23,14 +23,14 @@
                     v-validate="'required|email'"
                     v-model="email"
                     :error-messages="errors.collect('email')"
-                    label="E-mail"
+                    label="Correo electronico"
                     data-vv-name="email"
                     required
                   ></v-text-field>
                   <v-text-field
                     v-validate="'required'"
                     name="password"
-                    label="Password"
+                    label="Contraseña"
                     id="password"
                     v-model="password"
                     :error-messages="errors.collect('password')"
@@ -43,7 +43,7 @@
                   <v-text-field
                   v-validate="'required|confirmed:password'"
                     name="password_confirmation"
-                    label="Confirm Password"
+                    label="Confirmar Contraseña"
                     id="password_confirmation"
                     v-model="confirmPassword"
                     :error-messages="errors.collect('password_confirmation')"
@@ -55,10 +55,10 @@
               </v-card-text>
             <v-card-actions>
               <!-- <v-spacer></v-spacer> -->
-              <v-btn block color="primary"  @click="register" :loading="loading">register</v-btn>
+              <v-btn block color="primary"  @click="register" :loading="loading">Registrarse</v-btn>
             </v-card-actions>
               <div class="text-xs-center">
-                <v-btn text block small :to="{name:'login'}">Login</v-btn>
+                <v-btn text block small :to="{name:'login'}">Iniciar sesion</v-btn>
               </div>
             </v-card>
           </v-flex>

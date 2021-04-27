@@ -170,6 +170,7 @@ export default {
                 if(this.$store.state.auth.token == null){
                     this.$router.push({ name: 'login' })
                 }else{
+                    window.fbq('track', 'InitiateCheckout',{num_items:this.$store.getters.getCantidadCarrito});
                     this.$emit('next-step')
                 }
             }

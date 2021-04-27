@@ -68,7 +68,7 @@ export default {
         },
         updateProductAndPedido(){
             this.$swal.fire({
-                text: 'Se ha confirmado tu pedido, espere un momento.',
+                text: 'se esta confirmando tu pedido, espere un momento...',
                 icon: 'success',
                 showConfirmButton: false,
             })
@@ -79,6 +79,11 @@ export default {
                     this.$store.dispatch('updatePedido',localStorage.pedido_id)
                     .then(response3=>{
                         if (response3 == true){
+                            // para elegir tipo de entrega
+                            // in_store
+                            // curbside
+                            // home_delivery
+                            window.fbq('track', 'Purchase', {event_source_url:location.href,delivery_category:'home_delivery',content_type: 'product',currency: "BOB", value: this.$store.getters.getSubtotalCarrito,order_id:this.$store.state.carrito.pedido.id});
                             localStorage.removeItem('pedido_id')
                             this.$router.push({ name: 'pedido' })
                             location.reload()
@@ -88,6 +93,8 @@ export default {
             })
         },
         finish(){
+            // ,event_source_url:location.href,order_id:this.$store.state.carrito.carrito.id
+// console.log(location)
             if(this.$store.state.carrito.pedido.direction_id == null){
                 this.$store.dispatch('insertDirection')
                 .then(response =>{

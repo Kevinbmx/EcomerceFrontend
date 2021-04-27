@@ -150,7 +150,9 @@ export default {
         if(this.searchField == null || this.searchField == ""){
           this.$router.push({name:'mainPage'})
         }else{
+          window.fbq('track', 'Search', {search_string:this.searchField});
           this.$router.push({ name: 'search', query: { q: this.searchField } })
+          
         }
       },
       goToCarrito(){

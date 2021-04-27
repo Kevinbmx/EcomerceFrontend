@@ -53,7 +53,7 @@
         <v-divider></v-divider>
         <v-row no-gutters class="mb-3">
           <v-col cols="12" md="12" class="mt-2" order="1" order-md="1" style="display:flex; color: #D90000;">
-            <h1 class="colordelprecio">{{productDetail.price}}  </h1><p> Bs.</p>
+            <h1 class="colordelprecio">{{productDetail.price | moneda}}  </h1><p> Bs.</p>
           </v-col>
           <v-col cols="12" md="12" order="3" order-md="2" class="mt-2">
             <strong>Caracteristicas:</strong>
@@ -172,6 +172,7 @@ export default {
       .then(response => {
         window.scrollTo(0,0);
         this.productDetail = response.data
+        window.fbq("track","ViewContent",{content_name:this.productDetail.name,content_ids:this.productDetail.id,content_type:"product",value:this.productDetail.price,currency:"BOB"});
         this.fillComboBoxCantidad(response.data.quantity)
         this.fillProductRandom()
       })
@@ -211,6 +212,7 @@ export default {
                 icon: 'success',
                 showConfirmButton: false,
             })
+            window.fbq('track', 'AddToCart', {content_type:"product", content_name:this.productDetail.name, content_ids: [this.productDetail.id], currency: "BOB", value: this.productDetail.price});
             this.loading = false
           }else{
             this.loading = false

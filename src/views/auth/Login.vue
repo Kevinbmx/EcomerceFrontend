@@ -21,7 +21,7 @@
                     v-validate="'required|email'"
                     append-icon="person"
                     name="email" 
-                    label="email" 
+                    label="Correo electronico" 
                     type="text" 
                     :error-messages="errors.collect('email')"
                     data-vv-name="email"
@@ -32,7 +32,7 @@
                     v-validate="'required'"
                     append-icon="lock" 
                     name="password" 
-                    label="Password" 
+                    label="Contraseña" 
                     id="password" 
                     type="password" 
                     autocomplete="off"
@@ -50,10 +50,10 @@
                     Login
                     
                 </v-btn> -->
-                <v-btn block color="primary"  @click="login" :loading="loading">Login</v-btn>
+                <v-btn block color="primary"  @click="login" :loading="loading">Iniciar sesion</v-btn>
               </v-card-actions>
               <div class="text-xs-center">
-                <v-btn text block small :to="{name:'register'}">Register</v-btn>
+                <v-btn text block small :to="{name:'register'}">Registrarse</v-btn>
               </div>
             </v-card>
           </v-flex>
@@ -72,7 +72,7 @@ export default {
     },
     alertName:{
       type:String,
-      default: 'su correo o su contrase&ntilde;a es incorrecta'
+      default: 'su correo o su contraseña es incorrecta'
     },
     alertType:{
       type:String,
@@ -81,8 +81,6 @@ export default {
   },
   data: () => ({
     loading: false,
-      // email: 'admin@admin.com',
-      // password: 'secret'
       email: '',
       password: ''
   }),
