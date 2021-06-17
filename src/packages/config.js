@@ -19,7 +19,8 @@ export const addParent = apiDomain + 'api/addParent'
 //--------------------main page---------------------------------
 export const categoryParentUrl = apiDomain + 'api/categoryParent'
 export const categoryRandomUrl = apiDomain + 'api/categoryRandom'
-export const productRandomUrl = apiDomain + 'api/productRandom'
+export const relatedProductUrl = apiDomain + 'api/relatedProduct'
+export const productRandomUrl = apiDomain + 'api/productRandomUrl'
 
 //----------------------------------------------------
 //-------------------PRODUCT-------------------------
@@ -80,6 +81,7 @@ export const pedidoByIdAdminUrl = apiDomain + 'api/pedidoByIdAdmin'
 //-------------------------product detail-----------------------------
 export const fileOfProductUrl = apiDomain + 'api/fileOfProduct'
 export const ProductDetailUrl = apiDomain + 'api/productDetail'
+export const habilitarUrl = apiDomain + 'api/habilitarProducto'
 
 /** 
  * page categories

@@ -10,13 +10,10 @@
               md12
         >
           <v-textarea
-            v-validate="'required'"
             name="nameProduct" 
             label="descripcion del producto" 
             type="text" 
-            :error-messages="errors.collect('description')"
             data-vv-name="description"
-            required
             rows="8"
             v-model="description">
           </v-textarea>
@@ -29,12 +26,9 @@
       >
         <v-flex xs9 sm11 md11 v-show="charact.state !== 'delete'">
           <v-text-field
-            v-validate="'required'"
             :label="'caracteristica '+ (index+1)" 
             type="text" 
-            :error-messages="errors.collect('characteristica '+(index+1))"
             :data-vv-name="'characteristica '+(index+1)"
-            required
             v-model="charact.characteristicName">
           </v-text-field>
         </v-flex>
@@ -48,7 +42,7 @@
         justify-space-between>
         <v-flex xs12
               md12>
-            <v-btn title="a&ntilde;adir nueva caracteristica" @click="addCharacteristic()" text icon color="primary">
+            <v-btn title="añadir nueva caracteristica" @click="addCharacteristic()" text icon color="primary">
               <v-icon>add_circle</v-icon>
             </v-btn>
         </v-flex>

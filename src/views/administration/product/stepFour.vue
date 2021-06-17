@@ -187,7 +187,7 @@ export default {
             } 
         },
         validate(){
-                this.$emit('next-step')
+          this.$emit('next-step')
         }
        
     }

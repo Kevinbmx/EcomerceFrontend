@@ -2,6 +2,10 @@ import Vue from "vue";
 import moment from 'moment'
 
 //---------------------funciones-----------------------
+function weight(value){
+    let val = (value/1).toFixed(3).replace('.', ',')
+    return val.toString().replace(/\B(?=(\d{4})+(?!\d))/g, ".")
+}
 function formatPrice(value) {
     let val = (value/1).toFixed(2).replace('.', ',')
     return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")
@@ -17,6 +21,9 @@ function date(date) {
 //-------------filtros--------------------------
 Vue.filter('moneda', (val) => {
     return formatPrice(val)
+})
+Vue.filter('weight', (val) => {
+    return weight(val)
 })
 Vue.filter('name', (val) => {
     return formatName(val)

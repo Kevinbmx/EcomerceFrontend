@@ -119,9 +119,6 @@ export default {
 }
 </script>
 <style scoped>
-    .v-badge {
-        display: initial;
-    }
     .v-application p{
         margin-bottom: 0px;
     }

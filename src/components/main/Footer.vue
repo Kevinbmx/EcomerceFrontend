@@ -28,7 +28,7 @@
       style="background-color: #293F56;"
     >
     <span style="color:#ffff">
-      {{ new Date().getFullYear() }} — <strong>ni&ntilde;o tienda</strong></span>
+      {{ new Date().getFullYear() }} — ni&ntilde;o tienda</span>
     </v-col>
   </v-footer>
 </template>
