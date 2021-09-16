@@ -1,31 +1,27 @@
 <template>
   <div id="appRoot">
     <template v-if="!$route.meta.public">
-      <v-app 
-        class="app mx-auto overflow-hidden"
-        height="400"
-      >
-            <v-main>
-            <app-toolbar ></app-toolbar>
-            <app-drawer ></app-drawer>
-              <!-- Page Header -->
-              <page-header v-if="$route.meta.breadcrumb"></page-header>
-              <div class="page-wrapper">
-                <router-view></router-view>
-              </div>   
-              <!-- App Footer -->
-              <footers></footers>
-            <!-- Go to top -->
-            <app-fab></app-fab>
-            <!-- theme setting -->
-            </v-main>
-        
+      <v-app class="app mx-auto overflow-hidden" height="400">
+        <v-main>
+          <app-toolbar></app-toolbar>
+          <app-drawer></app-drawer>
+          <!-- Page Header -->
+          <page-header v-if="$route.meta.breadcrumb"></page-header>
+          <div class="page-wrapper">
+            <router-view></router-view>
+          </div>
+          <!-- App Footer -->
+          <footers></footers>
+          <!-- Go to top -->
+          <app-fab></app-fab>
+          <!-- theme setting -->
+        </v-main>
       </v-app>
     </template>
     <template v-else>
-      <v-app class="app" >
+      <v-app class="app">
         <toolbar></toolbar>
-        <router-view :key="$route.fullpath" style="height:100%"></router-view>
+        <router-view :key="$route.fullpath" style="height: 100%"></router-view>
         <main-footer></main-footer>
       </v-app>
     </template>
@@ -37,24 +33,24 @@
       v-model="snackbar.show"
     >
       {{ snackbar.text }}
-      <v-btn dark text @click.native="snackbar.show = false" icon> 
+      <v-btn dark text @click.native="snackbar.show = false" icon>
         <v-icon>close</v-icon>
       </v-btn>
-    </v-snackbar>    
+    </v-snackbar>
   </div>
 </template>
 <script>
-import AppDrawer from '@/components/admin_client/layout/AppDrawer';
-import AppToolbar from '@/components/admin_client/layout/AppToolbar';
-import AppFab from '@/components/admin_client/layout/AppFab';
-import PageHeader from '@/components/admin_client/layout/PageHeader';
-import Footers from '@/components/admin_client/layout/Footers';
-import MainFooter from '@/components/main/Footer';
+import AppDrawer from "@/components/admin_client/layout/AppDrawer";
+import AppToolbar from "@/components/admin_client/layout/AppToolbar";
+import AppFab from "@/components/admin_client/layout/AppFab";
+import PageHeader from "@/components/admin_client/layout/PageHeader";
+import Footers from "@/components/admin_client/layout/Footers";
+import MainFooter from "@/components/main/Footer";
 
 // import AppEvents from  '@/event';
-import '@riophae/vue-treeselect/dist/vue-treeselect.css'
-import './index'
-import toolbar from '@/components/main/Toolbar';
+import "@riophae/vue-treeselect/dist/vue-treeselect.css";
+import "./index";
+import toolbar from "@/components/main/Toolbar";
 
 export default {
   components: {
@@ -64,37 +60,37 @@ export default {
     PageHeader,
     Footers,
     toolbar,
-    MainFooter
+    MainFooter,
   },
   data: () => ({
     expanded: true,
     // rightDrawer: false,
     snackbar: {
       show: false,
-      text: '',
-      color: '',
-    }
+      text: "",
+      color: "",
+    },
   }),
-   metaInfo: {
+  metaInfo: {
     // if no subcomponents specify a metaInfo.title, this title will be used
-    title: 'niño tienda',
+    title: "niño tienda",
     // all titles will be injected into this template
-    titleTemplate: '%s | Tienda online donde encontraras de todo'
+    titleTemplate: "%s | Tienda online donde encontraras de todo",
   },
-  created () {
-    this.retrieveAcceso()
+  created() {
+    this.retrieveAcceso();
     window.getApp = this;
   },
   methods: {
-    retrieveAcceso(){
+    retrieveAcceso() {
       //console.log('esta viendo los accesos')
-      this.$store.dispatch('retrieveAcceso')
-    }
+      this.$store.dispatch("retrieveAcceso");
+    },
   },
 };
 </script>
 <style scoped>
- .setting-fab {
+.setting-fab {
   top: 50% !important;
   right: 0;
   border-radius: 0;

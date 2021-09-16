@@ -276,7 +276,6 @@ const actions = {
     } else {
       return
     }
-
   },
   uploadImageCategoryFirebase(context) {
     return new Promise((resolve) => {

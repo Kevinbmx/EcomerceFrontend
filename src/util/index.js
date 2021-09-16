@@ -43,13 +43,13 @@
 
 //   return text;
 // }
-const randomElement = (arr = []) => {
-  return arr[Math.floor(Math.random() * arr.length)];
-};
+// const randomElement = (arr = []) => {
+//   return arr[Math.floor(Math.random() * arr.length)];
+// };
 
-const kebab =  (str) => {
-  return (str || '').replace(/([a-z])([A-Z])/g, '$1-$2').toLowerCase();
-};
+// const kebab = (str) => {
+//   return (str || '').replace(/([a-z])([A-Z])/g, '$1-$2').toLowerCase();
+// };
 
 const toggleFullScreen = () => {
   let doc = window.document;
@@ -66,8 +66,28 @@ const toggleFullScreen = () => {
   }
 };
 
+const generateUUID = function () {
+  var d = new Date().getTime();
+  if (
+    typeof performance !== "undefined" &&
+    typeof performance.now === "function"
+  ) {
+    d += performance.now(); //use high-precision timer if available
+  }
+  var newGuid = "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(
+    /[xy]/g,
+    function (c) {
+      var r = (d + Math.random() * 16) % 16 | 0;
+      d = Math.floor(d / 16);
+      return (c === "x" ? r : (r & 0x3) | 0x8).toString(16);
+    }
+  );
+  return newGuid;
+}
+
 export default {
-  randomElement,
+  // randomElement,
+  // kebab,
   toggleFullScreen,
-  kebab
+  generateUUID
 };

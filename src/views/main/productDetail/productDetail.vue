@@ -245,8 +245,25 @@
                 </v-col>
                 <v-col cols="7" sm="12" md="12" class="pl-2 pb-2">
                   <p>{{ product.name }}</p>
-                  <span class="price" style="color: rgb(217, 0, 0)"
-                    >{{ product.price }}Bs.
+                  <span
+                    style="color: rgb(217, 0, 0)"
+                    class="colordelprecio"
+                    v-if="
+                      product.unidad_medida == 'unidad' &&
+                      !product.enable_kg_per_price
+                    "
+                  >
+                    {{ product.price | moneda }}
+                    Bs
+                  </span>
+                  <span
+                    style="color: rgb(217, 0, 0)"
+                    class="colordelprecio"
+                    v-else
+                  >
+                    {{ product.price | moneda }}
+                    Bs /
+                    {{ product.unidad_medida }}
                   </span>
                 </v-col>
               </v-row>
@@ -328,6 +345,41 @@ export default {
   metaInfo() {
     return {
       titleTemplate: `%s | ${this.productDetail.name}`,
+      meta: [
+        {
+          property: "og:title",
+          content: `${this.productDetail.name}`,
+        },
+        { property: "og:type", content: "article" },
+        {
+          property: "og:description",
+          content: `${this.productDetail.description}`,
+        },
+        {
+          property: "og:url",
+          content: `${
+            process.env.VUE_APP_BU_BASE_URL_FRONTEND + this.$route.fullPath
+          }`,
+        },
+        {
+          property: "og:image",
+          content: `${
+            this.productDetail.file == null ||
+            this.productDetail.file.length == 0
+              ? this.imagenNoDisponible
+              : this.productDetail.file[0].path
+          }`,
+        },
+        { property: "product:brand", content: `${this.productDetail.brand}` },
+        { property: "product:availability", content: "in stock" },
+        { property: "product:condition", content: "new" },
+        {
+          property: "product:price:amount",
+          content: `${this.productDetail.price}`,
+        },
+        { property: "product:price:currency", content: "BOB" },
+        { property: "product:retailer_item_id", content: "1000920140437541" },
+      ],
     };
   },
   created() {

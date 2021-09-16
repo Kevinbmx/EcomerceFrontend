@@ -46,6 +46,10 @@ import RolePermissionViewAdmin from "./views/administration/role_permission/view
 //----------------------------pedido----------------------------------
 import PedidoAdmin from "./views/administration/pedido/index"
 import DetailPedidoAdmin from "./views/administration/pedido/detailPedido"
+//------------------------------Carrusel-------------------------------------
+import CarruselAdmin from "./views/administration/carrusel/index"
+// import CarruselFormAdmin from "./views/administration/carrusel/form"
+import formPruebaCarrusel from "./views/administration/carrusel/formularioPrueba"
 
 
 //---------------------------------------------------------------------
@@ -97,8 +101,14 @@ const routes = [
       props: (route) => ({ query:[ route.query.page] })},
    {path: "/admin/detailPedido/:idPedido", component:DetailPedidoAdmin, name:"detailPedido",meta:{requiresAuth:true}},
 
+    //----------------------------------Carrusel---------------------------------------------
+   {path: "/admin/carrusel", component:CarruselAdmin, name:"mainCarrusel",meta:{requiresAuth:true}},
+  //  {path: "/admin/carrusel/create", component:CarruselFormAdmin, name:"createCarrusel",meta:{requiresAuth:true}},
+  //  {path: "/admin/carrusel/:id/edit", component:CarruselFormAdmin, name: "editCarrusel", meta: {requiresAuth:true, mode: "edit"}},
+   //prueba carrusel
+   {path: "/admin/carrusel", component:formPruebaCarrusel, name:"createCarrusel",meta:{requiresAuth:true}},
+   {path: "/admin/carrusel/:id/edit", component:formPruebaCarrusel, name:"editCarrusel",meta:{requiresAuth:true, mode: "edit"}},
 
-   
    
    { path: "/admin*", component: PageNotFound },
   // //-----------------------------------Attribute-----------------------------------------
@@ -130,5 +140,6 @@ const routes = [
   //-------------------------------pagina no encontrada-------------------------------------
   { path: "/*", component: PageNotFound ,meta:{public: true}},
   //---------------------------------------------------------------------------------------
+
 ]
 export default routes;

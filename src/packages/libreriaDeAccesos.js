@@ -56,3 +56,9 @@ export const verDetallePedido   =  'ver detalle pedido'
 
 export const listarPedidoCliente  =  'listar pedido cliente'
 export const anularPedidoCliente  =  'anular pedido cliente'
+
+//--------------------carrusel----------------------------
+export const listarCarrusel          = 'listar carrusel'
+export const crearCarrusel          = 'crear carrusel'
+export const actualizarCarrusel     = 'actualizar carrusel'
+export const eliminarCarrusel       = 'eliminar carrusel'

@@ -97,9 +97,25 @@
                 </v-col>
                 <v-col cols="7" sm="12" md="12" class="pl-2 pb-2">
                   <p>{{ product.name }}</p>
-                  <span style="color: rgb(217, 0, 0)"
+                  <!-- <span style="color: rgb(217, 0, 0)"
                     >{{ product.price }}Bs.</span
+                  > -->
+                  <span
+                    style="color: rgb(217, 0, 0)"
+                    class="colordelprecio"
+                    v-if="
+                      product.unidad_medida == 'unidad' &&
+                      !product.enable_kg_per_price
+                    "
                   >
+                    {{ product.price | moneda }}
+                    Bs
+                  </span>
+                  <span style="color: rgb(217, 0, 0)" class="colordelprecio" v-else>
+                    {{ product.price | moneda }}
+                    Bs /
+                    {{ product.unidad_medida }}
+                  </span>
                 </v-col>
               </v-row>
             </router-link>
@@ -260,6 +276,7 @@ export default {
         this.allProduct = response.data.data;
         this.paginando(response.data);
         if (this.allCategory.length <= 0 && this.allProduct.length <= 0) {
+          this.showNotFound = true;
           this.message = "Lo sentimos, no se encontro ningun resultado";
           this.loading = false;
         }
@@ -363,6 +380,9 @@ span {
   /* padding: 5px; */
   padding: 10px 12px 5px 12px;
   background: rgba(0, 0, 0, 0.3);
+}
+.v-application p {
+  margin-bottom: 0px;
 }
 @media (min-width: 1264px) and (max-width: 1903px) {
   .flex.lg5-custom {

@@ -15,11 +15,11 @@ import 'firebase/storage';
 import PerfectScrollbar from 'vue2-perfect-scrollbar'
 import 'vue2-perfect-scrollbar/dist/vue2-perfect-scrollbar.css'
 import VueMeta from 'vue-meta'
+import VueGeolocation from 'vue-browser-geolocation'
 
 Vue.use(VueMeta)
-
+Vue.use(VueGeolocation)
 Vue.use(PerfectScrollbar)
-
 Vue.use(VeeValidate);
 Vue.use(VueSweetalert2);
 Vue.use(VueRouter)

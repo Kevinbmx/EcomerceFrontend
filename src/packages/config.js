@@ -118,6 +118,12 @@ export const tusPedidoConfirmadoUrl = apiDomain + 'api/tusPedidoConfirmado'
 //-------------------------------direction-------------------------------------
 export const directionUrl = apiDomain + 'api/direction'
 
+//------------------------------------------------------------------------------
+//---------------------------------carrusel-------------------------------------
+export const carruselUrl = apiDomain + 'api/carrusel'
+export const carruselesHabilitadolUrl = apiDomain + 'api/getCarruselHabilitado'//main page
+export const habilitarCarruselUrl = apiDomain + 'api/habilitarCarrusel'
+
 //----------------------------------------------------
 export const getHeader = function (){
   const tokenData = JSON.parse(window.localStorage.getItem('authUser'))

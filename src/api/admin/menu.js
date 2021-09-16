@@ -22,6 +22,13 @@ const Menu =  [
     name: 'Seguridad',
   },
   {
+    title: 'Carrusel',
+    group: 'categoria',
+    action: 'dashboard',
+    name: 'Carrusel',
+    to:{name:'mainCarrusel'}
+  },
+  {
     title: 'Categoria',
     group: 'categoria',
     action: 'dashboard',
